@@ -1,6 +1,5 @@
 package gui;
 
-import net.Peer;
 import net.PeerServer;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
