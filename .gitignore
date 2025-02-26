@@ -54,4 +54,6 @@ local.properties
 .scala_dependencies
 .worksheet
 
+.DS_Store
+
 /bin/
