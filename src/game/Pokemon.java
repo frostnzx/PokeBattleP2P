@@ -1,3 +1,5 @@
+package game;
+
 import java.util.ArrayList ; 
 
 
@@ -5,7 +7,7 @@ public class Pokemon {
 	// general info
 	private String name ; 
 	private int pokemonId ; 
-	private ArrayList<Type> types ; 
+	private ArrayList<PokemonType> pokemonTypes ; 
 	
 	// basic stats
 	private int hp ; // current hp
@@ -22,9 +24,13 @@ public class Pokemon {
 	// status
 	private Status status ; 
 	
+	// static list to hold all available pokemon
+	private static ArrayList<Pokemon> pokemonList = new ArrayList<>();
+	
+	// to create new pokemon
 	public Pokemon(int pokemonId) {
-		this.pokemonId = pokemonId ; 
-		// TODO -> Load Pokemon info from JSON file
+		// TODO:
+		// set this pokemon to pokemon that has this id in pokemonList 
 	}
 	
 	public void doMove(Move move , Pokemon enemyPokemon) {
@@ -35,6 +41,15 @@ public class Pokemon {
 		return (this.hp == 0);
 	}
 	
+	public static void listPokemons() {
+		// TODO :
+		// show all pokemon in pokemon list
+	}
+	public static void loadPokemonsFromJson(String filePath) {
+		// TODO :
+		// Load pokemon from json file
+	}
+	
 	// getters & setters
 	public String getName() {
 		return name;
@@ -43,8 +58,8 @@ public class Pokemon {
 		return pokemonId;
 	}
 
-	public ArrayList<Type> getTypes() {
-		return types;
+	public ArrayList<PokemonType> getPokemonTypes() {
+		return pokemonTypes;
 	}
 
 	public int getHp() {

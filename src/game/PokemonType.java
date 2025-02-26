@@ -1,6 +1,6 @@
 package game;
 
-public enum Type {
+public enum PokemonType {
 	Normal,
 	Fire,
 	Water,

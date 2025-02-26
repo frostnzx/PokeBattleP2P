@@ -11,21 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Move {
-    private String name;  // Name of the move
-    private String type;  // Type of the move (e.g., Flying, Fire, Water)
-    private int damage;   // Damage dealt by the move
+    private String name;  
+    private int moveId ; 
+    private PokemonType pokemonType;  
+    private int damage;  
+    private Status moveStatus ; 
+    
 
     // Static list to hold all available moves
     private static List<Move> moveList = new ArrayList<>();
 
     // Constructor
-    public Move(String name, String type, int damage) {
-        this.name = name;
-        this.type = type;
-        this.damage = damage;
-
-        // Add the created move to the moveList
-        moveList.add(this);
+    public Move(int moveId) {
+    	// TODO:
+    	// set this move to move that have this id in moveList
     }
 
     // Getters
@@ -33,8 +32,8 @@ public class Move {
         return name;
     }
 
-    public String getType() {
-        return type;
+    public PokemonType getPokemonType() {
+        return pokemonType;
     }
 
     public int getDamage() {
@@ -45,11 +44,12 @@ public class Move {
     public static void listMoves() {
         System.out.println("Available Moves:");
         for (Move move : moveList) {
-            System.out.println("- " + move.getName() + " (Type: " + move.getType() + ", Damage: " + move.getDamage() + ")");
+            System.out.println("- " + move.getName() + " (Type: " + move.getPokemonType() + ", Damage: " + move.getDamage() + ")");
         }
     }
 
     // Static method to load moves from a JSON file
+    // Gotta fix this
     public static void loadMovesFromJson(String filePath) {
         Gson gson = new Gson();
         Type moveListType = new TypeToken<List<Move>>() {}.getType();

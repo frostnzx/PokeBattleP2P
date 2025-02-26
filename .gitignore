@@ -55,5 +55,8 @@ local.properties
 .worksheet
 
 .DS_Store
+.settings/
+.classpath
+.project
 
 /bin/
