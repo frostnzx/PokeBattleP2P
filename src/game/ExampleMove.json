@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Fly",
+        "type": "Flying",
+        "damage": 60
+    },
+    {
+        "name": "Flamethrower",
+        "type": "Fire",
+        "damage": 80
+    },
+    {
+        "name": "Water Gun",
+        "type": "Water",
+        "damage": 40
+    }
+]
