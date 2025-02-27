@@ -1,5 +1,6 @@
 package gui;
 
+import game.GameSystem;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -7,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import net.Peer;
 import net.PeerClient;
 
 public class JoinGameScene {
@@ -16,7 +18,6 @@ public class JoinGameScene {
 	
 	public JoinGameScene(SceneManager sceneManager) {
 		this.sceneManager = sceneManager ; 
-		
 		
 		// create gui
 		GridPane root = new GridPane();
@@ -36,6 +37,15 @@ public class JoinGameScene {
 				int port = Integer.parseInt(portTextField.getText());
 				client = new PeerClient(ipAddress , port);
 				client.start();
+				
+				// game system logic
+				GameSystem.getInstance().setMyPeer(client);
+				// ...
+				// ...
+				
+				// open new scene (gui)
+				// ...
+				// ...
 			}
 		});
 		root.addRow(2, button);
