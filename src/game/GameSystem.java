@@ -102,14 +102,13 @@ public class GameSystem {
 	}
 
 	private void opponentTurnHandler() {
-
 		
 		
 		processState();
 	}
 
 	private void processingTurnHandler() {
-
+		
 		
 		
 		processState();
