@@ -1,0 +1,41 @@
+/* styles.css */
+
+/* Style for all buttons */
+.button {
+    -fx-background-color: linear-gradient(to bottom, #FFCC00, #FF9900);
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 30;
+    -fx-border-radius: 0;
+    -fx-background-radius: 25;
+    -fx-border-color: #FF6600;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s;
+}
+
+/* Hover effect */
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #FF9900, #FF6600);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Click effect */
+.button:pressed {
+    -fx-background-color: #FF3300;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.text-field {
+	-fx-background-radius: 15; 
+}
+
+/* Focused state */
+.text-field:focused {
+	
+
+}
