@@ -19,4 +19,8 @@ public abstract class Peer {
     protected abstract Socket getOtherPeer();
     protected abstract PrintWriter getWriter();
     protected abstract BufferedReader getReader();
+    
+    public Mode getMode() {
+    	return this.mode ; 
+    }
 }

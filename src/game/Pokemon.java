@@ -57,11 +57,6 @@ public class Pokemon {
 	    }
 	}
 
-	
-	public void doMove(Move move , Pokemon enemyPokemon) {
-		// TODO -> Do move to enemy's pokemon
-	}
-	
 	public boolean isDead() {
 		return (this.hp == 0);
 	}

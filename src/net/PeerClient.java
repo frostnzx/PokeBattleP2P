@@ -65,6 +65,7 @@ public class PeerClient extends Peer {
 	}
 
 
+
 	// Sending
 //	private void startSendMessageThread() {
 //		Thread thread = new Thread(() -> {
