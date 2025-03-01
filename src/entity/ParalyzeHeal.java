@@ -8,7 +8,7 @@ public class ParalyzeHeal extends Item {
 		super("ParalyzeHeal" , "Cures paralysis");
 	}
 	public void use(Pokemon target) {
-		if(target.getStatus() == Status.PAR) { // if poison then, cure it
+		if(target.getStatus() == Status.PAR) { // if paralyzed then, cure it
 			target.setStatus(null);
 			System.out.println(target.getName() + " paralysis condition has been cured");
 		} else {

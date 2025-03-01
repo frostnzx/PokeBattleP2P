@@ -1,6 +1,11 @@
 package game;
 
-import java.util.ArrayList ; 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList ;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken; 
 
 
 public class Pokemon {
@@ -29,9 +34,29 @@ public class Pokemon {
 	
 	// to create new pokemon
 	public Pokemon(int pokemonId) {
-		// TODO:
-		// set this pokemon to pokemon that has this id in pokemonList 
+	    // Loop through the pokemonList to find the pokemon with the given pokemonId
+	    for (Pokemon existingPokemon : pokemonList) {
+	        if (existingPokemon.getPokemonId() == pokemonId) {
+	            // Set this object's properties from the existingPokemon
+	            this.name = existingPokemon.name;
+	            this.pokemonId = existingPokemon.pokemonId;
+	            this.pokemonTypes = new ArrayList<>(existingPokemon.pokemonTypes); // Deep copy of list
+	            this.max_hp = existingPokemon.max_hp;
+	            this.hp = existingPokemon.hp;  // Set initial HP (could be full or other logic)
+	            this.attack = existingPokemon.attack;
+	            this.defense = existingPokemon.defense;
+	            this.specialAttack = existingPokemon.specialAttack;
+	            this.specialDefense = existingPokemon.specialDefense;
+	            this.speed = existingPokemon.speed;
+	            this.moves = new ArrayList<>(existingPokemon.moves);  // Deep copy of list
+	            this.status = existingPokemon.status;
+
+	            // You can add additional logic if you want the new Pokémon to have any modifications
+	            break;  // Once the Pokémon is found and set, exit the loop
+	        }
+	    }
 	}
+
 	
 	public void doMove(Move move , Pokemon enemyPokemon) {
 		// TODO -> Do move to enemy's pokemon
@@ -42,12 +67,59 @@ public class Pokemon {
 	}
 	
 	public static void listPokemons() {
-		// TODO :
-		// show all pokemon in pokemon list
+	    // Loop through all the Pokémon in the pokemonList
+		int i = 0;
+	    for (Pokemon p : pokemonList) {
+	        // Print the Pokémon name (or any other info you want to display)
+	        System.out.println("Name: " + p.name);
+	        System.out.println("ID: " + p.pokemonId);
+	        System.out.println("Types: " + p.pokemonTypes);
+	        System.out.println("HP: " + p.max_hp);
+	        System.out.println("Attack: " + p.attack);
+	        System.out.println("Defense: " + p.defense);
+	        System.out.println("Special Attack: " + p.specialAttack);
+	        System.out.println("Special Defense: " + p.specialDefense);
+	        System.out.println("Speed: " + p.speed);
+	        System.out.println("Status " + p.getStatus());
+	        System.out.println("Moves: ");
+	        for (Move m : p.moves) {
+	            System.out.println("  - " + m.getName() + " (Type: " + m.getPokemonType() + ", Damage: " + m.getDamage() + ")");
+	        }
+	        System.out.println("-----------------------------------------");
+	        i++;
+	        if(i == 5) {
+	        	break;
+	        }
+	    }
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Pokemon [name=" + name + ", pokemonId=" + pokemonId + ", pokemonTypes=" + pokemonTypes + ", hp=" + hp
+				+ ", max_hp=" + max_hp + ", attack=" + attack + ", defense=" + defense + ", specialAttack="
+				+ specialAttack + ", specialDefense=" + specialDefense + ", speed=" + speed + ", moves=" + moves
+				+ ", status=" + status + "]";
+	}
+
+
 	public static void loadPokemonsFromJson(String filePath) {
 		// TODO :
 		// Load pokemon from json file
+	    // Create a new Gson instance
+	    Gson gson = new Gson();
+	    
+	    // Define the type of data to parse (ArrayList of Pokemon objects)
+	    try (FileReader reader = new FileReader(filePath)) {
+	        // Deserialize the JSON into a list of Pokemon objects
+	        ArrayList<Pokemon> pokemons = gson.fromJson(reader, new TypeToken<ArrayList<Pokemon>>() {}.getType());
+
+	        // Populate the pokemonList with the deserialized Pokemon objects
+	        pokemonList.addAll(pokemons);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	// getters & setters
@@ -131,5 +203,4 @@ public class Pokemon {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
 }

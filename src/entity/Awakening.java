@@ -8,7 +8,7 @@ public class Awakening extends Item {
 		super("Awakening" , "Cures sleep");
 	}
 	public void use(Pokemon target) {
-		if(target.getStatus() == Status.SLP) { // if poison then, cure it
+		if(target.getStatus() == Status.SLP) { // if sleepy then, cure it
 			target.setStatus(null);
 			System.out.println(target.getName() + " sleep condition has been cured");
 		} else {

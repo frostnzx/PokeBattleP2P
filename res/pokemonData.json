@@ -1,0 +1,1375 @@
+[
+  {
+    "name": "Bulbasaur",
+    "pokemonId": 1,
+    "pokemonTypes": ["Grass", "Poison"],
+    "max_hp": 45,
+    "attack": 49,
+    "defense": 49,
+    "specialAttack": 65,
+    "specialDefense": 65,
+    "speed": 45,
+    "moves": [
+      {
+        "name": "Vine Whip",
+        "moveId": 22,
+        "pokemonType": "Grass",
+        "damage": 45,
+        "moveStatus": null
+      },
+      {
+        "name": "Tackle",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Sleep Powder",
+        "moveId": 79,
+        "pokemonType": "Grass",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Sludge Bomb",
+        "moveId": 188,
+        "pokemonType": "Poison",
+        "damage": 90,
+        "moveStatus": "PSN"
+      }
+    ]
+  },
+  {
+    "name": "Charmander",
+    "pokemonId": 4,
+    "pokemonTypes": ["Fire"],
+    "max_hp": 39,
+    "attack": 52,
+    "defense": 43,
+    "specialAttack": 60,
+    "specialDefense": 50,
+    "speed": 65,
+    "moves": [
+      {
+        "name": "Ember",
+        "moveId": 52,
+        "pokemonType": "Fire",
+        "damage": 40,
+        "moveStatus": "BRN"
+      },
+      {
+        "name": "Scratch",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Flamethrower",
+        "moveId": 53,
+        "pokemonType": "Fire",
+        "damage": 90,
+        "moveStatus": "BRN"
+      },
+      {
+        "name": "Dragon Breath",
+        "moveId": 225,
+        "pokemonType": "Dragon",
+        "damage": 60,
+        "moveStatus": "PAR"
+      }
+    ]
+  },
+  {
+    "name": "Squirtle",
+    "pokemonId": 7,
+    "pokemonTypes": ["Water"],
+    "max_hp": 44,
+    "attack": 48,
+    "defense": 65,
+    "specialAttack": 50,
+    "specialDefense": 64,
+    "speed": 43,
+    "moves": [
+      {
+        "name": "Water Gun",
+        "moveId": 55,
+        "pokemonType": "Water",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Tackle",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Bubble Beam",
+        "moveId": 61,
+        "pokemonType": "Water",
+        "damage": 65,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Ice Beam",
+        "moveId": 58,
+        "pokemonType": "Ice",
+        "damage": 90,
+        "moveStatus": "FRZ"
+      }
+    ]
+  },
+  {
+    "name": "Pikachu",
+    "pokemonId": 25,
+    "pokemonTypes": ["Electric"],
+    "max_hp": 35,
+    "attack": 55,
+    "defense": 40,
+    "specialAttack": 50,
+    "specialDefense": 50,
+    "speed": 90,
+    "moves": [
+      {
+        "name": "Thunder Shock",
+        "moveId": 84,
+        "pokemonType": "Electric",
+        "damage": 40,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Quick Attack",
+        "moveId": 98,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Thunderbolt",
+        "moveId": 85,
+        "pokemonType": "Electric",
+        "damage": 90,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Iron Tail",
+        "moveId": 231,
+        "pokemonType": "Steel",
+        "damage": 100,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Jigglypuff",
+    "pokemonId": 39,
+    "pokemonTypes": ["Normal"],
+    "max_hp": 115,
+    "attack": 45,
+    "defense": 20,
+    "specialAttack": 45,
+    "specialDefense": 25,
+    "speed": 20,
+    "moves": [
+      {
+        "name": "Sing",
+        "moveId": 47,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Pound",
+        "moveId": 1,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Body Slam",
+        "moveId": 34,
+        "pokemonType": "Normal",
+        "damage": 85,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Hyper Voice",
+        "moveId": 304,
+        "pokemonType": "Normal",
+        "damage": 90,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Psyduck",
+    "pokemonId": 54,
+    "pokemonTypes": ["Water"],
+    "max_hp": 50,
+    "attack": 52,
+    "defense": 48,
+    "specialAttack": 65,
+    "specialDefense": 50,
+    "speed": 55,
+    "moves": [
+      {
+        "name": "Water Gun",
+        "moveId": 55,
+        "pokemonType": "Water",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Scratch",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Confusion",
+        "moveId": 88,
+        "pokemonType": "Psychic",
+        "damage": 50,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Disable",
+        "moveId": 151,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Machop",
+    "pokemonId": 66,
+    "pokemonTypes": ["Fighting"],
+    "max_hp": 70,
+    "attack": 80,
+    "defense": 35,
+    "specialAttack": 35,
+    "specialDefense": 35,
+    "speed": 35,
+    "moves": [
+      {
+        "name": "Low Kick",
+        "moveId": 99,
+        "pokemonType": "Fighting",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Karate Chop",
+        "moveId": 147,
+        "pokemonType": "Fighting",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Seismic Toss",
+        "moveId": 157,
+        "pokemonType": "Fighting",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Focus Energy",
+        "moveId": 128,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Magnemite",
+    "pokemonId": 81,
+    "pokemonTypes": ["Electric"],
+    "max_hp": 25,
+    "attack": 35,
+    "defense": 70,
+    "specialAttack": 95,
+    "specialDefense": 55,
+    "speed": 45,
+    "moves": [
+      {
+        "name": "Thunder Shock",
+        "moveId": 84,
+        "pokemonType": "Electric",
+        "damage": 40,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Magnet Bomb",
+        "moveId": 115,
+        "pokemonType": "Normal",
+        "damage": 60,
+        "moveStatus": null
+      },
+      {
+        "name": "Sonic Boom",
+        "moveId": 122,
+        "pokemonType": "Normal",
+        "damage": 20,
+        "moveStatus": null
+      },
+      {
+        "name": "Supersonic",
+        "moveId": 126,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Poliwag",
+    "pokemonId": 60,
+    "pokemonTypes": ["Water"],
+    "max_hp": 40,
+    "attack": 50,
+    "defense": 40,
+    "specialAttack": 40,
+    "specialDefense": 40,
+    "speed": 90,
+    "moves": [
+      {
+        "name": "Water Gun",
+        "moveId": 55,
+        "pokemonType": "Water",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Bubble",
+        "moveId": 58,
+        "pokemonType": "Water",
+        "damage": 40,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Hypnosis",
+        "moveId": 95,
+        "pokemonType": "Psychic",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Double Slap",
+        "moveId": 118,
+        "pokemonType": "Normal",
+        "damage": 15,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Ponyta",
+    "pokemonId": 77,
+    "pokemonTypes": ["Fire", "Psychic"],
+    "max_hp": 50,
+    "attack": 85,
+    "defense": 55,
+    "specialAttack": 65,
+    "specialDefense": 65,
+    "speed": 90,
+    "moves": [
+      {
+        "name": "Ember",
+        "moveId": 52,
+        "pokemonType": "Fire",
+        "damage": 40,
+        "moveStatus": "BRN"
+      },
+      {
+        "name": "Tackle",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Agility",
+        "moveId": 105,
+        "pokemonType": "Psychic",
+        "damage": 0,
+        "moveStatus": null
+      },
+      {
+        "name": "Flame Wheel",
+        "moveId": 126,
+        "pokemonType": "Fire",
+        "damage": 60,
+        "moveStatus": "BRN"
+      }
+    ]
+  },
+  {
+    "name": "Meowth",
+    "pokemonId": 52,
+    "pokemonTypes": ["Normal"],
+    "max_hp": 40,
+    "attack": 45,
+    "defense": 35,
+    "specialAttack": 40,
+    "specialDefense": 40,
+    "speed": 90,
+    "moves": [
+      {
+        "name": "Scratch",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Bite",
+        "moveId": 44,
+        "pokemonType": "Normal",
+        "damage": 60,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Slash",
+        "moveId": 130,
+        "pokemonType": "Normal",
+        "damage": 70,
+        "moveStatus": null
+      },
+      {
+        "name": "Pay Day",
+        "moveId": 153,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Pidgey",
+    "pokemonId": 16,
+    "pokemonTypes": ["Normal", "Flying"],
+    "max_hp": 40,
+    "attack": 45,
+    "defense": 40,
+    "specialAttack": 35,
+    "specialDefense": 35,
+    "speed": 56,
+    "moves": [
+      {
+        "name": "Quick Attack",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Sand Attack",
+        "moveId": 102,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Wing Attack",
+        "moveId": 60,
+        "pokemonType": "Flying",
+        "damage": 60,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Rattata",
+    "pokemonId": 19,
+    "pokemonTypes": ["Normal"],
+    "hp": 30,
+    "max_hp": 30,
+    "attack": 56,
+    "defense": 35,
+    "specialAttack": 25,
+    "specialDefense": 35,
+    "speed": 72,
+    "moves": [
+      {
+        "name": "Quick Attack",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Bite",
+        "moveId": 40,
+        "pokemonType": "Dark",
+        "damage": 60,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Hyper Fang",
+        "moveId": 12,
+        "pokemonType": "Normal",
+        "damage": 80,
+        "moveStatus": "PAR"
+      }
+    ]
+  },
+  {
+    "name": "Zubat",
+    "pokemonId": 41,
+    "pokemonTypes": ["Poison", "Flying"],
+    "max_hp": 40,
+    "attack": 45,
+    "defense": 35,
+    "specialAttack": 30,
+    "specialDefense": 40,
+    "speed": 45,
+    "moves": [
+      {
+        "name": "Quick Attack",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Leech Life",
+        "moveId": 78,
+        "pokemonType": "Poison",
+        "damage": 20,
+        "moveStatus": null
+      },
+      {
+        "name": "Supersonic",
+        "moveId": 55,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Poison Sting",
+        "moveId": 99,
+        "pokemonType": "Poison",
+        "damage": 15,
+        "moveStatus": "PSN"
+      }
+    ]
+  },
+  {
+    "name": "Sandshrew",
+    "pokemonId": 27,
+    "pokemonTypes": ["Ground"],
+    "hp": 50,
+    "max_hp": 50,
+    "attack": 75,
+    "defense": 85,
+    "specialAttack": 20,
+    "specialDefense": 30,
+    "speed": 40,
+    "moves": [
+      {
+        "name": "Scratch",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Sand Attack",
+        "moveId": 102,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Dig",
+        "moveId": 95,
+        "pokemonType": "Ground",
+        "damage": 80,
+        "moveStatus": null
+      },
+      {
+        "name": "Defense Curl",
+        "moveId": 128,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Geodude",
+    "pokemonId": 74,
+    "pokemonTypes": ["Rock", "Ground"],
+    "hp": 40,
+    "max_hp": 40,
+    "attack": 80,
+    "defense": 100,
+    "specialAttack": 30,
+    "specialDefense": 30,
+    "speed": 20,
+    "moves": [
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Rock Throw",
+        "moveId": 80,
+        "pokemonType": "Rock",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Dig",
+        "moveId": 95,
+        "pokemonType": "Ground",
+        "damage": 80,
+        "moveStatus": null
+      },
+      {
+        "name": "Self-Destruct",
+        "moveId": 126,
+        "pokemonType": "Normal",
+        "damage": 200,
+        "moveStatus": "FRZ"
+      }
+    ]
+  },
+  {
+    "name": "Onix",
+    "pokemonId": 95,
+    "pokemonTypes": ["Rock", "Ground"],
+    "hp": 35,
+    "max_hp": 35,
+    "attack": 45,
+    "defense": 160,
+    "specialAttack": 30,
+    "specialDefense": 45,
+    "speed": 70,
+    "moves": [
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Bind",
+        "moveId": 28,
+        "pokemonType": "Normal",
+        "damage": 15,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Rock Throw",
+        "moveId": 80,
+        "pokemonType": "Rock",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Dig",
+        "moveId": 95,
+        "pokemonType": "Ground",
+        "damage": 80,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Clefairy",
+    "pokemonId": 35,
+    "pokemonTypes": ["Normal", "Flying"],
+    "hp": 70,
+    "max_hp": 70,
+    "attack": 45,
+    "defense": 48,
+    "specialAttack": 60,
+    "specialDefense": 65,
+    "speed": 35,
+    "moves": [
+      {
+        "name": "Body Slam",
+        "moveId": 105,
+        "pokemonType": "Normal",
+        "damage": 85,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Sing",
+        "moveId": 101,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Metronome",
+        "moveId": 138,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      },
+      {
+        "name": "Pound",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Nidoran♀",
+    "pokemonId": 29,
+    "pokemonTypes": ["Poison"],
+    "hp": 55,
+    "max_hp": 55,
+    "attack": 47,
+    "defense": 52,
+    "specialAttack": 40,
+    "specialDefense": 40,
+    "speed": 41,
+    "moves": [
+      {
+        "name": "Poison Sting",
+        "moveId": 99,
+        "pokemonType": "Poison",
+        "damage": 15,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Scratch",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Growl",
+        "moveId": 50,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      },
+      {
+        "name": "Double Kick",
+        "moveId": 89,
+        "pokemonType": "Fighting",
+        "damage": 30,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Venusaur",
+    "pokemonId": 3,
+    "pokemonTypes": ["Grass", "Poison"],
+    "hp": 80,
+    "max_hp": 80,
+    "attack": 82,
+    "defense": 83,
+    "specialAttack": 100,
+    "specialDefense": 100,
+    "speed": 80,
+    "moves": [
+      {
+        "name": "Razor Leaf",
+        "moveId": 125,
+        "pokemonType": "Grass",
+        "damage": 55,
+        "moveStatus": null
+      },
+      {
+        "name": "Vine Whip",
+        "moveId": 22,
+        "pokemonType": "Grass",
+        "damage": 45,
+        "moveStatus": null
+      },
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Sleep Powder",
+        "moveId": 47,
+        "pokemonType": "Grass",
+        "damage": 0,
+        "moveStatus": "SLP"
+      }
+    ]
+  },
+  {
+    "name": "Magikarp",
+    "pokemonId": 129,
+    "pokemonTypes": ["Water"],
+    "hp": 20,
+    "max_hp": 20,
+    "attack": 10,
+    "defense": 55,
+    "specialAttack": 15,
+    "specialDefense": 20,
+    "speed": 80,
+    "moves": [
+      {
+        "name": "Splash",
+        "moveId": 133,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "FRZ"
+      },
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Flail",
+        "moveId": 130,
+        "pokemonType": "Normal",
+        "damage": 20,
+        "moveStatus": null
+      },
+      {
+        "name": "Bounce",
+        "moveId": 130,
+        "pokemonType": "Flying",
+        "damage": 85,
+        "moveStatus": "PAR"
+      }
+    ]
+  },
+  {
+    "name": "Eevee",
+    "pokemonId": 133,
+    "pokemonTypes": ["Normal"],
+    "hp": 55,
+    "max_hp": 55,
+    "attack": 55,
+    "defense": 50,
+    "specialAttack": 45,
+    "specialDefense": 65,
+    "speed": 55,
+    "moves": [
+      {
+        "name": "Tackle",
+        "moveId": 10,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Quick Attack",
+        "moveId": 33,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Tail Whip",
+        "moveId": 51,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Growl",
+        "moveId": 50,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "PAR"
+      }
+    ]
+  },
+  {
+    "name": "Snorlax",
+    "pokemonId": 143,
+    "pokemonTypes": ["Normal"],
+    "hp": 160,
+    "max_hp": 160,
+    "attack": 110,
+    "defense": 65,
+    "specialAttack": 65,
+    "specialDefense": 110,
+    "speed": 30,
+    "moves": [
+      {
+        "name": "Body Slam",
+        "moveId": 105,
+        "pokemonType": "Normal",
+        "damage": 85,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Rest",
+        "moveId": 120,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Sleep Talk",
+        "moveId": 151,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      },
+      {
+        "name": "Hyper Beam",
+        "moveId": 171,
+        "pokemonType": "Normal",
+        "damage": 150,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Fearow",
+    "pokemonId": 22,
+    "pokemonTypes": ["Normal", "Flying"],
+    "hp": 65,
+    "max_hp": 65,
+    "attack": 90,
+    "defense": 65,
+    "specialAttack": 61,
+    "specialDefense": 61,
+    "speed": 100,
+    "moves": [
+      {
+        "name": "Drill Peck",
+        "moveId": 26,
+        "pokemonType": "Flying",
+        "damage": 80,
+        "moveStatus": null
+      },
+      {
+        "name": "Leer",
+        "moveId": 24,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "ACC"
+      },
+      {
+        "name": "Peck",
+        "moveId": 26,
+        "pokemonType": "Normal",
+        "damage": 35,
+        "moveStatus": null
+      },
+      {
+        "name": "Agility",
+        "moveId": 52,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Poliwhirl",
+    "pokemonId": 61,
+    "pokemonTypes": ["Water"],
+    "hp": 65,
+    "max_hp": 65,
+    "attack": 65,
+    "defense": 65,
+    "specialAttack": 50,
+    "specialDefense": 50,
+    "speed": 90,
+    "moves": [
+      {
+        "name": "Water Gun",
+        "moveId": 3,
+        "pokemonType": "Water",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Hypnosis",
+        "moveId": 44,
+        "pokemonType": "Psychic",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Double Slap",
+        "moveId": 51,
+        "pokemonType": "Normal",
+        "damage": 15,
+        "moveStatus": null
+      },
+      {
+        "name": "Body Slam",
+        "moveId": 21,
+        "pokemonType": "Normal",
+        "damage": 85,
+        "moveStatus": "PAR"
+      }
+    ]
+  },
+  {
+    "name": "Lickitung",
+    "pokemonId": 108,
+    "pokemonTypes": ["Normal"],
+    "hp": 90,
+    "max_hp": 90,
+    "attack": 60,
+    "defense": 55,
+    "specialAttack": 35,
+    "specialDefense": 35,
+    "speed": 30,
+    "moves": [
+      {
+        "name": "Lick",
+        "moveId": 9,
+        "pokemonType": "Normal",
+        "damage": 30,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Wrap",
+        "moveId": 50,
+        "pokemonType": "Normal",
+        "damage": 15,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Body Slam",
+        "moveId": 21,
+        "pokemonType": "Normal",
+        "damage": 85,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Supersonic",
+        "moveId": 12,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "PSN"
+      }
+    ]
+  },
+  {
+    "name": "Drowzee",
+    "pokemonId": 96,
+    "pokemonTypes": ["Psychic"],
+    "hp": 60,
+    "max_hp": 60,
+    "attack": 48,
+    "defense": 45,
+    "specialAttack": 43,
+    "specialDefense": 90,
+    "speed": 42,
+    "moves": [
+      {
+        "name": "Confusion",
+        "moveId": 30,
+        "pokemonType": "Psychic",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Hypnosis",
+        "moveId": 44,
+        "pokemonType": "Psychic",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Disable",
+        "moveId": 43,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      },
+      {
+        "name": "Pound",
+        "moveId": 3,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Exeggcute",
+    "pokemonId": 102,
+    "pokemonTypes": ["Grass", "Psychic"],
+    "hp": 60,
+    "max_hp": 60,
+    "attack": 40,
+    "defense": 80,
+    "specialAttack": 60,
+    "specialDefense": 45,
+    "speed": 40,
+    "moves": [
+      {
+        "name": "Confusion",
+        "moveId": 30,
+        "pokemonType": "Psychic",
+        "damage": 50,
+        "moveStatus": null
+      },
+      {
+        "name": "Leech Seed",
+        "moveId": 7,
+        "pokemonType": "Grass",
+        "damage": 0,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Sleep Powder",
+        "moveId": 22,
+        "pokemonType": "Grass",
+        "damage": 0,
+        "moveStatus": "SLP"
+      },
+      {
+        "name": "Razor Leaf",
+        "moveId": 18,
+        "pokemonType": "Grass",
+        "damage": 55,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Jolteon",
+    "pokemonId": 135,
+    "pokemonTypes": ["Electric"],
+    "hp": 65,
+    "max_hp": 65,
+    "attack": 65,
+    "defense": 60,
+    "specialAttack": 110,
+    "specialDefense": 95,
+    "speed": 130,
+    "moves": [
+      {
+        "name": "Thunderbolt",
+        "moveId": 9,
+        "pokemonType": "Electric",
+        "damage": 90,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Thunder Wave",
+        "moveId": 20,
+        "pokemonType": "Electric",
+        "damage": 0,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Quick Attack",
+        "moveId": 8,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Pin Missile",
+        "moveId": 54,
+        "pokemonType": "Bug",
+        "damage": 25,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Flareon",
+    "pokemonId": 136,
+    "pokemonTypes": ["Fire"],
+    "hp": 65,
+    "max_hp": 65,
+    "attack": 130,
+    "defense": 60,
+    "specialAttack": 95,
+    "specialDefense": 110,
+    "speed": 65,
+    "moves": [
+      {
+        "name": "Ember",
+        "moveId": 2,
+        "pokemonType": "Fire",
+        "damage": 40,
+        "moveStatus": "BRN"
+      },
+      {
+        "name": "Fire Blast",
+        "moveId": 50,
+        "pokemonType": "Fire",
+        "damage": 110,
+        "moveStatus": "BRN"
+      },
+      {
+        "name": "Quick Attack",
+        "moveId": 8,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Leer",
+        "moveId": 24,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Diglett",
+    "pokemonId": 50,
+    "pokemonTypes": ["Ground"],
+    "hp": 10,
+    "max_hp": 10,
+    "attack": 55,
+    "defense": 25,
+    "specialAttack": 35,
+    "specialDefense": 45,
+    "speed": 95,
+    "moves": [
+      {
+        "name": "Dig",
+        "moveId": 15,
+        "pokemonType": "Ground",
+        "damage": 100,
+        "moveStatus": null
+      },
+      {
+        "name": "Scratch",
+        "moveId": 12,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Sand Attack",
+        "moveId": 24,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Growl",
+        "moveId": 11,
+        "pokemonType": "Normal",
+        "damage": 0,
+        "moveStatus": "SLP"
+      }
+    ]
+  },
+  {
+    "name": "Kangaskhan",
+    "pokemonId": 115,
+    "pokemonTypes": ["Normal"],
+    "hp": 105,
+    "max_hp": 105,
+    "attack": 95,
+    "defense": 80,
+    "specialAttack": 40,
+    "specialDefense": 80,
+    "speed": 90,
+    "moves": [
+      {
+        "name": "Comet Punch",
+        "moveId": 51,
+        "pokemonType": "Normal",
+        "damage": 18,
+        "moveStatus": null
+      },
+      {
+        "name": "Bite",
+        "moveId": 6,
+        "pokemonType": "Dark",
+        "damage": 60,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Body Slam",
+        "moveId": 21,
+        "pokemonType": "Normal",
+        "damage": 85,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Mega Punch",
+        "moveId": 51,
+        "pokemonType": "Normal",
+        "damage": 120,
+        "moveStatus": null
+      }
+    ]
+  },
+  {
+    "name": "Paras",
+    "pokemonId": 46,
+    "pokemonTypes": ["Bug", "Grass"],
+    "hp": 35,
+    "max_hp": 35,
+    "attack": 70,
+    "defense": 55,
+    "specialAttack": 45,
+    "specialDefense": 55,
+    "speed": 25,
+    "moves": [
+      {
+        "name": "Scratch",
+        "moveId": 12,
+        "pokemonType": "Normal",
+        "damage": 40,
+        "moveStatus": null
+      },
+      {
+        "name": "Stun Spore",
+        "moveId": 25,
+        "pokemonType": "Grass",
+        "damage": 0,
+        "moveStatus": "PAR"
+      },
+      {
+        "name": "Poison Powder",
+        "moveId": 13,
+        "pokemonType": "Poison",
+        "damage": 0,
+        "moveStatus": "PSN"
+      },
+      {
+        "name": "Leech Life",
+        "moveId": 41,
+        "pokemonType": "Bug",
+        "damage": 20,
+        "moveStatus": null
+      }
+    ]
+  }
+]

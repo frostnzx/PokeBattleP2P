@@ -17,14 +17,13 @@ public class Move {
     private int damage;  
     private Status moveStatus ; 
     
-
-    // Static list to hold all available moves
-    private static List<Move> moveList = new ArrayList<>();
-
     // Constructor
-    public Move(int moveId) {
-    	// TODO:
-    	// set this move to move that have this id in moveList
+    public Move(String name , int moveId , PokemonType pokemonType , int damage , Status moveStatus) {
+    	this.name = name ; 
+    	this.moveId = moveId ; 
+    	this.pokemonType = pokemonType ; 
+    	this.damage = damage ; 
+    	this.moveStatus = moveStatus ; 
     }
 
     // Getters
@@ -38,28 +37,5 @@ public class Move {
 
     public int getDamage() {
         return damage;
-    }
-
-    // Static method to list all moves
-    public static void listMoves() {
-        System.out.println("Available Moves:");
-        for (Move move : moveList) {
-            System.out.println("- " + move.getName() + " (Type: " + move.getPokemonType() + ", Damage: " + move.getDamage() + ")");
-        }
-    }
-
-    // Static method to load moves from a JSON file
-    // Gotta fix this
-    public static void loadMovesFromJson(String filePath) {
-        Gson gson = new Gson();
-        Type moveListType = new TypeToken<List<Move>>() {}.getType();
-
-        try (FileReader reader = new FileReader(filePath)) {
-            List<Move> moves = gson.fromJson(reader, moveListType);
-            moveList.addAll(moves); // Add all loaded moves to moveList
-            System.out.println("Moves loaded from JSON.");
-        } catch (IOException e) {
-            System.out.println("Error reading JSON file: " + e.getMessage());
-        }
     }
 }
