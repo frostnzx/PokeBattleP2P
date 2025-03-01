@@ -53,6 +53,7 @@ public class GameSystem {
 
 	// all state handler functions
 	private void playerTurnHandler() {
+		lastTurnByPlayer = true;
 		Choice choice = Choice.Fight ; // Mocking data
 		Gson gson = new Gson();
 		Map<String , Object> data = new HashMap<>();
@@ -61,12 +62,20 @@ public class GameSystem {
 		if(choice == Choice.Fight) {
 			Move chosenMove = new Move("Test Move", 9999 , PokemonType.Dragon , 20 , Status.BRN) ; // Mocking data
 			// Edit our own Battle
-			this.battle.executeMove(myPlayer, myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()), chosenMove);
+			boolean successfullHit = this.battle.executeMove(myPlayer, myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()), chosenMove);
 			// Send JSON to edit their Battle
-			data.put("Type" , "Fight");
-			data.put("Player", myPlayer);
-			data.put("Pokemon", myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()));
-			data.put("Move", chosenMove);
+			if(successfullHit) {
+				data.put("Type" , "Fight");
+				data.put("Player", myPlayer);
+				data.put("Pokemon", myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()));
+				data.put("Move", chosenMove);
+			}
+			else {
+				// show something to show that you can't attack
+				state = GameState.PLAYER_TURN;
+				processState();
+			}
+
 		}
 		
 		// --- Bag ---
@@ -106,12 +115,12 @@ public class GameSystem {
 		if(choice == Choice.Fight) {
 			state = GameState.PROCESSING_TURN ; 
 		}
-		lastTurnByPlayer = true;
 		processState();
 	}
 
 	private void opponentTurnHandler() {
         try {
+        	lastTurnByPlayer = false;
             String jsonString = myPeer.getReader().readLine();
             
             if(jsonString != null) {
@@ -146,7 +155,6 @@ public class GameSystem {
                 if(type != "GiveUp") {
                 	this.state = GameState.PROCESSING_TURN;
                 }
-                lastTurnByPlayer = false;
             }    
         } catch (IOException e) {
             e.printStackTrace();
