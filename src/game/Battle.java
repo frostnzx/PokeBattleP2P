@@ -10,7 +10,10 @@ public class Battle {
 		this.player2 = player2 ; 
 	}
 	
-	public void executeMove(Player player , Pokemon pokemon , Move move) {
+	public boolean executeMove(Player player , Pokemon pokemon , Move move) {
+		if(pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
+			return false;
+		}
 		Player target = (player == player1) ? player2 : player1 ; // target is someone that is not player
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
 		int damage = calculateDamage(pokemon , targetPokemon , move);
@@ -18,6 +21,7 @@ public class Battle {
 		
 		// log
 		System.out.println(pokemon.getName() + "used " + move.getName() + " and dealt " + damage + " damage!");
+		return true;
 	}
 	private int calculateDamage(Pokemon attacker , Pokemon defender , Move move) {
 		return (move.getDamage() * attacker.getAttack()) / defender.getDefense() ; 
@@ -51,10 +55,10 @@ public class Battle {
             pokemon.setHp(pokemon.getHp() - dmg);
         }
         else if(status == Status.SLP) {
-            // do something
+        	pokemon.setStatus(Status.SLP);
         }
         else if(status == Status.PAR) {
-            // do something
+        	pokemon.setStatus(Status.PAR);
         }
     }
 	public boolean isEnded() {
