@@ -22,6 +22,7 @@ public class GameSystem {
 	private Player myPlayer, myOpponent;
 	private Battle battle;
 	private GameState state;
+	private boolean lastTurnByPlayer;
 	
 	private boolean win ; 
 
@@ -105,6 +106,7 @@ public class GameSystem {
 		if(choice == Choice.Fight) {
 			state = GameState.PROCESSING_TURN ; 
 		}
+		lastTurnByPlayer = true;
 		processState();
 	}
 
@@ -144,6 +146,7 @@ public class GameSystem {
                 if(type != "GiveUp") {
                 	this.state = GameState.PROCESSING_TURN;
                 }
+                lastTurnByPlayer = false;
             }    
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,16 +157,25 @@ public class GameSystem {
     }
 
 	private void processingTurnHandler() {
-		
-		
 		// do status
 		// change turn
+		battle.executeStatus();
+		state = GameState.CHECK_BATTLE_END;
 		processState();
 	}
 
 	private void checkBattleEndHandler() {
-
-		
+		if(battle.isEnded()) {
+			state = GameState.BATTLE_END; 
+		}
+		else { 
+			if(lastTurnByPlayer) {
+				state = GameState.OPPONENT_TURN; 
+			}
+			else {
+				state = GameState.PLAYER_TURN; 
+			}
+		}
 		processState();
 	}
 
