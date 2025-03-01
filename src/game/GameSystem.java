@@ -1,5 +1,6 @@
 package game;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public class GameSystem {
 	private Player myPlayer, myOpponent;
 	private Battle battle;
 	private GameState state;
+	
+	private boolean win ; 
 
 	public GameSystem() {
 	}
@@ -90,27 +93,71 @@ public class GameSystem {
 		// --- Give up ---
 		if(choice == Choice.GiveUp) {
 			// do something that will make myPlayer lose 
+			this.win = false;
+            data.put("Type", "GiveUp");
+            data.put("Win", "True");
+            state = GameState.BATTLE_END;
 		}
 		
 		json = gson.toJson(data);
 		myPeer.getWriter().println(json);
 		System.out.println("Sent: " + json);
-		if(choice != Choice.Pokemon && choice != Choice.Bag) {
+		if(choice == Choice.Fight) {
 			state = GameState.PROCESSING_TURN ; 
 		}
 		processState();
 	}
 
 	private void opponentTurnHandler() {
-		
-		
-		processState();
-	}
+        try {
+            String jsonString = myPeer.getReader().readLine();
+            
+            if(jsonString != null) {
+                Gson gson = new Gson();
+                Map<String, Object> data = gson.fromJson(jsonString, Map.class);
+                
+                String type = (String) data.get("Type");
+                
+                if(type == "Fight") {
+                    Player opponentPlayer = gson.fromJson(data.get("Player").toString(), Player.class);
+                    Pokemon opponentPokemon = gson.fromJson(data.get("Pokemon").toString(), Pokemon.class);
+                    Move chosenMove = gson.fromJson(data.get("Move").toString(), Move.class);
+                    
+                    this.battle.executeMove(opponentPlayer, opponentPokemon, chosenMove);
+                }
+                else if(type == "Bag") {
+                    Player opponentPlayer = gson.fromJson(data.get("Player").toString(), Player.class);
+                    Item chosenItem = gson.fromJson(data.get("Item").toString(), Item.class);
+                    
+                    this.battle.executeItem(opponentPlayer , chosenItem);
+                }
+                else if(type == "Pokemon") {
+                    Player opponentPlayer = gson.fromJson(data.get("Player").toString(), Player.class);
+                    int newPokemonIndex = ((Double) data.get("Index")).intValue();
+
+                    this.battle.changeCurrentPokemon(opponentPlayer, newPokemonIndex);
+                }
+                else if(type == "GiveUp") {
+                	win = (Boolean) data.get("Win");
+                	state = GameState.BATTLE_END ; 
+                }
+                if(type != "GiveUp") {
+                	this.state = GameState.PROCESSING_TURN;
+                }
+            }    
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        
+        processState();
+    }
 
 	private void processingTurnHandler() {
 		
 		
-		
+		// do status
+		// change turn
 		processState();
 	}
 
@@ -121,8 +168,11 @@ public class GameSystem {
 	}
 
 	private void battleEndHandler() {
-
-		
+		if(win) {
+			
+		} else {
+			
+		}
 		processState();
 	}
 
