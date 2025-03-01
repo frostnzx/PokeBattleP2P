@@ -1,5 +1,12 @@
 package game;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+
+import entity.Item;
+import entity.Potion;
 import net.Mode;
 import net.Peer;
 
@@ -42,9 +49,55 @@ public class GameSystem {
 
 	// all state handler functions
 	private void playerTurnHandler() {
+		Choice choice = Choice.Fight ; // Mocking data
+		Gson gson = new Gson();
+		Map<String , Object> data = new HashMap<>();
+		String json ;
+		// --- Fight ---
+		if(choice == Choice.Fight) {
+			Move chosenMove = new Move("Test Move", 9999 , PokemonType.Dragon , 20 , Status.BRN) ; // Mocking data
+			// Edit our own Battle
+			this.battle.executeMove(myPlayer, myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()), chosenMove);
+			// Send JSON to edit their Battle
+			data.put("Type" , "Fight");
+			data.put("Player", myPlayer);
+			data.put("Pokemon", myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()));
+			data.put("Move", chosenMove);
+		}
 		
+		// --- Bag ---
+		if(choice == Choice.Bag) {
+			Item chosenItem = new Potion(); // Mocking data (real data from UI button)
+			// Edit our own Battle
+			this.battle.executeItem(myPlayer , chosenItem);
+			// Send JSON to edit their Battle
+			data.put("Type", "Bag");
+			data.put("Player", myPlayer);
+			data.put("Item", chosenItem);
+		}
 		
+		// --- Pokemon ---
+		if(choice == Choice.Pokemon) {
+			int newPokemonIndex = 1 ; // Mocking data
+			// Edit our own Battle
+			this.battle.changeCurrentPokemon(myPlayer, newPokemonIndex);
+			// Send JSON
+			data.put("Type", "Pokemon");
+			data.put("Player", myPlayer);
+			data.put("Index", newPokemonIndex);
+		}
 		
+		// --- Give up ---
+		if(choice == Choice.GiveUp) {
+			// do something that will make myPlayer lose 
+		}
+		
+		json = gson.toJson(data);
+		myPeer.getWriter().println(json);
+		System.out.println("Sent: " + json);
+		if(choice != Choice.Pokemon && choice != Choice.Bag) {
+			state = GameState.PROCESSING_TURN ; 
+		}
 		processState();
 	}
 

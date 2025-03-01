@@ -1,5 +1,7 @@
 package game;
 
+import entity.Item;
+
 public class Battle {
 	private Player player1 , player2 ; 
 	
@@ -9,6 +11,12 @@ public class Battle {
 	}
 	
 	public void executeMove(Player player , Pokemon pokemon , Move move) {
+		
+	}
+	public void executeItem(Player player , Item item) {
+		
+	}
+	public void changeCurrentPokemon(Player player , int newIndex) {
 		
 	}
 	public void applyEffectStatus() {

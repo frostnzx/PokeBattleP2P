@@ -70,15 +70,21 @@ public class PeerServer extends Peer {
 
 	}
 
-	protected Socket getOtherPeer() {
+	public Socket getOtherPeer() {
 		return this.client;
 	}
 
-	protected PrintWriter getWriter() {
+	public PrintWriter getWriter() {
 		return this.writer ; 
 	}
-	protected BufferedReader getReader() {
+	public BufferedReader getReader() {
 		return this.reader ; 
+	}
+	public String getIp() {
+		return this.serverAddress ; 
+	}
+	public int getPort() {
+		return this.PORT ; 
 	}
 
 //	// Sending

@@ -16,9 +16,9 @@ public abstract class Peer {
     protected abstract void startReceivePacketThread();
     
     // communication methods
-    protected abstract Socket getOtherPeer();
-    protected abstract PrintWriter getWriter();
-    protected abstract BufferedReader getReader();
+    public abstract Socket getOtherPeer();
+    public abstract PrintWriter getWriter();
+    public abstract BufferedReader getReader();
     
     public Mode getMode() {
     	return this.mode ; 

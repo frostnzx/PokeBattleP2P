@@ -54,13 +54,13 @@ public class PeerClient extends Peer {
 	protected void startReceivePacketThread() {
 		
 	}
-	protected Socket getOtherPeer() {
+	public Socket getOtherPeer() {
 		return this.socket ; 
 	}
-	protected PrintWriter getWriter() {
+	public PrintWriter getWriter() {
 		return this.writer ; 
 	}
-	protected BufferedReader getReader() {
+	public BufferedReader getReader() {
 		return this.reader ; 
 	}
 
