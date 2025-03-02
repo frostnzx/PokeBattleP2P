@@ -110,20 +110,24 @@ public class PokemonSelectorScene {
 
         scene = new Scene(root, 800, 600);
     }
+    
+    private void removeFromSelect(Button selectBtn) {
+    	for (int i = 0; i < selectedButtons.length; i++) {
+    		if (selectedButtons[i] != null && selectedButtons[i].getId() == selectBtn.getId()) {
+    			leftBox.getChildren().remove(selectedButtons[i]);
+    			selectedButtons[i] = null;
+    			selectedCount--;
+    			break;
+    		}
+    	}
+    }
 
     private void handleButtonClick(Button button) {
         boolean isSelected = button.getStyle().contains("-fx-border-color: gray;");
 
         if (isSelected) {
             button.setStyle("");
-            for (int i = 0; i < selectedButtons.length; i++) {
-                if (selectedButtons[i] != null && selectedButtons[i].getText().equals(button.getText())) {
-                    leftBox.getChildren().remove(selectedButtons[i]);
-                    selectedButtons[i] = null;
-                    selectedCount--;
-                    break;
-                }
-            }
+            removeFromSelect(button);
         } else {
             if (selectedCount < 6) {
                 button.setStyle("-fx-border-color: gray; -fx-border-width: 2px;");
@@ -133,6 +137,10 @@ public class PokemonSelectorScene {
                         newButton.setBackground(button.getBackground());
                         newButton.setId(button.getId());
                         newButton.setPrefSize(150, 85);
+                        newButton.setOnMouseClicked(event -> {
+                        	removeFromSelect(newButton);
+                        	handleButtonClick(button);
+                        });
                         selectedButtons[i] = newButton;
                         leftBox.getChildren().add(newButton);
                         selectedCount++;
