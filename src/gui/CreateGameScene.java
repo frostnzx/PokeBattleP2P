@@ -56,53 +56,58 @@ public class CreateGameScene {
 		
 		Text menuText = new Text("MENU");
 		menuText.setFont(pixelFont2);
-		menuText.setFill(Color.BLACK);
+		menuText.setFill(Color.WHITE);
 
 		Text startText = new Text("START");
 		startText.setFont(pixelFont2);
-		startText.setFill(Color.BLACK);
+		startText.setFill(Color.WHITE);
 		
 		Button startButton = new Button();
         startButton.setGraphic(startText);
-        startButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-        startButton.setOnMouseEntered(event -> {
-		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), startButton);
-		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-		    scaleTransition.play();
-		});
-
-		startButton.setOnMouseExited(event -> {
-		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), startButton);
-		    scaleTransition.setToX(1); // Reset to original scale
-		    scaleTransition.setToY(1);
-		    scaleTransition.play();
-		});
+        startButton.getStyleClass().add("start_button");
+//        startButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
+//        startButton.setOnMouseEntered(event -> {
+//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), startButton);
+//		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
+//		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
+//		    scaleTransition.play();
+//		});
+//
+//		startButton.setOnMouseExited(event -> {
+//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), startButton);
+//		    scaleTransition.setToX(1); // Reset to original scale
+//		    scaleTransition.setToY(1);
+//		    scaleTransition.play();
+//		});
 		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
             	//show Battle scene
             	//If opponent join it can click this button
+            	applySceneTransition(() -> sceneManager.showPickCharacterScene());            	
+          
             }
         });
         
         
         Button menuButton = new Button();
         menuButton.setGraphic(menuText);
-        menuButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-        menuButton.setOnMouseEntered(event -> {
-		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-		    scaleTransition.play();
-		});
-
-		menuButton.setOnMouseExited(event -> {
-		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-		    scaleTransition.setToX(1); // Reset to original scale
-		    scaleTransition.setToY(1);
-		    scaleTransition.play();
-		});
+        menuButton.getStyleClass().add("menu_button");
+        
+//        menuButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
+//        menuButton.setOnMouseEntered(event -> {
+//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
+//		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
+//		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
+//		    scaleTransition.play();
+//		});
+//
+//		menuButton.setOnMouseExited(event -> {
+//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
+//		    scaleTransition.setToX(1); // Reset to original scale
+//		    scaleTransition.setToY(1);
+//		    scaleTransition.play();
+//		});
 		
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
@@ -122,6 +127,8 @@ public class CreateGameScene {
 
 		// Create scene
 		this.scene = new Scene(root, 800, 600);
+		
+		scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), text);
 		fadeTransition.setFromValue(1.0); // Fully visible

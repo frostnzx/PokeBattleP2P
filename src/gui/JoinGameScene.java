@@ -77,23 +77,24 @@ public class JoinGameScene {
 
 		Button joinButton = new Button();
 		joinButton.setGraphic(buttonText);
-		joinButton.setStyle(
-				"-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-
-		// Button Scaling Animation on Hover
-		joinButton.setOnMouseEntered(event -> {
-			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinButton);
-			scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-			scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-			scaleTransition.play();
-		});
-
-		joinButton.setOnMouseExited(event -> {
-			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinButton);
-			scaleTransition.setToX(1); // Reset to original scale
-			scaleTransition.setToY(1);
-			scaleTransition.play();
-		});
+		joinButton.getStyleClass().add("join_button");
+//		joinButton.setStyle(
+//				"-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
+//
+//		// Button Scaling Animation on Hover
+//		joinButton.setOnMouseEntered(event -> {
+//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinButton);
+//			scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
+//			scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
+//			scaleTransition.play();
+//		});
+//
+//		joinButton.setOnMouseExited(event -> {
+//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinButton);
+//			scaleTransition.setToX(1); // Reset to original scale
+//			scaleTransition.setToY(1);
+//			scaleTransition.play();
+//		});
 
 		joinButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -120,24 +121,25 @@ public class JoinGameScene {
 
 		Button menuButton = new Button();
 		menuButton.setGraphic(menuText);
-		menuButton.setStyle(
-				"-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-
-		// Button Scaling Animation on Hover
-
-		menuButton.setOnMouseEntered(event -> {
-			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-			scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-			scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-			scaleTransition.play();
-		});
-
-		menuButton.setOnMouseExited(event -> {
-			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-			scaleTransition.setToX(1); // Reset to original scale
-			scaleTransition.setToY(1);
-			scaleTransition.play();
-		});
+		menuButton.getStyleClass().add("menu2_button");
+//		menuButton.setStyle(
+//				"-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
+//
+//		// Button Scaling Animation on Hover
+//
+//		menuButton.setOnMouseEntered(event -> {
+//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
+//			scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
+//			scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
+//			scaleTransition.play();
+//		});
+//
+//		menuButton.setOnMouseExited(event -> {
+//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
+//			scaleTransition.setToX(1); // Reset to original scale
+//			scaleTransition.setToY(1);
+//			scaleTransition.play();
+//		});
 
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
