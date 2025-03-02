@@ -84,7 +84,7 @@ public class CreateGameScene {
             public void handle(ActionEvent e) {
             	//show Battle scene
             	//If opponent join it can click this button
-            	applySceneTransition(() -> sceneManager.showPickCharacterScene());            	
+            	        	
           
             }
         });
