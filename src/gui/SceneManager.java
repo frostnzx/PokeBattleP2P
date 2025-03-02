@@ -24,4 +24,9 @@ public class SceneManager {
 		stage.setScene(joinGameScene.getScene());
 		stage.show();
 	}
+	public void showBattleScene() {
+		BattleScene battleScene = new BattleScene(this);
+		stage.setScene(battleScene.getScene());
+		stage.show();
+	}
 }

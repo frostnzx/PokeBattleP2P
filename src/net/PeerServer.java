@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.util.Scanner;
 
 import javafx.scene.control.Alert;
@@ -27,8 +28,10 @@ public class PeerServer extends Peer {
 		this.mode = Mode.SERVER;
 		try {
 			this.serverSocket = new ServerSocket(PORT);
-			InetAddress localHost = InetAddress.getLocalHost();
-			this.serverAddress = localHost.getHostAddress(); // get server's ip
+			// get public IP
+			URL url = new URL("http://checkip.amazonaws.com");
+            Scanner scanner = new Scanner(url.openStream());
+            this.serverAddress = scanner.nextLine();
 		} catch (Exception e) {
 			System.out.println("Fail to initialize server");
 			e.printStackTrace();
