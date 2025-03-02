@@ -41,4 +41,7 @@ public class SceneManager {
 		stage.setScene(losingScene.getScene());
 		stage.show();
 	}
+	public Stage getStage() {
+		return this.stage ; 
+	}
 }
