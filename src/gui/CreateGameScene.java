@@ -56,7 +56,7 @@ public class CreateGameScene {
 		
 		Text menuText = new Text("MENU");
 		menuText.setFont(pixelFont2);
-		menuText.setFill(Color.BLACK);
+		menuText.setFill(Color.WHITE);
 
 		Text startText = new Text("START");
 		startText.setFont(pixelFont2);
@@ -84,6 +84,8 @@ public class CreateGameScene {
             public void handle(ActionEvent e) {
             	//show Battle scene
             	//If opponent join it can click this button
+            	applySceneTransition(() -> sceneManager.showPickCharacterScene());            	
+          
             }
         });
         
