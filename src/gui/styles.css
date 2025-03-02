@@ -30,6 +30,117 @@
     -fx-scale-y: 1;
 }
 
+
+.menu_button {
+    -fx-background-color: linear-gradient(to bottom, #FFCC00, #FF9900);
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 30;
+    -fx-border-radius: 0;
+    -fx-background-radius: 25;
+    -fx-border-color: #FF6600;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s;
+}
+
+/* Hover effect */
+.menu_button:hover {
+    -fx-background-color: linear-gradient(to bottom, #FF9900, #FF6600);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Click effect */
+.menu_button:pressed {
+    -fx-background-color: #FF3300;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.menu2_button {
+    -fx-background-color: linear-gradient(to bottom, #003A70, #0A285F); /* Dark blue gradient */
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 13 26;
+    -fx-background-radius: 25;
+    -fx-border-color: #FFD700; /* Pokémon yellow border */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-cursor: hand;
+}
+
+/* Hover effect */
+.menu2_button:hover {
+    -fx-background-color: linear-gradient(to bottom, #0A285F, #002F5E); /* Slightly darker blue */
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Click effect */
+.menu2_button:pressed {
+    -fx-background-color: #001F3F; /* Even darker blue */
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.start_button {
+    -fx-background-color: linear-gradient(to bottom, #003A70, #0A285F); /* Dark blue gradient */
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 30;
+    -fx-background-radius: 25;
+    -fx-border-color: #FFD700; /* Pokémon yellow border */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-cursor: hand;
+}
+
+/* Hover effect */
+.start_button:hover {
+    -fx-background-color: linear-gradient(to bottom, #0A285F, #002F5E); /* Slightly darker blue */
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Click effect */
+.start_button:pressed {
+    -fx-background-color: #001F3F; /* Even darker blue */
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.join_button {
+    -fx-background-color: linear-gradient(to bottom, #FFCC00, #FF9900);
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 13 26;
+    -fx-border-radius: 0;
+    -fx-background-radius: 25;
+    -fx-border-color: #FF6600;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s;
+}
+
+/* Hover effect */
+.join_button:hover {
+    -fx-background-color: linear-gradient(to bottom, #FF9900, #FF6600);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Click effect */
+.join_button:pressed {
+    -fx-background-color: #FF3300;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
 .text-field {
 	-fx-background-radius: 15; 
 }
