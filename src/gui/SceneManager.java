@@ -29,4 +29,16 @@ public class SceneManager {
 		stage.setScene(battleScene.getScene());
 		stage.show();
 	}
+	
+	public void showWinningScene() {
+		WinningScene winningScene = new WinningScene(this);
+		stage.setScene(winningScene.getScene());
+		stage.show();
+	}
+	
+	public void showLosingScene() {
+		LosingScene losingScene = new LosingScene(this);
+		stage.setScene(losingScene.getScene());
+		stage.show();
+	}
 }
