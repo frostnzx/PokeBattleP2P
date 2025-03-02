@@ -257,32 +257,10 @@ public class BattleScene extends Application {
 
         // set Scene and Stage
         Scene scene = new Scene(root, 1000, 600);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Pokemon Battle");
         primaryStage.show();
-
-        fightButton.getStyleClass().add("button");
-        bagButton.getStyleClass().add("button");
-        pokemonButton.getStyleClass().add("button");
-        giveUpButton.getStyleClass().add("button");
-
-        playerName.getStyleClass().add("label");
-        opponentName.getStyleClass().add("label");
-        playerPokemonName.getStyleClass().add("label");
-        opponentPokemonName.getStyleClass().add("label");
-
-        playerPokemon.getStyleClass().add("rectangle");
-        opponentPokemon.getStyleClass().add("rectangle");
-        playerAvatar.getStyleClass().add("rectangle");
-        opponentAvatar.getStyleClass().add("rectangle");
-
-        scrollPane.getStyleClass().add("scroll-pane");
-
-        stackPanetext.getStyleClass().add("stack-pane");
-
-        text.getStyleClass().add("text");
     }
 
     public static void main(String[] args) {
