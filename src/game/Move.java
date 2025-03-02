@@ -38,4 +38,10 @@ public class Move {
     public int getDamage() {
         return damage;
     }
+
+	public Status getMoveStatus() {
+		return moveStatus;
+	}
+    
+    
 }
