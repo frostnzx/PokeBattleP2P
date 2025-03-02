@@ -37,11 +37,16 @@ public class BattleScene extends Application {
         playerPokemonName.setFont(Font.font(14));
         Rectangle playerHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
         Label playerHpText = new Label("100 / 100");
+        Label playerStatus = new Label("Status Condition");
+        playerStatus.setFont(Font.font(10));
+        
         //(opponent)
         Label opponentPokemonName = new Label("PokemonOpponent");
         opponentPokemonName.setFont(Font.font(14));
         Rectangle opponentHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
         Label opponentHpText = new Label("100 / 100");
+        Label opponentStatus = new Label("Status Condition");
+        opponentStatus.setFont(Font.font(10));
 
         // Battle Options --------------------------------------------
         Label actionLabel = new Label("What will PokemonName do?");
@@ -58,11 +63,11 @@ public class BattleScene extends Application {
 
         // Layout setup ----------------------------------------------
 
-        VBox opponentPokemonInfo = new VBox(opponentPokemonName, opponentHpBar, opponentHpText);
+        VBox opponentPokemonInfo = new VBox(opponentPokemonName, opponentHpBar, opponentHpText, opponentStatus);
         opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT);
         
         HBox opponentInfo = new HBox(10, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
-        HBox playerInfo = new HBox(10, playerAvatar, new VBox(10, playerPokemon, new VBox(playerPokemonName, playerHpBar, playerHpText)));
+        HBox playerInfo = new HBox(10, playerAvatar, new VBox(10, playerPokemon, new VBox(playerPokemonName, playerHpBar, playerHpText, playerStatus)));
         VBox leftPanel = new VBox(10, playerName, playerInfo);
         VBox rightPanel = new VBox(10, opponentName, opponentInfo);
         opponentName.setAlignment(Pos.TOP_RIGHT);
