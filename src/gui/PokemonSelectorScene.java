@@ -61,7 +61,7 @@ public class PokemonSelectorScene {
                     new BackgroundSize(130, 85, false, false, false, false));
             button.setBackground(new Background(backgroundImage));
             
-            button.setId(String.valueOf(pokemon.getPokemonId())); // for identifying later in the submit button
+            button.setId(String.valueOf(pokemon.getPokemonId())); // For later identification
 
             int row = i / columns;
             int col = i % columns;
@@ -85,7 +85,7 @@ public class PokemonSelectorScene {
 			}
 		});
 
-        // Add pokemon
+        // Add newpokemonList to myPlayer Pokemonlist
         submitButton.setOnAction(event -> {
             System.out.println("Submit button clicked!");
             ArrayList<Pokemon> newpokemonList = new ArrayList<Pokemon>();
@@ -111,7 +111,7 @@ public class PokemonSelectorScene {
         scene = new Scene(root, 800, 600);
     }
     
-    private void removeFromSelect(Button selectBtn) {
+    private void removeFromSelect(Button selectBtn) { // for removing btn that match the btn from the leftBox
     	for (int i = 0; i < selectedButtons.length; i++) {
     		if (selectedButtons[i] != null && selectedButtons[i].getId() == selectBtn.getId()) {
     			leftBox.getChildren().remove(selectedButtons[i]);

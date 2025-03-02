@@ -23,14 +23,15 @@ public class Main extends Application{
         
         // initialize important application controller
         SceneManager sceneManager = new SceneManager(primaryStage);
-        // Set default pokemon team & items
-        // ...
+
         String filePath = "res/json/pokemonData.json";
         Pokemon.loadPokemonsFromJson(filePath);
         ArrayList<Pokemon> defaultPokemonsList = initDefaultPokemons();
         String defaultName = "John";
+        
+        // Set items 
       
-//        Pokemon.listPokemons();
+        // Pokemon.listPokemons(); For testing purpose
 
         GameSystem.getInstance().setMyPlayer(new Player(defaultName, defaultPokemonsList));; 
         
