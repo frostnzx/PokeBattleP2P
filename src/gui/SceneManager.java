@@ -41,6 +41,12 @@ public class SceneManager {
 		stage.setScene(losingScene.getScene());
 		stage.show();
 	}
+	public void showPokemonSelectorScene() {
+		PokemonSelectorScene pokemonSelectorScene = new PokemonSelectorScene(this);
+		stage.setScene(pokemonSelectorScene.getScene());
+		stage.show();
+	}
+	
 	public Stage getStage() {
 		return this.stage ; 
 	}

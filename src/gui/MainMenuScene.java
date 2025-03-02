@@ -65,6 +65,13 @@ public class MainMenuScene {
         
         //createGameText.setStroke(Color.BLACK); // Set stroke color (border around text)
         createGameText.setStrokeWidth(0); // Set stroke width
+        
+        Text SelectPokemonText = new Text("SelectPokemon");
+        SelectPokemonText.setFont(pixelFont); // Apply the retro font
+        SelectPokemonText.setFill(Color.WHITE); // Set text color
+        
+        //createGameText.setStroke(Color.BLACK); // Set stroke color (border around text)
+        SelectPokemonText.setStrokeWidth(0); // Set stroke width
 		
 
 		// Create the "Join Game" button
@@ -123,14 +130,27 @@ public class MainMenuScene {
 //		    scaleTransition.play();
 //		});
 
+		Button SelectPokemonButton = new Button();
+		SelectPokemonButton.getStyleClass().add("button");
+		SelectPokemonButton.setGraphic(SelectPokemonText);
+		SelectPokemonButton.setTranslateY(15);
+		SelectPokemonButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// Switch to the Create Game scene when clicked
+				applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
+			}
+		});
+
 		// Position buttons on the screen (e.g., using StackPane)
 		StackPane.setMargin(imageView, new javafx.geometry.Insets(-200, 0, 0, 0));
 		StackPane.setMargin(joinGameButton, new javafx.geometry.Insets(0, 0, 0, 0)); // Adjust top margin
 		StackPane.setMargin(createGameButton, new javafx.geometry.Insets(130, 0, 0, 0)); // Adjust top margin
+		StackPane.setMargin(SelectPokemonButton, new javafx.geometry.Insets(300, 0, 0, 0));
 		
 		
 		// Add buttons to the root node
-		root.getChildren().addAll(imageView ,joinGameButton, createGameButton);
+		root.getChildren().addAll(imageView ,joinGameButton, createGameButton,SelectPokemonButton);
 		
 
 		
