@@ -1,5 +1,6 @@
 package gui;
 
+import game.GameSystem;
 import javafx.stage.Stage;
 
 public class SceneManager {
@@ -26,6 +27,7 @@ public class SceneManager {
 	}
 	public void showBattleScene() {
 		BattleScene battleScene = new BattleScene(this);
+		GameSystem.getInstance().getBattle().setBattleScene(battleScene);
 		stage.setScene(battleScene.getScene());
 		stage.show();
 	}

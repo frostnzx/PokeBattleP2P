@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import entity.Item;
 import entity.Potion;
+import gui.SceneManager;
 import net.Mode;
 import net.Peer;
 
@@ -23,7 +24,6 @@ public class GameSystem {
 	private Battle battle;
 	private GameState state;
 	private boolean lastTurnByPlayer;
-	private boolean ready = false ;  
 	
 	private boolean win ; 
 
@@ -44,11 +44,8 @@ public class GameSystem {
 		return this.myPeer ; 
 	}
 	
-	public void setReady(boolean ready) {
-		this.ready = ready ; 
-	}
-	public boolean isReady() {
-		return this.ready ; 
+	public Battle getBattle() {
+		return this.battle ; 
 	}
 
 	// FSM switch

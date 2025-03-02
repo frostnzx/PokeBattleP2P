@@ -1,5 +1,6 @@
 package gui;
 
+import game.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -259,7 +260,28 @@ public class BattleScene {
 
 		// set Scene
 		scene = new Scene(root, 1200, 600);
+		
+		// initSceneData();
 	}
+	
+	public void initSceneData() {
+		// initialize all pokemon datas and everything when first came to this scene
+	}
+	// Method to update the player's HP
+    public void updatePlayerHp(int currentHp, int maxHp) {
+    }
+
+    // Method to update the opponent's HP
+    public void updateOpponentHp(int currentHp, int maxHp) {
+    }
+
+    // Method to update status conditions
+    public void updateStatus(Player player, Player opponent) {
+    }
+
+    // Method to display action feedback text
+    public void displayActionFeedback(String feedback) {
+    }
 	
 	public Scene getScene() {
 		return this.scene ; 

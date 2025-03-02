@@ -30,6 +30,7 @@ public class CreateGameScene {
 		// create server
 		server = new PeerServer();
 		server.start();
+		// game system
 		GameSystem.getInstance().setMyPeer(server);
 		// for closing the server
 		sceneManager.getStage().setOnCloseRequest(event -> {

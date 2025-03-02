@@ -1,13 +1,19 @@
 package game;
 
 import entity.Item;
+import gui.BattleScene;
+import gui.SceneManager;
 
 public class Battle {
 	private Player player1 , player2 ; 
+	private BattleScene battleScene ; 
 	
 	public Battle(Player player1 , Player player2) {
 		this.player1 = player1 ; 
 		this.player2 = player2 ; 
+	}
+	public void setBattleScene(BattleScene battleScene) {
+		this.battleScene = battleScene ; 
 	}
 	
 	public boolean executeMove(Player player , Pokemon pokemon , Move move) {
@@ -19,6 +25,12 @@ public class Battle {
 		int damage = calculateDamage(pokemon , targetPokemon , move);
 		targetPokemon.setHp(Math.max(0, targetPokemon.getHp() - damage));
 		targetPokemon.setStatus(move.getMoveStatus());
+		
+		 // Update UI
+        battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(), player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
+        battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(), player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
+        battleScene.displayActionFeedback(pokemon.getName() + " used " + move.getName() + " and dealt " + damage + " damage!");
+        
 		// log
 		System.out.println(pokemon.getName() + "used " + move.getName() + " and dealt " + damage + " damage!");
 		return true;
@@ -29,10 +41,16 @@ public class Battle {
 	
 	public void executeItem(Player player , Item item) {
         item.use(player.getPokemons().get(player.getCurrentPokemon()));
+        
+        // Update UI
+        // ...
     }
 	
 	public void changeCurrentPokemon(Player player , int newIndex) {
         player.setCurrentPokemon(newIndex);
+        
+        // Update UI
+        // ...
     }
 	
 	public void executeStatus() {
@@ -41,6 +59,9 @@ public class Battle {
         Pokemon p2 = player2.getPokemons().get(player2.getCurrentPokemon());
         handleStatusEffects(p1);
         handleStatusEffects(p2);
+        
+        // Update UI 
+        // ...
     }
     
     public void handleStatusEffects(Pokemon pokemon) {

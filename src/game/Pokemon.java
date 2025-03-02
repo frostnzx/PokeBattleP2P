@@ -140,7 +140,7 @@ public class Pokemon {
 		this.hp = hp;
 	}
 
-	public int getMax_hp() {
+	public int getMaxHp() {
 		return max_hp;
 	}
 
