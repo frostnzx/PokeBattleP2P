@@ -60,6 +60,8 @@ public class PokemonSelectorScene {
                     BackgroundPosition.CENTER, 
                     new BackgroundSize(130, 85, false, false, false, false));
             button.setBackground(new Background(backgroundImage));
+            
+            button.setId(String.valueOf(pokemon.getPokemonId())); // for identifying later in the submit button
 
             int row = i / columns;
             int col = i % columns;
@@ -80,14 +82,21 @@ public class PokemonSelectorScene {
         menuButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				 applySceneTransition(() -> sceneManager.showMainMenu());
-	
 			}
 		});
 
         // Add pokemon
         submitButton.setOnAction(event -> {
             System.out.println("Submit button clicked!");
-            GameSystem.getInstance();
+            ArrayList<Pokemon> newpokemonList = new ArrayList<Pokemon>();
+			 for (int i = 0; i < selectedButtons.length; i++) {
+				 Button button = selectedButtons[i];
+				 int pokemonId = Integer.parseInt(button.getId());
+				 Pokemon pokemon = new Pokemon(pokemonId);
+				 newpokemonList.add(pokemon);
+			 }
+			 GameSystem.getInstance().getMyPlayer().setPokemons(newpokemonList); // set the chosen newpokemonList to player
+			 sceneManager.showMainMenu(); // go back to MainMenu
         });
 
         HBox bottomPanel = new HBox(10);
@@ -122,6 +131,7 @@ public class PokemonSelectorScene {
                     if (selectedButtons[i] == null) {
                         Button newButton = new Button();
                         newButton.setBackground(button.getBackground());
+                        newButton.setId(button.getId());
                         newButton.setPrefSize(150, 85);
                         selectedButtons[i] = newButton;
                         leftBox.getChildren().add(newButton);

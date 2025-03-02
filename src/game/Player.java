@@ -34,5 +34,18 @@ public class Player {
 			return false ;
 		else return true ; 
 	}
+
+	public void setPokemons(ArrayList<Pokemon> pokemons) {
+		this.pokemons = pokemons;
+	}
+	
+	public void listCurrentPokemons() {
+	    for(Pokemon p : pokemons) {
+	        System.out.println("Pokemon: " + p);  // Correct way to concatenate strings and objects
+	    }
+	}
+
+	
+	
 	
 }

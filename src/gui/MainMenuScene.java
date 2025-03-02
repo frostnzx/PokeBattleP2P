@@ -1,6 +1,7 @@
 package gui;
 
 
+import game.GameSystem;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -148,6 +149,10 @@ public class MainMenuScene {
 		StackPane.setMargin(createGameButton, new javafx.geometry.Insets(130, 0, 0, 0)); // Adjust top margin
 		StackPane.setMargin(SelectPokemonButton, new javafx.geometry.Insets(300, 0, 0, 0));
 		
+		Button checkCurrentPokemons = new Button("Check current Deck"); // For testing purposes only // don't delete it yet
+		checkCurrentPokemons.setOnAction(event -> {
+            GameSystem.getInstance().getMyPlayer().listCurrentPokemons();
+        });
 		
 		// Add buttons to the root node
 		root.getChildren().addAll(imageView ,joinGameButton, createGameButton,SelectPokemonButton);
