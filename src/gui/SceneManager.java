@@ -30,8 +30,15 @@ public class SceneManager {
 		stage.show();
 	}
 	
+	public void showWinningScene() {
+		WinningScene winningScene = new WinningScene(this);
+		stage.setScene(winningScene.getScene());
+		stage.show();
+	}
 	
-	public Stage getStage() {
-		return this.stage ; 
+	public void showLosingScene() {
+		LosingScene losingScene = new LosingScene(this);
+		stage.setScene(losingScene.getScene());
+		stage.show();
 	}
 }
