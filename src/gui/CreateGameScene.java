@@ -6,6 +6,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -30,6 +31,10 @@ public class CreateGameScene {
 		server = new PeerServer();
 		server.start();
 		GameSystem.getInstance().setMyPeer(server);
+		// for closing the server
+		sceneManager.getStage().setOnCloseRequest(event -> {
+			GameSystem.getInstance().getMyPeer().close();
+		});
 
 		this.sceneManager = sceneManager;
 
@@ -51,6 +56,14 @@ public class CreateGameScene {
 		Ip.setFont(pixelFont);
 		Port.setFont(pixelFont);
 
+		// for UI updating 
+		server.setOnClientConnectedListener(client -> {
+			Platform.runLater(() -> {
+		        text.setText("Someone has joined, click ready to start the game!");
+		        text.setFill(Color.GREEN);
+		    });
+		});
+		
 		HBox hBox = new HBox(20);
 		hBox.setAlignment(Pos.CENTER);
 		
@@ -85,7 +98,7 @@ public class CreateGameScene {
             	//show Battle scene
             	//If opponent join it can click this button
             	        	
-          
+            	sceneManager.showBattleScene();
             }
         });
         
@@ -111,6 +124,7 @@ public class CreateGameScene {
 		
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+            	 GameSystem.getInstance().getMyPeer().close();
             	 applySceneTransition(() -> sceneManager.showMainMenu());            	
             }
         });

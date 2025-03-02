@@ -16,6 +16,7 @@ public class PeerClient extends Peer {
 	private Socket socket; // represent connection to server
 	private PrintWriter writer ; 
 	private BufferedReader reader ; 
+	
 
 	public PeerClient(String ipaddress, int port) {
 		this.mode = Mode.CLIENT;
@@ -27,9 +28,6 @@ public class PeerClient extends Peer {
 		try {
 			// connecting to server
 			socket = new Socket(ipaddress, port); // this becomes reference for server
-			// initialize actions
-			startSendingPacketThread();
-			startReceivePacketThread();
 			// initialize writer & reader
 			this.writer = new PrintWriter(this.getOtherPeer().getOutputStream());
 			this.reader = new BufferedReader(new InputStreamReader(this.getOtherPeer().getInputStream()));
@@ -48,12 +46,6 @@ public class PeerClient extends Peer {
 		}
 	}
 	
-	protected void startSendingPacketThread() {
-		
-	}
-	protected void startReceivePacketThread() {
-		
-	}
 	public Socket getOtherPeer() {
 		return this.socket ; 
 	}

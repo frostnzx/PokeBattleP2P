@@ -29,4 +29,9 @@ public class SceneManager {
 		stage.setScene(battleScene.getScene());
 		stage.show();
 	}
+	
+	
+	public Stage getStage() {
+		return this.stage ; 
+	}
 }

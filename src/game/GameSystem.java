@@ -23,6 +23,7 @@ public class GameSystem {
 	private Battle battle;
 	private GameState state;
 	private boolean lastTurnByPlayer;
+	private boolean ready = false ;  
 	
 	private boolean win ; 
 
@@ -38,6 +39,16 @@ public class GameSystem {
 
 	public void setMyPeer(Peer myPeer) {
 		this.myPeer = myPeer; // Can get writer & reader from this peer
+	}
+	public Peer getMyPeer() {
+		return this.myPeer ; 
+	}
+	
+	public void setReady(boolean ready) {
+		this.ready = ready ; 
+	}
+	public boolean isReady() {
+		return this.ready ; 
 	}
 
 	// FSM switch

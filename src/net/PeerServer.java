@@ -12,137 +12,96 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.Scanner;
 
+import game.GameSystem;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class PeerServer extends Peer {
-	private ServerSocket serverSocket;
-	private Socket client;
-	private String serverAddress;
-	private final int PORT = 8081;
-	
-	private PrintWriter writer ; 
-	private BufferedReader reader ; 
+    private ServerSocket serverSocket;
+    private Socket client;
+    private String serverAddress;
+    private final int PORT = 8085;
+    
+    private PrintWriter writer;
+    private BufferedReader reader;
 
-	public PeerServer() {
-		this.mode = Mode.SERVER;
-		try {
-			this.serverSocket = new ServerSocket(PORT);
-			// get public IP
-			URL url = new URL("http://checkip.amazonaws.com");
+    private OnClientConnectedListener clientConnectedListener; // Callback for client connection
+
+    // Define the interface for the listener
+    public interface OnClientConnectedListener {
+        void onClientConnected(Socket client);
+    }
+
+    // Set the listener to update UI
+    public void setOnClientConnectedListener(OnClientConnectedListener listener) {
+        this.clientConnectedListener = listener;
+    }
+
+    public PeerServer() {
+        this.mode = Mode.SERVER;
+        try {
+            this.serverSocket = new ServerSocket(PORT);
+            // Get public IP
+            URL url = new URL("http://checkip.amazonaws.com");
             Scanner scanner = new Scanner(url.openStream());
             this.serverAddress = scanner.nextLine();
-		} catch (Exception e) {
-			System.out.println("Fail to initialize server");
-			e.printStackTrace();
-		}
-	}
+        } catch (Exception e) {
+            System.out.println("Fail to initialize server");
+            e.printStackTrace();
+        }
+    }
 
-	public void start() {
-		new Thread(() -> {
-			try {
-				client = serverSocket.accept(); // is await so use in thread(async)
+    public void start() {
+        new Thread(() -> {
+            try {
+                client = serverSocket.accept(); // Wait for client to connect
 
-				startSendingPacketThread();
-				startReceivePacketThread();
+                // After accepting the connection, notify the listener
+                if (clientConnectedListener != null) {
+                    Platform.runLater(() -> {
+                        clientConnectedListener.onClientConnected(client);
+                    });
+                }
 
-				this.writer = new PrintWriter(this.getOtherPeer().getOutputStream());
-				this.reader = new BufferedReader(new InputStreamReader(this.getOtherPeer().getInputStream()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}).start();
-	}
+                // Set up I/O streams
+                this.writer = new PrintWriter(this.getOtherPeer().getOutputStream());
+                this.reader = new BufferedReader(new InputStreamReader(this.getOtherPeer().getInputStream()));
 
-	public void close() {
-		if (serverSocket != null) {
-			try {
-				serverSocket.close();
-			} catch (Exception e) {
-				System.out.println("Fail to close server");
-				e.printStackTrace();
-			}
-		}
-	}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
-	protected void startSendingPacketThread() {
+    public void close() {
+        if (serverSocket != null) {
+            try {
+                serverSocket.close();
+            } catch (Exception e) {
+                System.out.println("Fail to close server");
+                e.printStackTrace();
+            }
+        }
+    }
 
-	}
+    public Socket getOtherPeer() {
+        return this.client;
+    }
 
-	protected void startReceivePacketThread() {
+    public PrintWriter getWriter() {
+        return this.writer;
+    }
 
-	}
+    public BufferedReader getReader() {
+        return this.reader;
+    }
 
-	public Socket getOtherPeer() {
-		return this.client;
-	}
+    public String getIp() {
+        return this.serverAddress;
+    }
 
-	public PrintWriter getWriter() {
-		return this.writer ; 
-	}
-	public BufferedReader getReader() {
-		return this.reader ; 
-	}
-	public String getIp() {
-		return this.serverAddress ; 
-	}
-	public int getPort() {
-		return this.PORT ; 
-	}
-
-//	// Sending
-//	private void startSendMessageThread(Socket client) {
-//		Thread thread = new Thread(() -> {
-//			Scanner scanner = new Scanner(System.in);
-//			while (!serverSocket.isClosed()) {
-//				// input message
-//				System.out.print("Server : ");
-//				String myMessage = scanner.nextLine();
-//				// write to client
-//				sendMessage(myMessage, client);
-//			}
-//			scanner.close();
-//		});
-//		thread.start();
-//	}
-//
-//	private void sendMessage(String message, Socket client) {
-//		try {
-//			// NOTE :
-//			// OutputStream -> write data to a destination (client)
-//			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-//			writer.write(message);
-//			writer.newLine();
-//			writer.flush();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	// Receiving
-//	private void startReceiveMessageThread(Socket client) {
-//		// thread for receiving as long as
-//		// client still connects to the server
-//		try {
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-//			Thread receiveThread = new Thread(() -> {
-//				try {
-//					String message;
-//					while ((message = reader.readLine()) != null) {
-//						if (message.isEmpty()) {
-//							System.out.println("Empty message");
-//						} else {
-//							System.out.println("\nClient : " + message);
-//							System.out.print("Server : ");
-//						}
-//					}
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			});
-//			receiveThread.start();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+    public int getPort() {
+        return this.PORT;
+    }
 }

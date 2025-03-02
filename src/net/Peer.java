@@ -9,11 +9,8 @@ import java.net.Socket;
 public abstract class Peer {
     protected Mode mode ; 
     // need overwrite
-    protected abstract void start();
-    protected abstract void close();
-    
-    protected abstract void startSendingPacketThread();
-    protected abstract void startReceivePacketThread();
+    public abstract void start();
+    public abstract void close();
     
     // communication methods
     public abstract Socket getOtherPeer();

@@ -258,7 +258,7 @@ public class BattleScene {
 		root.setBottom(actionContainer);
 
 		// set Scene
-		scene = new Scene(root, 1000, 600);
+		scene = new Scene(root, 1200, 600);
 	}
 	
 	public Scene getScene() {

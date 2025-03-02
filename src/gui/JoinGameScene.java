@@ -112,6 +112,7 @@ public class JoinGameScene {
 				// open new scene (gui)
 				// ...
 				// ...
+				sceneManager.showBattleScene();
 			}
 		});
 
