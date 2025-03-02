@@ -8,7 +8,7 @@ public class FullRestorePotion extends Item{
 	}
 	// fully heals & remove any condition
 	public void use(Pokemon target) {
-		target.setHp(target.getMax_hp());
+		target.setHp(target.getMaxHp());
 		target.setStatus(null);
 		System.out.println(target.getName() + "'s HP fully restored and also cured from the status");
 	}

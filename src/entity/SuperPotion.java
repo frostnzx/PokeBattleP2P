@@ -9,7 +9,7 @@ public class SuperPotion extends Item {
 		this.healAmount = 60 ; 
 	}
 	public void use(Pokemon target) {
-		target.setHp(Math.min(target.getHp() + healAmount , target.getMax_hp()));
+		target.setHp(Math.min(target.getHp() + healAmount , target.getMaxHp()));
 		System.out.println(target.getName() + "Has been healed by 30 hp");
 	}
 }
