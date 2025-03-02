@@ -18,7 +18,7 @@ public class Battle {
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
 		int damage = calculateDamage(pokemon , targetPokemon , move);
 		targetPokemon.setHp(Math.max(0, targetPokemon.getHp() - damage));
-		
+		targetPokemon.setStatus(move.getMoveStatus());
 		// log
 		System.out.println(pokemon.getName() + "used " + move.getName() + " and dealt " + damage + " damage!");
 		return true;
@@ -26,12 +26,15 @@ public class Battle {
 	private int calculateDamage(Pokemon attacker , Pokemon defender , Move move) {
 		return (move.getDamage() * attacker.getAttack()) / defender.getDefense() ; 
 	}
+	
 	public void executeItem(Player player , Item item) {
         item.use(player.getPokemons().get(player.getCurrentPokemon()));
     }
+	
 	public void changeCurrentPokemon(Player player , int newIndex) {
         player.setCurrentPokemon(newIndex);
     }
+	
 	public void executeStatus() {
         // effect apply at the end of the turn
         Pokemon p1 = player1.getPokemons().get(player1.getCurrentPokemon());
@@ -54,12 +57,12 @@ public class Battle {
             int dmg = 10;
             pokemon.setHp(pokemon.getHp() - dmg);
         }
-        else if(status == Status.SLP) {
-        	pokemon.setStatus(Status.SLP);
-        }
-        else if(status == Status.PAR) {
-        	pokemon.setStatus(Status.PAR);
-        }
+//        else if(status == Status.SLP) {
+//        	pokemon.setStatus(Status.SLP);
+//        }
+//        else if(status == Status.PAR) {
+//        	pokemon.setStatus(Status.PAR);
+//        }
     }
 	public boolean isEnded() {
 		if(!player1.isAlive()) {
