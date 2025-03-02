@@ -1107,7 +1107,7 @@
   {
     "name": "Drowzee",
     "pokemonId": 96,
-    "filePath": "res/pokemonImg/96.png",
+    "filePath": "res/pokemonImg/096.png",
     "pokemonTypes": ["Psychic"],
     "hp": 60,
     "max_hp": 60,
@@ -1279,7 +1279,7 @@
   {
     "name": "Diglett",
     "pokemonId": 50,
-    "filePath": "res/pokemonImg/150.png",
+    "filePath": "res/pokemonImg/050.png",
     "pokemonTypes": ["Ground"],
     "hp": 10,
     "max_hp": 10,

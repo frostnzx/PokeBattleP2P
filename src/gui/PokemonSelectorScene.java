@@ -1,5 +1,9 @@
 package gui;
 
+import java.util.ArrayList;
+
+import game.GameSystem;
+import game.Pokemon;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -41,11 +46,20 @@ public class PokemonSelectorScene {
         rightGrid.setVgap(5);
         rightGrid.setPadding(new Insets(10));
 
-        int totalBoxes = 31;
         int columns = 4;
-        for (int i = 0; i < totalBoxes; i++) {
-            Button button = new Button("Box " + (i + 1));
+        ArrayList<Pokemon> pokemonList = Pokemon.getPokemonList();
+        for (int i = 0; i < pokemonList.size(); i++) {
+        	Pokemon pokemon = pokemonList.get(i);
+        	String imgPath = "file:" + pokemon.getFilePath();
+            Button button = new Button();
             button.setPrefSize(130, 85);
+            
+            Image image = new Image(imgPath, 130, 85, false, true);
+            BackgroundImage backgroundImage = new BackgroundImage(image, 
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, 
+                    BackgroundPosition.CENTER, 
+                    new BackgroundSize(130, 85, false, false, false, false));
+            button.setBackground(new Background(backgroundImage));
 
             int row = i / columns;
             int col = i % columns;
@@ -66,11 +80,14 @@ public class PokemonSelectorScene {
         menuButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				 applySceneTransition(() -> sceneManager.showMainMenu());
+	
 			}
 		});
 
+        // Add pokemon
         submitButton.setOnAction(event -> {
             System.out.println("Submit button clicked!");
+            GameSystem.getInstance();
         });
 
         HBox bottomPanel = new HBox(10);
@@ -103,7 +120,8 @@ public class PokemonSelectorScene {
                 button.setStyle("-fx-border-color: gray; -fx-border-width: 2px;");
                 for (int i = 0; i < selectedButtons.length; i++) {
                     if (selectedButtons[i] == null) {
-                        Button newButton = new Button(button.getText());
+                        Button newButton = new Button();
+                        newButton.setBackground(button.getBackground());
                         newButton.setPrefSize(150, 85);
                         selectedButtons[i] = newButton;
                         leftBox.getChildren().add(newButton);

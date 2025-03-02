@@ -216,6 +216,17 @@ public class GameSystem {
 		} else {
 			state = GameState.OPPONENT_TURN;
 		}
+		processState();
 	}
+
+	public Player getMyPlayer() {
+		return myPlayer;
+	}
+
+	public void setMyPlayer(Player myPlayer) {
+		this.myPlayer = myPlayer;
+	}
+	
+	
 	
 }

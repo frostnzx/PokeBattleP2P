@@ -203,4 +203,15 @@ public class Pokemon {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	public static ArrayList<Pokemon> getPokemonList() {
+		return pokemonList;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+	
+	
+	
 }
