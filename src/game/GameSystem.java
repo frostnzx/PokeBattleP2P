@@ -85,6 +85,7 @@ public class GameSystem {
 				// show something to show that you can't attack
 				state = GameState.PLAYER_TURN;
 				processState();
+				return;
 			}
 
 		}
@@ -163,6 +164,7 @@ public class GameSystem {
                 	win = (Boolean) data.get("Win");
                 	state = GameState.BATTLE_END ; 
                 }
+                
                 if(type != "GiveUp") {
                 	this.state = GameState.PROCESSING_TURN;
                 }
