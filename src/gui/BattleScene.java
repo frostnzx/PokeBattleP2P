@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 
+import entity.Item;
 import game.GameSystem;
 import game.Move;
 import game.Player;
@@ -184,15 +185,17 @@ public class BattleScene {
 		// ---------------------------------------------
 
 		// Bag selection----------------------------------
+		ArrayList<Item> itemList = GameSystem.getInstance().getMyPlayer().getItems();
 		VBox contentBox = new VBox(10);
 		contentBox.setPadding(new Insets(10));
 
-		for (int i = 1; i <= 7; i++) {
-			Button button = new Button("item" + i);
+		for (int i = 0; i < itemList.size(); i++) {
+			Item item = itemList.get(i);
+			Button button = new Button(item.getName());
 			button.setStyle("-fx-border-width: 1; -fx-padding: 10;");
 			button.setMaxWidth(Double.MAX_VALUE);
 			button.setOnAction(event -> {
-				root.setBottom(stackPanetext);
+				GameSystem.getInstance().sendBag(item);
 			});
 
 			contentBox.getChildren().add(button);

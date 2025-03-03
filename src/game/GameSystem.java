@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import entity.Item;
 import entity.Potion;
@@ -75,19 +76,26 @@ public class GameSystem {
 	}
 
 	public void sendBag(Item item) {
-		Map<String, Object> data = new HashMap<>();
-		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
-																								// adapter for Item
-				.create();
-		data.put("Type", "Bag");
-		data.put("Item", item);
-		data.put("Player", this.myPlayer);
-		String json = gson.toJson(data);
-		myPeer.getWriter().println(json);
-		myPeer.getWriter().flush();
-		// edit our own Battle
-		battle.executeItem(this.myPlayer, item);
+	    Map<String, Object> data = new HashMap<>();
+	    Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()).create();
+	    
+	    // Serialize the Item with its itemType and data
+	    JsonObject itemJsonObject = new JsonObject();
+	    itemJsonObject.addProperty("itemType", item.getClass().getSimpleName()); // Add the item type
+	    itemJsonObject.add("data", gson.toJsonTree(item)); // Serialize the actual Item data
+
+	    data.put("Type", "Bag");
+	    data.put("Item", itemJsonObject);  // Add the serialized Item object
+	    data.put("Player", this.myPlayer);
+	    
+	    String json = gson.toJson(data);
+	    myPeer.getWriter().println(json);
+	    myPeer.getWriter().flush();
+	    
+	    // Optionally, call battle logic
+	    battle.executeItem(this.myPlayer, item);
 	}
+
 
 	public void sendPokemon(int newPokemonIndex) {
 		Map<String, Object> data = new HashMap<>();

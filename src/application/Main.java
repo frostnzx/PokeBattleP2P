@@ -38,6 +38,7 @@ public class Main extends Application{
         GameSystem.getInstance().setMyPlayer(new Player(defaultName, defaultPokemonsList,defaultItems)); 
         GameSystem.getInstance().setSceneManager(sceneManager);
         
+        
         sceneManager.showMainMenu();
     }
     public static void main(String[] args) {

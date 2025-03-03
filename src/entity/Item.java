@@ -20,5 +20,10 @@ public abstract class Item {
     @Override
     public String toString() {
         return "Item [name=" + name + ", description=" + description + "]" + this.getItemType();
-    } 
+    }
+
+	public String getName() {
+		return name;
+	}
+    
 }
