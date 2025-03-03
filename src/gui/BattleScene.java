@@ -127,6 +127,7 @@ public class BattleScene {
 			moveButton.setOnAction(event -> {
 				GameSystem.getInstance().sendFight(currentPokemon, move, GameSystem.getInstance().getMyPlayer()); // update oppo UI
 				updateOpponentHp(0,0); // FIX THIS (update our UI) (battle.updateSomething?)
+				GameSystem.getInstance().sendTurnEnded();
 			});
 			moveButton.setMinSize(300, 50);
 			moveSelectionPanel.add(moveButton, col, row);
@@ -243,6 +244,11 @@ public class BattleScene {
 
 		backButton3.setOnAction(event -> {
 			root.setBottom(actionContainer);
+		});
+		
+		giveUpButton.setOnAction(event -> {
+			GameSystem.getInstance().sendGiveUp();
+			// do something?
 		});
 
 		// Main layout

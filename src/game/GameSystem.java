@@ -67,9 +67,10 @@ public class GameSystem {
 		String json = gson.toJson(data);
         myPeer.getWriter().println(json);
         myPeer.getWriter().flush();
+        battle.executeStatus();
 		// edit our own Battle
 	}
-	private void sendBag(Pokemon pokemon, Item item, Player player) {
+	public void sendBag(Pokemon pokemon, Item item, Player player) {
 		Map<String, Object> data = new HashMap<>();
 		Gson gson = new Gson();
 		data.put("Type", "Bag");
@@ -80,15 +81,26 @@ public class GameSystem {
         myPeer.getWriter().println(json);
         myPeer.getWriter().flush();
 	}
-	private void sendPokemon() {
+	public void sendPokemon() {
 		
 	}
-	private void sendGiveUp() {
-		
+	public void sendGiveUp() {
+		Map<String, Object> data = new HashMap<>();
+		Gson gson = new Gson();
+		data.put("Type", "GiveUp");
+		String json = gson.toJson(data);
+        myPeer.getWriter().println(json);
+        myPeer.getWriter().flush();
 	}
-	private void sendTurnEnded() {
+	public void sendTurnEnded() {
 		// "Type" : "TurnEnd"
-		// Then switch turn (unlock freeze button)
+		Map<String, Object> data = new HashMap<>();
+		Gson gson = new Gson();
+		data.put("Type", "TurnEnded");
+		String json = gson.toJson(data);
+        myPeer.getWriter().println(json);
+        myPeer.getWriter().flush();
+        // Then switch turn (unlock freeze button)
 	}
 	// Receiver
 	private void startReceivingThread() {
@@ -112,12 +124,13 @@ public class GameSystem {
 						Move oppoMove = gson.fromJson(receiveData.get("Move").toString(), Move.class);
 						Player oppoPlayer = gson.fromJson(receiveData.get("Player").toString(), Player.class); 
 						battle.executeMove(oppoPlayer, oppoPokemon, oppoMove);
+						battle.executeStatus();
 					}
 					else if(type == "Bag") {
 //						Pokemon oppoPokemon = gson.fromJson(receiveData.get("Pokemon").toString(), Pokemon.class);
 						Player oppoPlayer = gson.fromJson(receiveData.get("Player").toString(), Player.class);
-						Item item = gson.fromJson(receiveData.get("Item").toString(), Item.class);
-						battle.executeItem(oppoPlayer, item);
+						Item chosenItem = gson.fromJson(receiveData.get("Item").toString(), Item.class);
+						battle.executeItem(oppoPlayer, chosenItem);
 					}
 					else if(type == "Pokemon") {
 						
@@ -125,6 +138,9 @@ public class GameSystem {
 					else if(type == "TurnEnded") {
 						state = GameState.PLAYER_TURN;
 						// do something?
+					}
+					else if(type == "GiveUp") {
+						// end game?
 					}
 				}
 			} catch (Exception e) {
