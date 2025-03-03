@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 import entity.Item;
 import entity.Potion;
@@ -12,23 +14,19 @@ import gui.SceneManager;
 import javafx.application.Platform;
 import net.Mode;
 import net.Peer;
+import utils.ItemTypeAdapter;
 
 public class GameSystem {
-	public enum GameState {
-		PLAYER_TURN, OPPONENT_TURN
-	};
-
 	private static GameSystem instance;
 	private Thread playingThread;
 	private Peer myPeer;
 	private Player myPlayer, myOpponent;
 	private Battle battle;
-	private GameState state;
 	private boolean lastTurnByPlayer;
-	
-	private SceneManager sceneManager ; 
-	
-	private boolean win ; 
+
+	private SceneManager sceneManager;
+
+	private boolean win;
 
 	public GameSystem() {
 	}
@@ -43,103 +41,123 @@ public class GameSystem {
 	public void setMyPeer(Peer myPeer) {
 		this.myPeer = myPeer; // Can get writer & reader from this peer
 	}
+
 	public Peer getMyPeer() {
-		return this.myPeer ; 
+		return this.myPeer;
 	}
-	
+
 	public Battle getBattle() {
-		return this.battle ; 
+		return this.battle;
 	}
-	
+
 	public void setSceneManager(SceneManager sceneManager) {
-		this.sceneManager = sceneManager ; 
+		this.sceneManager = sceneManager;
 	}
-	
+
 	// Sender
-	public void sendFight(Pokemon pokemon, Move move, Player player) {
+	public void sendFight(Move move) {
 		// send via socket
 		Map<String, Object> data = new HashMap<>();
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+																								// adapter for Item
+				.create();
 		data.put("Type", "Fight");
-		data.put("Pokemon", pokemon);
 		data.put("Move", move);
-		data.put("Player", player);
+		data.put("Player", this.myPlayer);
 		String json = gson.toJson(data);
-        myPeer.getWriter().println(json);
-        myPeer.getWriter().flush();
-        battle.executeStatus();
+		myPeer.getWriter().println(json);
+		myPeer.getWriter().flush();
 		// edit our own Battle
+		battle.executeMove(this.myPlayer, move);
+		battle.executeStatus();
+		// because sending fight means ending our turn so, freeze your button!
+		this.battle.freezeTurn();
 	}
-	public void sendBag(Pokemon pokemon, Item item, Player player) {
+
+	public void sendBag(Item item) {
 		Map<String, Object> data = new HashMap<>();
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+																								// adapter for Item
+				.create();
 		data.put("Type", "Bag");
-//		data.put("Pokemon", pokemon);
 		data.put("Item", item);
-		data.put("Player", player);
+		data.put("Player", this.myPlayer);
 		String json = gson.toJson(data);
-        myPeer.getWriter().println(json);
-        myPeer.getWriter().flush();
+		myPeer.getWriter().println(json);
+		myPeer.getWriter().flush();
+		// edit our own Battle
+		battle.executeItem(this.myPlayer, item);
 	}
-	public void sendPokemon() {
-		
+
+	public void sendPokemon(int newPokemonIndex) {
+		Map<String, Object> data = new HashMap<>();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+																								// adapter for Item
+				.create();
+		data.put("Type", "Pokemon");
+		data.put("newPokemonIndex", newPokemonIndex);
+		String json = gson.toJson(data);
+		myPeer.getWriter().println(json);
+		myPeer.getWriter().flush();
+		// edit our own battle
+		battle.changeCurrentPokemon(this.myPlayer, newPokemonIndex);
 	}
+
 	public void sendGiveUp() {
 		Map<String, Object> data = new HashMap<>();
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+																								// adapter for Item
+				.create();
 		data.put("Type", "GiveUp");
 		String json = gson.toJson(data);
-        myPeer.getWriter().println(json);
-        myPeer.getWriter().flush();
+		myPeer.getWriter().println(json);
+		myPeer.getWriter().flush();
+		// edit our own Battle
+		// ... give up logic
 	}
-	public void sendTurnEnded() {
-		// "Type" : "TurnEnd"
-		Map<String, Object> data = new HashMap<>();
-		Gson gson = new Gson();
-		data.put("Type", "TurnEnded");
-		String json = gson.toJson(data);
-        myPeer.getWriter().println(json);
-        myPeer.getWriter().flush();
-        // Then switch turn (unlock freeze button)
-	}
-	// Receiver
+
 	private void startReceivingThread() {
 		// setup receiving thread
 		// continuously accepting data as long as the game still running
 		Thread receivingThread = new Thread(() -> {
 			try {
-				String jsonString ;
-				Gson gson = new Gson();
-				while((jsonString = myPeer.getReader().readLine()) != null) {
-					if(jsonString.isEmpty()) {
+				String jsonString;
+				Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register our
+																										// adapter
+						.create();
+				while ((jsonString = myPeer.getReader().readLine()) != null) {
+					if (jsonString.isEmpty()) {
 						System.out.println("Empty packet");
 						continue;
-					} 
-					Map<String , Object> receiveData = gson.fromJson(jsonString, Map.class);
+					}
+					Map<String, Object> receiveData = gson.fromJson(jsonString, Map.class);
 					String type = (String) receiveData.get("Type");
 					// handle from type
 					// ...
-					if(type == "Fight") { // Got hit
-						Pokemon oppoPokemon = gson.fromJson(receiveData.get("Pokemon").toString(), Pokemon.class);
-						Move oppoMove = gson.fromJson(receiveData.get("Move").toString(), Move.class);
-						Player oppoPlayer = gson.fromJson(receiveData.get("Player").toString(), Player.class); 
-						battle.executeMove(oppoPlayer, oppoPokemon, oppoMove);
+					if (type.equals("Fight")) { // Got hit
+						System.out.println("Receive Fight");
+						JsonElement moveJsonElement = gson.toJsonTree(receiveData.get("Move"));
+						JsonElement playerJsonElement = gson.toJsonTree(receiveData.get("Player"));
+						JsonElement pokemonJsonElement = gson.toJsonTree(receiveData.get("Pokemon"));
+
+						Pokemon oppoPokemon = gson.fromJson(pokemonJsonElement, Pokemon.class);
+						Move oppoMove = gson.fromJson(moveJsonElement, Move.class);
+						Player oppoPlayer = gson.fromJson(playerJsonElement, Player.class);
+
+						battle.executeMove(oppoPlayer, oppoMove);
 						battle.executeStatus();
-					}
-					else if(type == "Bag") {
-//						Pokemon oppoPokemon = gson.fromJson(receiveData.get("Pokemon").toString(), Pokemon.class);
-						Player oppoPlayer = gson.fromJson(receiveData.get("Player").toString(), Player.class);
-						Item chosenItem = gson.fromJson(receiveData.get("Item").toString(), Item.class);
+						// receive fight means the opponent turn just ended, so unfreeze ourself
+						this.battle.unfreezeTurn();
+					} else if (type.equals("Bag")) {
+						JsonElement playerJsonElement = gson.toJsonTree(receiveData.get("Player"));
+                        JsonElement itemJsonElement = gson.toJsonTree(receiveData.get("Item"));
+
+                        Player oppoPlayer = gson.fromJson(playerJsonElement, Player.class);
+                        Item chosenItem = gson.fromJson(itemJsonElement, Item.class);
 						battle.executeItem(oppoPlayer, chosenItem);
-					}
-					else if(type == "Pokemon") {
-						
-					}
-					else if(type == "TurnEnded") {
-						state = GameState.PLAYER_TURN;
-						// do something?
-					}
-					else if(type == "GiveUp") {
+					} else if (type.equals("Pokemon")) {
+
+					} else if (type.equals("GiveUp")) {
 						// end game?
 					}
 				}
@@ -153,61 +171,61 @@ public class GameSystem {
 	// for start battle
 	// start battle when peers connected so we have opponent
 	public void startBattle() {
-	    Gson gson = new Gson();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+																								// adapter for Item
+				.create();
 
-	    // Send myPlayer data via socket to peer
-	    try {
-	        Map<String, Object> data = new HashMap<>();
-	        data.put("Type", "InitOpponentData");
-	        data.put("Opponent", this.myPlayer);
-	        String json = gson.toJson(data);
-	        myPeer.getWriter().println(json);
-	        myPeer.getWriter().flush();
-	        System.out.println("Data sended Successfully");
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		// Send myPlayer data via socket to peer
+		try {
+			Map<String, Object> data = new HashMap<>();
+			data.put("Type", "InitOpponentData");
+			data.put("Opponent", this.myPlayer);
+			String json = gson.toJson(data);
+			myPeer.getWriter().println(json);
+			myPeer.getWriter().flush();
+			System.out.println("Data sended Successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	    // Start a thread to receive opponent data
-	    new Thread(() -> {
-	        try {
-	            String jsonString;
-	            while ((jsonString = myPeer.getReader().readLine()) == null) {
-	                // Keep waiting (blocking, but in a separate thread)
-	            }
-	            System.out.println("Data received Successfully");
-	            System.out.println(jsonString);
-	            // BUG HERE
-	            Map<String, Object> receiveData = gson.fromJson(jsonString, Map.class);
-	            Player opponent = gson.fromJson(gson.toJson(receiveData.get("Opponent")), Player.class);
+		// Start a thread to receive opponent data
+		new Thread(() -> {
+			try {
+				String jsonString;
+				while ((jsonString = myPeer.getReader().readLine()) == null) {
+					// Keep waiting (blocking, but in a separate thread)
+				}
+				System.out.println("Data received Successfully");
+				System.out.println(jsonString);
+				// BUG HERE
+				Map<String, Object> receiveData = gson.fromJson(jsonString, Map.class);
+                JsonElement opponentJsonElement = gson.toJsonTree(receiveData.get("Opponent"));
+                Player opponent = gson.fromJson(opponentJsonElement, Player.class);
 
-	            this.myOpponent = opponent;
+				this.myOpponent = opponent;
 
-	            // Now that opponent data is received, start battle on the main thread
-	            Platform.runLater(() -> {
-	            	 startBattlePhase();
-	            });
+				// Now that opponent data is received, start battle on the main thread
+				Platform.runLater(() -> {
+					startBattlePhase();
+				});
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }).start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 	private void startBattlePhase() {
-	    this.battle = new Battle(this.myPlayer, this.myOpponent);
+		this.battle = new Battle(this.myPlayer, this.myOpponent);
 
-	    // Set turn
-	    if (myPeer.getMode() == Mode.CLIENT) { // Client always starts first
-	        state = GameState.PLAYER_TURN;
-	    } else {
-	        state = GameState.OPPONENT_TURN;
-	    }
-	    sceneManager.showBattleScene();
-	    // Start receiver thread
-	    startReceivingThread();
+		sceneManager.showBattleScene();
+		// Set turn
+		if (myPeer.getMode() == Mode.SERVER) { // Client always start first
+			this.battle.freezeTurn();
+		}
+		// Start receiver thread
+		startReceivingThread();
 	}
-
 
 	public Player getMyPlayer() {
 		return this.myPlayer;
@@ -216,14 +234,13 @@ public class GameSystem {
 	public void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
-	
+
 	public Player getMyOpponent() {
-		return this.myOpponent ; 
+		return this.myOpponent;
 	}
+
 	public void setMyOpponent(Player myOpponent) {
-		this.myOpponent = myOpponent ; 
+		this.myOpponent = myOpponent;
 	}
-	
-	
-	
+
 }

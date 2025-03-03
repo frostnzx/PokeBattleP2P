@@ -47,6 +47,11 @@ public class Move {
 		return moveId;
 	}
     
-	
+	@Override
+    public String toString() {
+        return "Move [name=" + name + ", moveId=" + moveId + ", pokemonType=" + pokemonType + ", damage=" + damage
+                + ", moveStatus=" + moveStatus + "]";
+    }
+
     
 }

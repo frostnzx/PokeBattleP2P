@@ -125,9 +125,7 @@ public class BattleScene {
 			Button moveButton = new Button(move.getName());
 			moveButton.setId(String.valueOf(move.getMoveId()));
 			moveButton.setOnAction(event -> {
-				GameSystem.getInstance().sendFight(currentPokemon, move, GameSystem.getInstance().getMyPlayer()); // update oppo UI
-				updateOpponentHp(0,0); // FIX THIS (update our UI) (battle.updateSomething?)
-				GameSystem.getInstance().sendTurnEnded();
+				GameSystem.getInstance().sendFight(move); // update oppo UI
 			});
 			moveButton.setMinSize(300, 50);
 			moveSelectionPanel.add(moveButton, col, row);
@@ -258,12 +256,6 @@ public class BattleScene {
 
 		// set Scene
 		scene = new Scene(root, 1200, 600);
-		
-		// initSceneData();
-	}
-	
-	public void initSceneData() {
-		// initialize all pokemon datas and everything when first came to this scene
 	}
 	// Method to update the player's HP
     public void updatePlayerHp(int currentHp, int maxHp) {
@@ -279,6 +271,13 @@ public class BattleScene {
 
     // Method to display action feedback text
     public void displayActionFeedback(String feedback) {
+    }
+    
+    public void freeze() {
+    	
+    }
+    public void unfreeze() {
+    	
     }
 	
 	public Scene getScene() {

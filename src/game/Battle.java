@@ -16,7 +16,8 @@ public class Battle {
 		this.battleScene = battleScene ; 
 	}
 	
-	public boolean executeMove(Player player , Pokemon pokemon , Move move) {
+	public boolean executeMove(Player player , Move move) {
+		Pokemon pokemon = player.getPokemons().get(player.getCurrentPokemon());
 		if(pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
 			return false;
 		}
@@ -84,6 +85,12 @@ public class Battle {
 //        else if(status == Status.PAR) {
 //        	pokemon.setStatus(Status.PAR);
 //        }
+    }
+    public void freezeTurn() {
+    	this.battleScene.freeze();
+    }
+    public void unfreezeTurn() {
+    	this.battleScene.unfreeze();
     }
 	public boolean isEnded() {
 		if(!player1.isAlive()) {
