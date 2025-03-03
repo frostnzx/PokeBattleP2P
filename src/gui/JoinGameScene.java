@@ -109,7 +109,6 @@ public class JoinGameScene {
 				
 				// start battle & show battleScene
 				GameSystem.getInstance().startBattle();
-				sceneManager.showBattleScene();
 			}
 		});
 

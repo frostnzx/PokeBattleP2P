@@ -25,6 +25,8 @@ public class GameSystem {
 	private GameState state;
 	private boolean lastTurnByPlayer;
 	
+	private SceneManager sceneManager ; 
+	
 	private boolean win ; 
 
 	public GameSystem() {
@@ -46,6 +48,10 @@ public class GameSystem {
 	
 	public Battle getBattle() {
 		return this.battle ; 
+	}
+	
+	public void setSceneManager(SceneManager sceneManager) {
+		this.sceneManager = sceneManager ; 
 	}
 	
 	// Sender
@@ -95,35 +101,58 @@ public class GameSystem {
 	// for start battle
 	// start battle when peers connected so we have opponent
 	public void startBattle() {
-		Gson gson = new Gson();
-		// send myPlayer data via socket to peer
-		Map<String , Object> data = new HashMap<>();
-		data.put("Type" , "InitOpponentData");
-		data.put("Opponent", this.myPlayer);
-		String json = gson.toJson(data);
-		myPeer.getWriter().println(json);
-		// receive myOpponent data via socket from peer
-		try {
-			String jsonString = myPeer.getReader().readLine();
-			Map<String , Object> receiveData = gson.fromJson(jsonString, Map.class);
-			Player opponent = gson.fromJson(receiveData.get("Opponent").toString(), Player.class);
-			this.myOpponent = opponent ; 
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	    Gson gson = new Gson();
 
-		// Start battle
-		this.battle = new Battle(this.myPlayer, this.myOpponent);
-		// Set turn
-		if (myPeer.getMode() == Mode.CLIENT) { // Client always start first
-			state = GameState.PLAYER_TURN;
-		} else {
-			state = GameState.OPPONENT_TURN;
-		}
-		
-		// Start receiver thread
-		startReceivingThread();
+	    // Send myPlayer data via socket to peer
+	    try {
+	        Map<String, Object> data = new HashMap<>();
+	        data.put("Type", "InitOpponentData");
+	        data.put("Opponent", this.myPlayer);
+	        String json = gson.toJson(data);
+	        myPeer.getWriter().println(json);
+	        myPeer.getWriter().flush();
+	        System.out.println("Data sended Successfully");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    // Start a thread to receive opponent data
+	    new Thread(() -> {
+	        try {
+	            String jsonString;
+	            while ((jsonString = myPeer.getReader().readLine()) == null) {
+	                // Keep waiting (blocking, but in a separate thread)
+	            }
+	            System.out.println("Data received Successfully");
+	            System.out.println(jsonString);
+	            // BUG HERE
+	            Map<String, Object> receiveData = gson.fromJson(jsonString, Map.class);
+	            Player opponent = gson.fromJson(receiveData.get("Opponent").toString(), Player.class);
+	            this.myOpponent = opponent;
+
+	            // Now that opponent data is received, start battle on the main thread
+	            startBattlePhase();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }).start();
 	}
+
+	private void startBattlePhase() {
+	    this.battle = new Battle(this.myPlayer, this.myOpponent);
+
+	    // Set turn
+	    if (myPeer.getMode() == Mode.CLIENT) { // Client always starts first
+	        state = GameState.PLAYER_TURN;
+	    } else {
+	        state = GameState.OPPONENT_TURN;
+	    }
+	    sceneManager.showBattleScene();
+	    // Start receiver thread
+	    startReceivingThread();
+	}
+
 
 	public Player getMyPlayer() {
 		return this.myPlayer;

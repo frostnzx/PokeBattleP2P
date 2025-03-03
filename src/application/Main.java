@@ -34,6 +34,7 @@ public class Main extends Application{
         // Pokemon.listPokemons(); For testing purpose
 
         GameSystem.getInstance().setMyPlayer(new Player(defaultName, defaultPokemonsList));; 
+        GameSystem.getInstance().setSceneManager(sceneManager);
         
         sceneManager.showMainMenu();
     }

@@ -101,7 +101,6 @@ public class CreateGameScene {
             	//If opponent join it can click this button
             	// maybe disable this button before opponent join ?
             	GameSystem.getInstance().startBattle();
-            	sceneManager.showBattleScene();
             }
         });
         
