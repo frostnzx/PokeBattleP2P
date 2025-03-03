@@ -207,10 +207,12 @@ public class GameSystem {
 	}
 
 	// for start battle
+	// start battle when peers connected so we have opponent
 	public void startBattle(Player myPlayer, Player myOpponent) {
-		this.myPlayer = myPlayer;
 		this.myOpponent = myOpponent;
 		this.battle = new Battle(myPlayer, myOpponent);
+		
+		
 		if (myPeer.getMode() == Mode.CLIENT) { // Client always start first
 			state = GameState.PLAYER_TURN;
 		} else {

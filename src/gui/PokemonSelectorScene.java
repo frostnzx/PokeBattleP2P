@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import game.GameSystem;
 import game.Pokemon;
@@ -48,6 +49,12 @@ public class PokemonSelectorScene {
 
         int columns = 4;
         ArrayList<Pokemon> pokemonList = Pokemon.getPokemonList();
+        HashSet<Integer> pokemonToBeInit = new HashSet<Integer>() ; 
+        ArrayList<Button> buttonToBeFire = new ArrayList<Button>(); 
+        for(Pokemon p : GameSystem.getInstance().getMyPlayer().getPokemons()) {
+        	pokemonToBeInit.add(p.getPokemonId());
+        }
+        
         for (int i = 0; i < pokemonList.size(); i++) {
         	Pokemon pokemon = pokemonList.get(i);
         	String imgPath = "file:" + pokemon.getFilePath();
@@ -62,12 +69,17 @@ public class PokemonSelectorScene {
             button.setBackground(new Background(backgroundImage));
             
             button.setId(String.valueOf(pokemon.getPokemonId())); // For later identification
+            
 
             int row = i / columns;
             int col = i % columns;
             rightGrid.add(button, col, row);
 
             button.setOnAction(event -> handleButtonClick(button));
+            
+            if(pokemonToBeInit.contains(pokemon.getPokemonId())) {
+            	buttonToBeFire.add(button);
+            }
         }
 
         ScrollPane scrollPane = new ScrollPane(rightGrid);
@@ -107,8 +119,12 @@ public class PokemonSelectorScene {
         rightContainer.getChildren().addAll(scrollPane, bottomPanel);
 
         root.getChildren().addAll(leftBox, rightContainer);
-
+        
         scene = new Scene(root, 800, 600);
+        
+        for(Button b : buttonToBeFire) {
+        	b.fire();
+        }
     }
     
     private void removeFromSelect(Button selectBtn) { // for removing btn that match the btn from the leftBox
