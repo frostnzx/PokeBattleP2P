@@ -31,8 +31,8 @@ public class Main extends Application{
         
         // Set items 
       
-        // Pokemon.listPokemons(); For testing purpose
-
+        // Pokemon.listPokemons(); // For testing purpose
+ 
         GameSystem.getInstance().setMyPlayer(new Player(defaultName, defaultPokemonsList));; 
         GameSystem.getInstance().setSceneManager(sceneManager);
         

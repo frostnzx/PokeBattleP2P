@@ -131,6 +131,7 @@ public class BattleScene {
 			moveSelectionPanel.add(moveButton, col, row);
 			rc++;
 		}
+		
 		Button backButton = new Button("Back");
 		backButton.setMinSize(60, 25);
 
@@ -147,43 +148,36 @@ public class BattleScene {
 		// ------------------------------------------
 
 		// Pokemon Selection UI -------------------------------------
-		Button poke1Button = new Button("Pokemon 1");
-		Button poke2Button = new Button("Pokemon 2");
-		Button poke3Button = new Button("Pokemon 3");
-		Button poke4Button = new Button("Pokemon 4");
-		Button poke5Button = new Button("Pokemon 5");
-		Button backButton1 = new Button("Back");
-
-		poke1Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-		poke2Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-		poke3Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-		poke4Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-		poke5Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-
-		poke1Button.setMinSize(300, 50);
-		poke2Button.setMinSize(300, 50);
-		poke3Button.setMinSize(300, 50);
-		poke4Button.setMinSize(300, 50);
-		poke5Button.setMinSize(300, 50);
-		backButton1.setMinSize(300, 50);
-
 		GridPane pokemonSelectionContainer = new GridPane();
-		pokemonSelectionContainer.add(poke1Button, 0, 0);
-		pokemonSelectionContainer.add(poke2Button, 1, 0);
-		pokemonSelectionContainer.add(poke3Button, 2, 0);
-		pokemonSelectionContainer.add(poke4Button, 1, 1);
-		pokemonSelectionContainer.add(poke5Button, 2, 1);
-		pokemonSelectionContainer.add(backButton1, 0, 1);
+		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
+		Button backButton1 = new Button("Back");
+		backButton1.setMinSize(300, 50);
+		int rc2 = 0;
+		for(Pokemon pokemon : currentPokemonList) {
+			if(pokemon.equals(currentPokemon)) {
+				continue;
+			}
+//			System.out.println(pokemon.getName());
+			int col = rc2 % 3, row = rc2/3;
+			if(col == 0 && row == 1) {
+				pokemonSelectionContainer.add(backButton1, col,row);
+				col++;
+				rc2++;
+			}
+			System.out.println(col);
+			System.out.println(row);
+			Button pokeButton = new Button(pokemon.getName());
+			pokeButton.setId(String.valueOf(pokemon.getPokemonId()));
+			pokeButton.setOnAction(event -> {
+				// do something
+			});
+			pokeButton.setMinSize(300, 50);
+			pokemonSelectionContainer.add(pokeButton, col, row);
+			rc2++;
+			
+		}
+
+		
 		pokemonSelectionContainer.setHgap(10);
 		pokemonSelectionContainer.setVgap(10);
 		pokemonSelectionContainer.setAlignment(Pos.CENTER);
