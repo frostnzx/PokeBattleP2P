@@ -56,13 +56,29 @@ public class GameSystem {
 	}
 	
 	// Sender
-	private void sendFight() {
+	public void sendFight(Pokemon pokemon, Move move, Player player) {
 		// send via socket
-		
+		Map<String, Object> data = new HashMap<>();
+		Gson gson = new Gson();
+		data.put("Type", "Fight");
+		data.put("Pokemon", pokemon);
+		data.put("Move", move);
+		data.put("Player", player);
+		String json = gson.toJson(data);
+        myPeer.getWriter().println(json);
+        myPeer.getWriter().flush();
 		// edit our own Battle
 	}
-	private void sendBag() {
-		
+	private void sendBag(Pokemon pokemon, Item item, Player player) {
+		Map<String, Object> data = new HashMap<>();
+		Gson gson = new Gson();
+		data.put("Type", "Bag");
+//		data.put("Pokemon", pokemon);
+		data.put("Item", item);
+		data.put("Player", player);
+		String json = gson.toJson(data);
+        myPeer.getWriter().println(json);
+        myPeer.getWriter().flush();
 	}
 	private void sendPokemon() {
 		
@@ -91,6 +107,25 @@ public class GameSystem {
 					String type = (String) receiveData.get("Type");
 					// handle from type
 					// ...
+					if(type == "Fight") { // Got hit
+						Pokemon oppoPokemon = gson.fromJson(receiveData.get("Pokemon").toString(), Pokemon.class);
+						Move oppoMove = gson.fromJson(receiveData.get("Move").toString(), Move.class);
+						Player oppoPlayer = gson.fromJson(receiveData.get("Player").toString(), Player.class); 
+						battle.executeMove(oppoPlayer, oppoPokemon, oppoMove);
+					}
+					else if(type == "Bag") {
+//						Pokemon oppoPokemon = gson.fromJson(receiveData.get("Pokemon").toString(), Pokemon.class);
+						Player oppoPlayer = gson.fromJson(receiveData.get("Player").toString(), Player.class);
+						Item item = gson.fromJson(receiveData.get("Item").toString(), Item.class);
+						battle.executeItem(oppoPlayer, item);
+					}
+					else if(type == "Pokemon") {
+						
+					}
+					else if(type == "TurnEnded") {
+						state = GameState.PLAYER_TURN;
+						// do something?
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -125,7 +125,8 @@ public class BattleScene {
 			Button moveButton = new Button(move.getName());
 			moveButton.setId(String.valueOf(move.getMoveId()));
 			moveButton.setOnAction(event -> {
-				// do something
+				GameSystem.getInstance().sendFight(currentPokemon, move, GameSystem.getInstance().getMyPlayer()); // update oppo UI
+				updateOpponentHp(0,0); // FIX THIS (update our UI) (battle.updateSomething?)
 			});
 			moveButton.setMinSize(300, 50);
 			moveSelectionPanel.add(moveButton, col, row);
@@ -177,7 +178,6 @@ public class BattleScene {
 			
 		}
 
-		
 		pokemonSelectionContainer.setHgap(10);
 		pokemonSelectionContainer.setVgap(10);
 		pokemonSelectionContainer.setAlignment(Pos.CENTER);
