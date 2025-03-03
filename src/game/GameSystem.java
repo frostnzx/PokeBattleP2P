@@ -14,7 +14,7 @@ import net.Peer;
 
 public class GameSystem {
 	public enum GameState {
-		PLAYER_TURN, OPPONENT_TURN, PROCESSING_TURN, CHECK_BATTLE_END, BATTLE_END
+		PLAYER_TURN, OPPONENT_TURN
 	};
 
 	private static GameSystem instance;
@@ -47,186 +47,97 @@ public class GameSystem {
 	public Battle getBattle() {
 		return this.battle ; 
 	}
-
-	// FSM switch
-	private void processState() {
-		switch (state) {
-			case PLAYER_TURN -> playerTurnHandler();
-			case OPPONENT_TURN -> opponentTurnHandler();
-			case PROCESSING_TURN -> processingTurnHandler();
-			case CHECK_BATTLE_END -> checkBattleEndHandler();
-			case BATTLE_END -> battleEndHandler();
-		}
-	}
-
-	// all state handler functions
-	private void playerTurnHandler() {
-		lastTurnByPlayer = true;
-		Choice choice = Choice.Fight ; // Mocking data
-		Gson gson = new Gson();
-		Map<String , Object> data = new HashMap<>();
-		String json ;
-		// --- Fight ---
-		if(choice == Choice.Fight) {
-			Move chosenMove = new Move("Test Move", 9999 , PokemonType.Dragon , 20 , Status.BRN) ; // Mocking data
-			// Edit our own Battle
-			boolean successfullHit = this.battle.executeMove(myPlayer, myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()), chosenMove);
-			// Send JSON to edit their Battle
-			if(successfullHit) {
-				data.put("Type" , "Fight");
-				data.put("Player", myPlayer);
-				data.put("Pokemon", myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()));
-				data.put("Move", chosenMove);
-			}
-			else {
-				// show something to show that you can't attack
-				state = GameState.PLAYER_TURN;
-				processState();
-				return;
-			}
-
-		}
+	
+	// Sender
+	private void sendFight() {
+		// send via socket
 		
-		// --- Bag ---
-		if(choice == Choice.Bag) {
-			Item chosenItem = new Potion(); // Mocking data (real data from UI button)
-			// Edit our own Battle
-			this.battle.executeItem(myPlayer , chosenItem);
-			// Send JSON to edit their Battle
-			data.put("Type", "Bag");
-			data.put("Player", myPlayer);
-			data.put("Item", chosenItem);
-		}
-		
-		// --- Pokemon ---
-		if(choice == Choice.Pokemon) {
-			int newPokemonIndex = 1 ; // Mocking data
-			// Edit our own Battle
-			this.battle.changeCurrentPokemon(myPlayer, newPokemonIndex);
-			// Send JSON
-			data.put("Type", "Pokemon");
-			data.put("Player", myPlayer);
-			data.put("Index", newPokemonIndex);
-		}
-		
-		// --- Give up ---
-		if(choice == Choice.GiveUp) {
-			// do something that will make myPlayer lose 
-			this.win = false;
-            data.put("Type", "GiveUp");
-            data.put("Win", "True");
-            state = GameState.BATTLE_END;
-		}
-		
-		json = gson.toJson(data);
-		myPeer.getWriter().println(json);
-		System.out.println("Sent: " + json);
-		if(choice == Choice.Fight) {
-			state = GameState.PROCESSING_TURN ; 
-		}
-		processState();
+		// edit our own Battle
 	}
-
-	private void opponentTurnHandler() {
-        try {
-        	lastTurnByPlayer = false;
-            String jsonString = myPeer.getReader().readLine();
-            
-            if(jsonString != null) {
-                Gson gson = new Gson();
-                Map<String, Object> data = gson.fromJson(jsonString, Map.class);
-                
-                String type = (String) data.get("Type");
-                
-                if(type == "Fight") {
-                    Player opponentPlayer = gson.fromJson(data.get("Player").toString(), Player.class);
-                    Pokemon opponentPokemon = gson.fromJson(data.get("Pokemon").toString(), Pokemon.class);
-                    Move chosenMove = gson.fromJson(data.get("Move").toString(), Move.class);
-                    
-                    this.battle.executeMove(opponentPlayer, opponentPokemon, chosenMove);
-                }
-                else if(type == "Bag") {
-                    Player opponentPlayer = gson.fromJson(data.get("Player").toString(), Player.class);
-                    Item chosenItem = gson.fromJson(data.get("Item").toString(), Item.class);
-                    
-                    this.battle.executeItem(opponentPlayer , chosenItem);
-                }
-                else if(type == "Pokemon") {
-                    Player opponentPlayer = gson.fromJson(data.get("Player").toString(), Player.class);
-                    int newPokemonIndex = ((Double) data.get("Index")).intValue();
-
-                    this.battle.changeCurrentPokemon(opponentPlayer, newPokemonIndex);
-                }
-                else if(type == "GiveUp") {
-                	win = (Boolean) data.get("Win");
-                	state = GameState.BATTLE_END ; 
-                }
-                
-                if(type != "GiveUp") {
-                	this.state = GameState.PROCESSING_TURN;
-                }
-            }    
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        
-        processState();
-    }
-
-	private void processingTurnHandler() {
-		// do status
-		// change turn
-		battle.executeStatus();
-		state = GameState.CHECK_BATTLE_END;
-		processState();
+	private void sendBag() {
+		
 	}
-
-	private void checkBattleEndHandler() {
-		if(battle.isEnded()) {
-			state = GameState.BATTLE_END; 
-		}
-		else { 
-			if(lastTurnByPlayer) {
-				state = GameState.OPPONENT_TURN; 
+	private void sendPokemon() {
+		
+	}
+	private void sendGiveUp() {
+		
+	}
+	private void sendTurnEnded() {
+		// "Type" : "TurnEnd"
+		// Then switch turn (unlock freeze button)
+	}
+	// Receiver
+	private void startReceivingThread() {
+		// setup receiving thread
+		// continuously accepting data as long as the game still running
+		Thread receivingThread = new Thread(() -> {
+			try {
+				String jsonString ;
+				Gson gson = new Gson();
+				while((jsonString = myPeer.getReader().readLine()) != null) {
+					if(jsonString.isEmpty()) {
+						System.out.println("Empty packet");
+						continue;
+					} 
+					Map<String , Object> receiveData = gson.fromJson(jsonString, Map.class);
+					String type = (String) receiveData.get("Type");
+					// handle from type
+					// ...
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			else {
-				state = GameState.PLAYER_TURN; 
-			}
-		}
-		processState();
-	}
-
-	private void battleEndHandler() {
-		if(win) {
-			
-		} else {
-			
-		}
-		processState();
+		});
+		receivingThread.start();
 	}
 
 	// for start battle
 	// start battle when peers connected so we have opponent
-	public void startBattle(Player myPlayer, Player myOpponent) {
-		this.myOpponent = myOpponent;
-		this.battle = new Battle(myPlayer, myOpponent);
-		
-		
+	public void startBattle() {
+		Gson gson = new Gson();
+		// send myPlayer data via socket to peer
+		Map<String , Object> data = new HashMap<>();
+		data.put("Type" , "InitOpponentData");
+		data.put("Opponent", this.myPlayer);
+		String json = gson.toJson(data);
+		myPeer.getWriter().println(json);
+		// receive myOpponent data via socket from peer
+		try {
+			String jsonString = myPeer.getReader().readLine();
+			Map<String , Object> receiveData = gson.fromJson(jsonString, Map.class);
+			Player opponent = gson.fromJson(receiveData.get("Opponent").toString(), Player.class);
+			this.myOpponent = opponent ; 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		// Start battle
+		this.battle = new Battle(this.myPlayer, this.myOpponent);
+		// Set turn
 		if (myPeer.getMode() == Mode.CLIENT) { // Client always start first
 			state = GameState.PLAYER_TURN;
 		} else {
 			state = GameState.OPPONENT_TURN;
 		}
-		processState();
+		
+		// Start receiver thread
+		startReceivingThread();
 	}
 
 	public Player getMyPlayer() {
-		return myPlayer;
+		return this.myPlayer;
 	}
 
 	public void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
+	}
+	
+	public Player getMyOpponent() {
+		return this.myOpponent ; 
+	}
+	public void setMyOpponent(Player myOpponent) {
+		this.myOpponent = myOpponent ; 
 	}
 	
 	

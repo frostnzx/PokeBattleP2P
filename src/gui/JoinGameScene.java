@@ -106,12 +106,9 @@ public class JoinGameScene {
 
 				// game system logic
 				GameSystem.getInstance().setMyPeer(client);
-				// ...
-				// ...
-
-				// open new scene (gui)
-				// ...
-				// ...
+				
+				// start battle & show battleScene
+				GameSystem.getInstance().startBattle();
 				sceneManager.showBattleScene();
 			}
 		});

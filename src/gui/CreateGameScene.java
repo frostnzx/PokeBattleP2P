@@ -2,6 +2,7 @@ package gui;
 
 import net.PeerServer;
 import game.GameSystem;
+import game.Player;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
@@ -96,9 +97,10 @@ public class CreateGameScene {
 		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-            	//show Battle scene
+            	//show start Battle then show Battle scene
             	//If opponent join it can click this button
-            	        	
+            	// maybe disable this button before opponent join ?
+            	GameSystem.getInstance().startBattle();
             	sceneManager.showBattleScene();
             }
         });
