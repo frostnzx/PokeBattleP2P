@@ -1,6 +1,11 @@
 package gui;
 
+import java.util.ArrayList;
+
+import game.GameSystem;
+import game.Move;
 import game.Player;
+import game.Pokemon;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -107,36 +112,29 @@ public class BattleScene {
 		// ---------------------------------------------
 
 		// Move Selection UI -------------------------------------
+		GridPane moveSelectionPanel = new GridPane();
+		Pokemon currentPokemon = GameSystem.getInstance().getMyPlayer().getPokemons().get(GameSystem.getInstance().getMyPlayer().getCurrentPokemon());
+		ArrayList<Move> moves = currentPokemon.getMoves();
 		Label moveLabel = new Label("Choose a move:");
 		moveLabel.setFont(Font.font(20));
-		Button move1Button = new Button("Move 1");
-		Button move2Button = new Button("Move 2");
-		Button move3Button = new Button("Move 3");
-		Button move4Button = new Button("Move 4");
+		moveSelectionPanel.add(moveLabel, 0, 0);
+		
+		int rc = 0;
+		for(Move move : moves) {
+			int col = rc % 2, row = rc/2;
+			Button moveButton = new Button(move.getName());
+			moveButton.setId(String.valueOf(move.getMoveId()));
+			moveButton.setOnAction(event -> {
+				// do something
+			});
+			moveButton.setMinSize(300, 50);
+			moveSelectionPanel.add(moveButton, col, row);
+			rc++;
+		}
 		Button backButton = new Button("Back");
-
-		move1Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-		move2Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-		move3Button.setOnAction(event -> {
-			root.setBottom(stackPanetext);
-		});
-
-		move1Button.setMinSize(300, 50);
-		move2Button.setMinSize(300, 50);
-		move3Button.setMinSize(300, 50);
-		move4Button.setMinSize(300, 50);
 		backButton.setMinSize(60, 25);
 
-		GridPane moveSelectionPanel = new GridPane();
-		moveSelectionPanel.add(move1Button, 1, 0);
-		moveSelectionPanel.add(move2Button, 1, 1);
-		moveSelectionPanel.add(move3Button, 2, 0);
-		moveSelectionPanel.add(move4Button, 2, 1);
-		moveSelectionPanel.add(backButton, 0, 1);
+		moveSelectionPanel.add(backButton, 0, rc / 2 + 1);
 		moveSelectionPanel.setHgap(10);
 		moveSelectionPanel.setVgap(10);
 		moveSelectionPanel.setAlignment(Pos.CENTER);

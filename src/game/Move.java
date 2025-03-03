@@ -42,6 +42,11 @@ public class Move {
 	public Status getMoveStatus() {
 		return moveStatus;
 	}
+
+	public int getMoveId() {
+		return moveId;
+	}
     
+	
     
 }
