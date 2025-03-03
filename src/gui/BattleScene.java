@@ -157,15 +157,14 @@ public class BattleScene {
 			if(pokemon.equals(currentPokemon)) {
 				continue;
 			}
-//			System.out.println(pokemon.getName());
+
 			int col = rc2 % 3, row = rc2/3;
 			if(col == 0 && row == 1) {
 				pokemonSelectionContainer.add(backButton1, col,row);
 				col++;
 				rc2++;
 			}
-			System.out.println(col);
-			System.out.println(row);
+
 			Button pokeButton = new Button(pokemon.getName());
 			pokeButton.setId(String.valueOf(pokemon.getPokemonId()));
 			pokeButton.setOnAction(event -> {
