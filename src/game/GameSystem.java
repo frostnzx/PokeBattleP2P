@@ -59,9 +59,8 @@ public class GameSystem {
 	public void sendFight(Move move) {
 		// send via socket
 		Map<String, Object> data = new HashMap<>();
-		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()).create(); // Register the custom
 																								// adapter for Item
-				.create();
 		data.put("Type", "Fight");
 		data.put("Move", move);
 		data.put("Player", this.myPlayer);
@@ -99,9 +98,9 @@ public class GameSystem {
 
 	public void sendPokemon(int newPokemonIndex) {
 		Map<String, Object> data = new HashMap<>();
-		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()).create(); // Register the custom
 																								// adapter for Item
-				.create();
+				
 		data.put("Type", "Pokemon");
 		data.put("newPokemonIndex", newPokemonIndex);
 		String json = gson.toJson(data);
@@ -130,9 +129,9 @@ public class GameSystem {
 		Thread receivingThread = new Thread(() -> {
 			try {
 				String jsonString;
-				Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register our
+				Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()).create(); // Register our
 																										// adapter
-						.create();
+						
 				while ((jsonString = myPeer.getReader().readLine()) != null) {
 					if (jsonString.isEmpty()) {
 						System.out.println("Empty packet");
@@ -179,10 +178,9 @@ public class GameSystem {
 	// for start battle
 	// start battle when peers connected so we have opponent
 	public void startBattle() {
-		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()) // Register the custom
+		Gson gson = new GsonBuilder().registerTypeAdapter(Item.class, new ItemTypeAdapter()).create(); // Register the custom
 																								// adapter for Item
-				.create();
-
+				
 		// Send myPlayer data via socket to peer
 		try {
 			Map<String, Object> data = new HashMap<>();
