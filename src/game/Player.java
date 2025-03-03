@@ -2,15 +2,19 @@ package game;
 
 import java.util.ArrayList;
 
+import entity.Item;
+
 public class Player {
 	private String name ; 
 	private ArrayList<Pokemon> pokemons ; 
 	private int currentPokemon ; // index of current pokemon
+	private ArrayList<Item> items;
 	
-	public Player(String name , ArrayList<Pokemon> pokemons) {
+	public Player(String name , ArrayList<Pokemon> pokemons, ArrayList<Item> items) {
 		this.name = name ; 
 		this.pokemons = pokemons ; 
 		this.currentPokemon = 0 ; // 0-5
+		this.items = items;
 	}
 	
 	public ArrayList<Pokemon> getPokemons() {
@@ -45,7 +49,12 @@ public class Player {
 	    }
 	}
 
-	
-	
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(ArrayList<Item> items) {
+		this.items = items;
+	}
 	
 }

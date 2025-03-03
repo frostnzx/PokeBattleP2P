@@ -2,6 +2,13 @@ package application;
 
 import java.util.ArrayList;
 
+import entity.Antidote;
+import entity.Awakening;
+import entity.FullRestorePotion;
+import entity.Item;
+import entity.ParalyzeHeal;
+import entity.Potion;
+import entity.SuperPotion;
 import game.GameSystem;
 import gui.SceneManager;
 
@@ -28,12 +35,12 @@ public class Main extends Application{
         Pokemon.loadPokemonsFromJson(filePath);
         ArrayList<Pokemon> defaultPokemonsList = initDefaultPokemons();
         String defaultName = "John";
-        
+        ArrayList<Item> defaultItems = initDefaultItem();
         // Set items 
       
         // Pokemon.listPokemons(); // For testing purpose
  
-        GameSystem.getInstance().setMyPlayer(new Player(defaultName, defaultPokemonsList));; 
+        GameSystem.getInstance().setMyPlayer(new Player(defaultName, defaultPokemonsList,defaultItems));; 
         GameSystem.getInstance().setSceneManager(sceneManager);
         
         sceneManager.showMainMenu();
@@ -54,5 +61,18 @@ public class Main extends Application{
         defaultPokemons.add(p6);
         
 		return defaultPokemons;
+    }
+    
+    public ArrayList<Item> initDefaultItem () {
+    	Item p1 = new Antidote(), p2 = new Awakening(), p3 = new FullRestorePotion(), p4 = new ParalyzeHeal(), p5 = new Potion() ,p6 = new SuperPotion();
+    	ArrayList<Item> defaultItems = new ArrayList<Item>();
+    	defaultItems.add(p1);
+    	defaultItems.add(p2);
+    	defaultItems.add(p3);
+    	defaultItems.add(p4);
+    	defaultItems.add(p5);
+    	defaultItems.add(p6);
+        
+		return defaultItems;
     }
 }
