@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import entity.Item;
 import entity.Potion;
 import gui.SceneManager;
+import javafx.application.Platform;
 import net.Mode;
 import net.Peer;
 
@@ -127,11 +128,14 @@ public class GameSystem {
 	            System.out.println(jsonString);
 	            // BUG HERE
 	            Map<String, Object> receiveData = gson.fromJson(jsonString, Map.class);
-	            Player opponent = gson.fromJson(receiveData.get("Opponent").toString(), Player.class);
+	            Player opponent = gson.fromJson(gson.toJson(receiveData.get("Opponent")), Player.class);
+
 	            this.myOpponent = opponent;
 
 	            // Now that opponent data is received, start battle on the main thread
-	            startBattlePhase();
+	            Platform.runLater(() -> {
+	            	 startBattlePhase();
+	            });
 
 	        } catch (Exception e) {
 	            e.printStackTrace();
