@@ -68,10 +68,12 @@ public class GameSystem {
 		myPeer.getWriter().println(json);
 		myPeer.getWriter().flush();
 		// edit our own Battle
-		battle.executeMove(this.myPlayer, move);
-		battle.executeStatus();
-		// because sending fight means ending our turn so, freeze your button!
-		this.battle.freezeTurn();
+		boolean isAttackSuccessful = battle.executeMove(this.myPlayer, move);
+		// because sending fight means ending our turn so, freeze your button! (if the attack success)
+		if(isAttackSuccessful) {
+			battle.executeStatus();
+			this.battle.freezeTurn();
+		}
 	}
 
 	public void sendBag(Item item) {

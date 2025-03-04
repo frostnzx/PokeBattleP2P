@@ -29,6 +29,10 @@ public class Battle {
 		if (pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
 			return false;
 		}
+		if (pokemon.getHp() <= 0) {
+			battleScene.displayActionFeedback("Your current pokemon is dead. Change your pokemon now!");
+			return false;
+		}
 		Player target = (player == player1) ? player2 : player1; // target is someone that is not player
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
 		int damage = calculateDamage(pokemon, targetPokemon, move);
