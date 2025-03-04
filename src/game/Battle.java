@@ -12,131 +12,151 @@ import gui.SceneManager;
 import javafx.application.Platform;
 
 public class Battle {
-	private Player player1 , player2 ; 
-	private BattleScene battleScene ; 
-	
-	public Battle(Player player1 , Player player2) {
-		this.player1 = player1 ; 
-		this.player2 = player2 ; 
+	private Player player1, player2;
+	private BattleScene battleScene;
+
+	public Battle(Player player1, Player player2) {
+		this.player1 = player1;
+		this.player2 = player2;
 	}
+
 	public void setBattleScene(BattleScene battleScene) {
-		this.battleScene = battleScene ; 
+		this.battleScene = battleScene;
 	}
-	
-	public boolean executeMove(Player player , Move move) {
+
+	public boolean executeMove(Player player, Move move) {
 		Pokemon pokemon = player.getPokemons().get(player.getCurrentPokemon());
-		if(pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
+		if (pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
 			return false;
 		}
-		Player target = (player == player1) ? player2 : player1 ; // target is someone that is not player
+		Player target = (player == player1) ? player2 : player1; // target is someone that is not player
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
-		int damage = calculateDamage(pokemon , targetPokemon , move) - 15; // -15 is only for testing
+		int damage = calculateDamage(pokemon, targetPokemon, move);
 		targetPokemon.setHp(Math.max(0, targetPokemon.getHp() - damage));
 		targetPokemon.setStatus(move.getMoveStatus());
-		
-		 // Update UI
+
+		// Update UI
 		Platform.runLater(() -> {
-	        battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(), player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
-	        battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(), player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
-	        battleScene.displayActionFeedback(pokemon.getName() + " used " + move.getName() + " and dealt " + damage + " damage!");
+			battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(),
+					player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
+			battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(),
+					player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
+			battleScene.updateStatus(target, target.getActualCurrentPokemon().getStatus());
+
+			battleScene.displayActionFeedback(
+					pokemon.getName() + " used " + move.getName() + " and dealt " + damage + " damage!");
 		});
-        
+
 		// log
 		System.out.println(pokemon.getName() + "used " + move.getName() + " and dealt " + damage + " damage!");
 		return true;
 	}
-	private int calculateDamage(Pokemon attacker , Pokemon defender , Move move) {
-		return (move.getDamage() * attacker.getAttack()) / defender.getDefense() ; 
+
+	private int calculateDamage(Pokemon attacker, Pokemon defender, Move move) {
+		return (move.getDamage() * attacker.getAttack()) / defender.getDefense();
 	}
-	
-	public void executeItem(Player player , Item item) {
-        item.use(player.getPokemons().get(player.getCurrentPokemon()));
-        
-        // Update UI
-        // ...
-        Pokemon pokemon = player.getActualCurrentPokemon();
-        if(item.getClass() == Antidote.class) { 
-        	Antidote antidote = (Antidote) item;
-        	antidote.use(pokemon);
-        }
-        else if(item.getClass() == Awakening.class) {
-        	Awakening awakening = (Awakening) item;
-        	awakening.use(pokemon);
-        }
-        else if(item.getClass() == FullRestorePotion.class) {
-        	FullRestorePotion FullResPo = (FullRestorePotion) item;
-        	FullResPo.use(pokemon);
-        }
-        else if(item.getClass() == ParalyzeHeal.class) {
-        	ParalyzeHeal przHeal = (ParalyzeHeal) item;
-        	przHeal.use(pokemon);
-        }
-        else if(item.getClass() == Potion.class) {
-        	Potion potion = (Potion) item;
-        	potion.use(pokemon);
-        }
-        else if(item.getClass() == SuperPotion.class) {
-        	SuperPotion superpotion = (SuperPotion) item;
-        	superpotion.use(pokemon);
-        }
-    }
-	
-	public void changeCurrentPokemon(Player player , int newIndex) {
-        player.setCurrentPokemon(newIndex);
-        
-        // Update UI
-        // ...
-    }
-	
+
+	public void executeItem(Player player, Item item) {
+		item.use(player.getPokemons().get(player.getCurrentPokemon()));
+
+		// Update UI
+		Platform.runLater(() -> {
+			battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(),
+					player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
+			battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(),
+					player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
+			battleScene.updateStatus(player, player.getActualCurrentPokemon().getStatus());
+			
+			String message = player.getName() + " used " + item.getName() + " on " + player.getActualCurrentPokemon().getName() ;
+			battleScene.displayActionFeedback(message);
+		});
+		
+	}
+
+	public void changeCurrentPokemon(Player player, int newIndex) {
+		player.setCurrentPokemon(newIndex);
+
+		// Update UI
+		Platform.runLater(() -> {
+			battleScene.updateCurrentPokemon(player, player.getActualCurrentPokemon());
+		});
+	}
+
+	private String statusToStr(Status status) {
+		if (status == Status.BRN)
+			return "BURN";
+		if (status == Status.FRZ)
+			return "FREEZE";
+		if (status == Status.PAR)
+			return "PARALYZED";
+		if (status == Status.PSN)
+			return "POISONED";
+		if (status == Status.SLP)
+			return "SLEEP";
+		else
+			return "";
+	}
+
 	public void executeStatus() {
-        // effect apply at the end of the turn
-        Pokemon p1 = player1.getPokemons().get(player1.getCurrentPokemon());
-        Pokemon p2 = player2.getPokemons().get(player2.getCurrentPokemon());
-        handleStatusEffects(p1);
-        handleStatusEffects(p2);
-        
-        // Update UI 
-        // ...
-    }
-    
-    public void handleStatusEffects(Pokemon pokemon) {
-        Status status = pokemon.getStatus();
-        if(status == Status.BRN) {
-            int dmg = 7;
-            pokemon.setHp(pokemon.getHp() - dmg);
-        }
-        else if(status == Status.FRZ) {
-            int dmg = 7;
-            pokemon.setHp(pokemon.getHp() - dmg);
-        }
-        else if(status == Status.PSN) {
-            int dmg = 10;
-            pokemon.setHp(pokemon.getHp() - dmg);
-        }
-//        else if(status == Status.SLP) {
-//        	pokemon.setStatus(Status.SLP);
-//        }
-//        else if(status == Status.PAR) {
-//        	pokemon.setStatus(Status.PAR);
-//        }
-    }
-    public void freezeTurn() {
-    	this.battleScene.freeze();
-    }
-    public void unfreezeTurn() {
-    	this.battleScene.unfreeze();
-    }
-	public boolean isEnded() {
-		if(!player1.isAlive()) {
-			System.out.println("player2 won!");
-			return true ; 
-		} else if(!player2.isAlive()) {
-			System.out.println("player1 won!");
-			return true ; 
-		} else {
-			return false ; 
+		// effect apply at the end of the turn
+		Pokemon p1 = player1.getPokemons().get(player1.getCurrentPokemon());
+		Pokemon p2 = player2.getPokemons().get(player2.getCurrentPokemon());
+		handleStatusEffects(p1);
+		handleStatusEffects(p2);
+
+		// Update UI
+		Platform.runLater(() -> {
+			battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(),
+					player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
+			battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(),
+					player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
+			if (p1.getStatus() != null) {
+				String message = p1.getName() + " affected from status " + statusToStr(p1.getStatus());
+				battleScene.displayActionFeedback(message);
+			}
+			if (p2.getStatus() != null) {
+				String message = p2.getName() + " affected from status " + statusToStr(p2.getStatus());
+				battleScene.displayActionFeedback(message);
+			}
+		});
+	}
+
+	public void handleStatusEffects(Pokemon pokemon) {
+		Status status = pokemon.getStatus();
+		if (status == Status.BRN) {
+			int dmg = 7;
+			pokemon.setHp(pokemon.getHp() - dmg);
+		} else if (status == Status.FRZ) {
+			int dmg = 7;
+			pokemon.setHp(pokemon.getHp() - dmg);
+		} else if (status == Status.PSN) {
+			int dmg = 10;
+			pokemon.setHp(pokemon.getHp() - dmg);
 		}
 	}
-	
-	
+
+	public void freezeTurn() {
+		Platform.runLater(() -> {
+			this.battleScene.freeze();
+		});
+	}
+
+	public void unfreezeTurn() {
+		Platform.runLater(() -> {
+			this.battleScene.unfreeze();
+		});
+	}
+
+	public boolean isEnded() {
+		if (!player1.isAlive()) {
+			System.out.println("player2 won!");
+			return true;
+		} else if (!player2.isAlive()) {
+			System.out.println("player1 won!");
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

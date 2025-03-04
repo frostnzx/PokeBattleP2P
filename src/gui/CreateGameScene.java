@@ -33,6 +33,7 @@ public class CreateGameScene {
 		server.start();
 		// game system
 		GameSystem.getInstance().setMyPeer(server);
+		GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer6.png");
 		// for closing the server
 		sceneManager.getStage().setOnCloseRequest(event -> {
 			GameSystem.getInstance().getMyPeer().close();

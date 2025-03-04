@@ -98,17 +98,18 @@ public class JoinGameScene {
 
 		joinButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
-				// create client
-				String ipAddress = ipTextField.getText().trim();
-				int port = Integer.parseInt(portTextField.getText());
-				client = new PeerClient(ipAddress, port);
-				client.start();
+				 // create client
+                String ipAddress = ipTextField.getText().trim();
+                int port = Integer.parseInt(portTextField.getText());
+                client = new PeerClient(ipAddress, port);
+                client.start();
 
-				// game system logic
-				GameSystem.getInstance().setMyPeer(client);
-				
-				// start battle & show battleScene
-				GameSystem.getInstance().startBattle();
+                // game system logic
+                GameSystem.getInstance().setMyPeer(client);
+                GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer7.png");
+                
+                // start battle & show battleScene
+                GameSystem.getInstance().startBattle();
 			}
 		});
 

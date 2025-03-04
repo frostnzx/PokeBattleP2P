@@ -9,6 +9,7 @@ public class Player {
     private ArrayList<Pokemon> pokemons ; 
     private int currentPokemon ; // index of current pokemon
     private ArrayList<Item> items;
+    private String filePath;
     
     public Player(String name , ArrayList<Pokemon> pokemons, ArrayList<Item> items) {
         this.name = name ; 
@@ -74,6 +75,12 @@ public class Player {
 		return this.getPokemons().get(this.getCurrentPokemon());
 	}
     
-    
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
     
 }
