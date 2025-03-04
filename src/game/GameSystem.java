@@ -164,6 +164,13 @@ public class GameSystem {
 						battle.executeItem(oppoPlayer, chosenItem);
 					} else if (type.equals("Pokemon")) {
 
+						Number newPokemonIndexNumber = (Number) receiveData.get("newPokemonIndex");
+						int newPokemonIndex = newPokemonIndexNumber.intValue(); 
+//						System.out.println(newPokemonIndex); // for testing
+						
+						
+						battle.changeCurrentPokemon(myOpponent, newPokemonIndex);
+
 					} else if (type.equals("GiveUp")) {
 						// end game?
 					}
