@@ -153,28 +153,59 @@ public class BattleScene {
 		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
 		Button backButton1 = new Button("Back");
 		backButton1.setMinSize(300, 50);
-		int rc2 = 0;
-		for(Pokemon pokemon : currentPokemonList) {
+//		int rc2 = 0, cnt = 0;
+//		for(Pokemon pokemon : currentPokemonList) {
+//			if(pokemon.equals(currentPokemon)) {
+//				continue;
+//			}
+//
+//			int col = rc2 % 3, row = rc2/3;
+//			if(col == 0 && row == 1) {
+//				pokemonSelectionContainer.add(backButton1, col,row);
+//				col++;
+//				rc2++;
+//			}
+//
+//			final int index = cnt;
+//			Button pokeButton = new Button(pokemon.getName());
+//			pokeButton.setId(String.valueOf(pokemon.getPokemonId()));
+//			pokeButton.setOnAction(event -> {
+//				GameSystem.getInstance().sendPokemon(index);
+//			});
+//			pokeButton.setMinSize(300, 50);
+//			pokemonSelectionContainer.add(pokeButton, col, row);
+//			rc2++;
+//			cnt++;
+//			
+//		}
+		
+		int idxPokemon = 0;
+		for(int i=0;i < currentPokemonList.size();) {
+			Pokemon pokemon = currentPokemonList.get(idxPokemon);
 			if(pokemon.equals(currentPokemon)) {
+				idxPokemon++;
 				continue;
 			}
-
-			int col = rc2 % 3, row = rc2/3;
-			if(col == 0 && row == 1) {
+			int col = i % 3, row = i/3;
+			if(col == 0 && row == 1) { // BackButton
 				pokemonSelectionContainer.add(backButton1, col,row);
-				col++;
-				rc2++;
+				i++;
+				continue;
 			}
-
+			
+			final int index = idxPokemon;
 			Button pokeButton = new Button(pokemon.getName());
 			pokeButton.setId(String.valueOf(pokemon.getPokemonId()));
+			
 			pokeButton.setOnAction(event -> {
-				// do something
+				System.out.println(index);
+				GameSystem.getInstance().sendPokemon(index);
 			});
 			pokeButton.setMinSize(300, 50);
 			pokemonSelectionContainer.add(pokeButton, col, row);
-			rc2++;
 			
+			idxPokemon++;
+			i++;
 		}
 
 		pokemonSelectionContainer.setHgap(10);
@@ -257,7 +288,7 @@ public class BattleScene {
 		root.setBottom(actionContainer);
 
 		// set Scene
-		scene = new Scene(root, 1200, 600);
+		scene = new Scene(root, 1200, 700);
 	}
 	// Method to update the player's HP
     public void updatePlayerHp(int currentHp, int maxHp) {
