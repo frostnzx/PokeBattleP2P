@@ -429,8 +429,8 @@ public class BattleScene {
 		pokemonSelectionContainer.getChildren().clear();
 		
 		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
-		Button backButton1 = new Button("Back");
-		backButton1.setMinSize(300, 50);
+		Button backButton = new Button("Back");
+		backButton.setMinSize(300, 50);
 
 		int idxPokemon = 0;
 		for (int i = 0; i < currentPokemonList.size();) {
@@ -441,7 +441,7 @@ public class BattleScene {
 			}
 			int col = i % 3, row = i / 3;
 			if (col == 0 && row == 1) { // BackButton
-				pokemonSelectionContainer.add(backButton1, col, row);
+				pokemonSelectionContainer.add(backButton, col, row);
 				i++;
 				continue;
 			}
@@ -460,6 +460,10 @@ public class BattleScene {
 			idxPokemon++;
 			i++;
 		}
+		
+		backButton.setOnAction(event -> {
+			root.setBottom(actionContainer);
+		});
 	}
 	
 	public void updatePokemonAvatar(Rectangle PokemonRectangle, Pokemon pokemon) {
