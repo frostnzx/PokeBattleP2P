@@ -163,7 +163,6 @@ public class GameSystem {
                         Item chosenItem = gson.fromJson(itemJsonElement, Item.class);
 						battle.executeItem(oppoPlayer, chosenItem);
 					} else if (type.equals("Pokemon")) {
-
 						Number newPokemonIndexNumber = (Number) receiveData.get("newPokemonIndex");
 						int newPokemonIndex = newPokemonIndexNumber.intValue(); 
 //						System.out.println(newPokemonIndex); // for testing
@@ -173,6 +172,10 @@ public class GameSystem {
 
 					} else if (type.equals("GiveUp")) {
 						// end game?
+						System.out.println("You win");
+						Platform.runLater(() -> {
+							sceneManager.showWinningScene();
+						});	
 					}
 				}
 			} catch (Exception e) {

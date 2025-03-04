@@ -279,6 +279,8 @@ public class BattleScene {
 		
 		giveUpButton.setOnAction(event -> {
 			GameSystem.getInstance().sendGiveUp();
+			System.out.println("You lose");
+			sceneManager.showLosingScene();
 			// do something?
 		});
 
