@@ -74,10 +74,7 @@ public class Battle {
 	}
 
 	public void changeCurrentPokemon(Player player, int newIndex) {
-		System.out.println("TEST POKE");
-		System.out.println(player.getActualCurrentPokemon());
 		player.setCurrentPokemon(newIndex);
-		System.out.println(player.getActualCurrentPokemon());
 
 		// Update UI
 		Platform.runLater(() -> {

@@ -23,11 +23,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import net.Mode;
 
 public class BattleScene {
 	private Scene scene;
 	private SceneManager sceneManager;
-	private Pane oppohpPane;
+	private Pane oppoPane;
 	private Pane playerPane;
 	private Label playerHpText;
 	private Label opponentHpText;
@@ -40,12 +41,24 @@ public class BattleScene {
 	private Rectangle playerPokemon;
 	private Rectangle opponentPokemon;
 	
+	private Label playerPokemonName;
+	private Label opponentPokemonName;
+	
+	private GridPane moveSelectionPanel;
+	
+	private GridPane pokemonSelectionContainer;
+	
 	private enum Turn {
 		MYTURN , NOTMYTURN
 	}
 	private Turn turn ;
 
 	public BattleScene(SceneManager sceneManager) {
+        if(GameSystem.getInstance().getMyPeer().getMode() == Mode.CLIENT) {
+            turn = Turn.MYTURN ; 
+        } else {
+            turn = Turn.NOTMYTURN ; 
+        }
 		this.sceneManager = sceneManager;
 		this.root = new BorderPane();
 		// Player and opponent name
@@ -87,12 +100,13 @@ public class BattleScene {
 		// (player)
 		String playerPokeName = myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()).getName(),
 				oppoPokeName = oppoPlayer.getPokemons().get(myPlayer.getCurrentPokemon()).getName();
-		Label playerPokemonName = new Label(playerPokeName);
+		playerPokemonName = new Label(playerPokeName);
 		playerPokemonName.setFont(Font.font(14));
 //		Rectangle playerHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
 
 		Label playerStatus = new Label("No Condition");
 		playerStatus.setFont(Font.font(10));
+		playerStatus.setTextFill(Color.GRAY);
 		this.playerStatusText = playerStatus;
 
 		int currentPlayerPokemonIdx = GameSystem.getInstance().getMyPlayer().getCurrentPokemon();
@@ -118,11 +132,12 @@ public class BattleScene {
 		playerPane.getChildren().addAll(backgroundHpBarPlayer, foregroundHpBarPlayer);
 
 		// (opponent)
-		Label opponentPokemonName = new Label(oppoPokeName);
+		opponentPokemonName = new Label(oppoPokeName);
 		opponentPokemonName.setFont(Font.font(14));
 //		Rectangle opponentHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
 
 		Label opponentStatus = new Label("No Condition");
+		opponentStatus.setTextFill(Color.GRAY);
 		opponentStatus.setFont(Font.font(10));
 		this.opponentStatusText = opponentStatus;
 
@@ -147,8 +162,8 @@ public class BattleScene {
 		foregroundHpBarOppo.setWidth(150 * percentageOppo); // Adjust green bar width
 
 		// Pane to stack elements
-		oppohpPane = new Pane();
-		oppohpPane.getChildren().addAll(backgroundHpBarOppo, foregroundHpBarOppo);
+		oppoPane = new Pane();
+		oppoPane.getChildren().addAll(backgroundHpBarOppo, foregroundHpBarOppo);
 
 		// Battle Options --------------------------------------------
 		Label actionLabel = new Label("What will PokemonName do?");
@@ -165,7 +180,7 @@ public class BattleScene {
 
 		// Layout setup ----------------------------------------------
 
-		VBox opponentPokemonInfo = new VBox(opponentPokemonName, oppohpPane, opponentHpText, opponentStatus);
+		VBox opponentPokemonInfo = new VBox(opponentPokemonName, oppoPane, opponentHpText, opponentStatus);
 		opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT);
 
 		HBox opponentInfo = new HBox(10, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
@@ -195,7 +210,7 @@ public class BattleScene {
 		this.actionContainer = actionContainer ; 
 
 		// Move Selection UI -------------------------------------
-		GridPane moveSelectionPanel = new GridPane();
+		moveSelectionPanel = new GridPane();
 		Pokemon currentPokemon = GameSystem.getInstance().getMyPlayer().getPokemons()
 				.get(GameSystem.getInstance().getMyPlayer().getCurrentPokemon());
 		ArrayList<Move> moves = currentPokemon.getMoves();
@@ -232,7 +247,7 @@ public class BattleScene {
 		// ------------------------------------------
 
 		// Pokemon Selection UI -------------------------------------
-		GridPane pokemonSelectionContainer = new GridPane();
+		pokemonSelectionContainer = new GridPane();
 		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
 		Button backButton1 = new Button("Back");
 		backButton1.setMinSize(300, 50);
@@ -374,6 +389,79 @@ public class BattleScene {
 		hpText.setText(currentHp + " / " + maxHp);
 	}
 	
+	public void updatePokemonName(Pokemon pokemon, Label pokemonName) {
+		pokemonName.setText(pokemon.getName());
+	}
+	
+	public void updatePokemonMove(Pokemon pokemon, GridPane moveSelectionPanel) {
+		moveSelectionPanel.getChildren().clear();
+	
+		Pokemon currentPokemon = GameSystem.getInstance().getMyPlayer().getPokemons()
+				.get(GameSystem.getInstance().getMyPlayer().getCurrentPokemon());
+		ArrayList<Move> moves = currentPokemon.getMoves();
+		Label moveLabel = new Label("Choose a move:");
+		moveLabel.setFont(Font.font(20));
+		moveSelectionPanel.add(moveLabel, 0, 0);
+
+		int rc = 0;
+		for (Move move : moves) {
+			int col = rc % 2, row = rc / 2;
+			Button moveButton = new Button(move.getName());
+			moveButton.setId(String.valueOf(move.getMoveId()));
+			moveButton.setOnAction(event -> {
+				GameSystem.getInstance().sendFight(move); // update oppo UI
+			});
+			moveButton.setMinSize(300, 50);
+			moveSelectionPanel.add(moveButton, col, row);
+			rc++;
+		}
+
+		Button backButton = new Button("Back");
+		backButton.setMinSize(60, 25);
+
+		moveSelectionPanel.add(backButton, 0, rc / 2 + 1);
+		moveSelectionPanel.setHgap(10);
+		moveSelectionPanel.setVgap(10);
+		moveSelectionPanel.setAlignment(Pos.CENTER);	
+	}
+	
+	public void updatePokemonSelectionContainer(Pokemon currentPokemon, GridPane pokemonSelectionContainer) {
+		pokemonSelectionContainer.getChildren().clear();
+		
+		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
+		Button backButton1 = new Button("Back");
+		backButton1.setMinSize(300, 50);
+
+		int idxPokemon = 0;
+		for (int i = 0; i < currentPokemonList.size();) {
+			Pokemon pokemon = currentPokemonList.get(idxPokemon);
+			if (pokemon.equals(currentPokemon)) {
+				idxPokemon++;
+				continue;
+			}
+			int col = i % 3, row = i / 3;
+			if (col == 0 && row == 1) { // BackButton
+				pokemonSelectionContainer.add(backButton1, col, row);
+				i++;
+				continue;
+			}
+
+			final int index = idxPokemon;
+			Button pokeButton = new Button(pokemon.getName());
+			pokeButton.setId(String.valueOf(pokemon.getPokemonId()));
+
+			pokeButton.setOnAction(event -> {
+				System.out.println(index);
+				GameSystem.getInstance().sendPokemon(index);
+			});
+			pokeButton.setMinSize(300, 50);
+			pokemonSelectionContainer.add(pokeButton, col, row);
+
+			idxPokemon++;
+			i++;
+		}
+	}
+	
 	public void updatePokemonAvatar(Rectangle PokemonRectangle, Pokemon pokemon) {
         Image PokemonImg = new Image("file:" + pokemon.getFilePath());
         ImagePattern playerPokemonImagePattern = new ImagePattern(PokemonImg);
@@ -390,7 +478,7 @@ public class BattleScene {
 	// Method to update the opponent's HP
 	public void updateOpponentHp(int currentHp, int maxHp) {
 		System.out.println("change OpponentHp");
-		updateHpBarAndText(currentHp, maxHp, oppohpPane, opponentHpText);
+		updateHpBarAndText(currentHp, maxHp, oppoPane, opponentHpText);
 	}
 
 	// Method to update status conditions
@@ -419,15 +507,30 @@ public class BattleScene {
 		} else if (status == Status.SLP) {
 			statusToUpdate.setText("SLEEP");
 			statusToUpdate.setTextFill(Color.BLUE);
+		}else {
+			statusToUpdate.setText("No Condition");
+			statusToUpdate.setTextFill(Color.GRAY);
 		}
 	}
 
 	public void updateCurrentPokemon(Player player, Pokemon pokemon) {
 		if(player == GameSystem.getInstance().getMyPlayer()) {
 			updatePokemonAvatar(playerPokemon,pokemon);
+			int currentHp = GameSystem.getInstance().getMyPlayer().getActualCurrentPokemon().getHp();
+			int maxHp = GameSystem.getInstance().getMyPlayer().getActualCurrentPokemon().getMaxHp();
+			updateHpBarAndText(currentHp,maxHp,playerPane,playerHpText);
+			updateStatus(player, pokemon.getStatus());
+			updatePokemonName(pokemon, playerPokemonName);
+			updatePokemonMove(pokemon, moveSelectionPanel);
+			updatePokemonSelectionContainer(player.getActualCurrentPokemon(), pokemonSelectionContainer);
 		}
 		else {
 			updatePokemonAvatar(opponentPokemon,pokemon);
+			int currentHp = GameSystem.getInstance().getMyOpponent().getActualCurrentPokemon().getHp();
+			int maxHp = GameSystem.getInstance().getMyOpponent().getActualCurrentPokemon().getMaxHp();
+			updateHpBarAndText(currentHp,maxHp,oppoPane,opponentHpText);
+			updateStatus(player, pokemon.getStatus());
+			updatePokemonName(pokemon,opponentPokemonName);
 		}
 	}
 
