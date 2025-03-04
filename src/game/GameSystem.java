@@ -84,8 +84,8 @@ public class GameSystem {
 	    itemJsonObject.add("data", gson.toJsonTree(item)); // Serialize the actual Item data
 
 	    data.put("Type", "Bag");
-	    data.put("Item", itemJsonObject);  // Add the serialized Item object
 	    data.put("Player", this.myPlayer);
+	    data.put("Item", itemJsonObject);  // Add the serialized Item object
 	    
 	    String json = gson.toJson(data);
 	    myPeer.getWriter().println(json);
@@ -102,6 +102,7 @@ public class GameSystem {
 																								// adapter for Item
 				
 		data.put("Type", "Pokemon");
+		data.put("Player", this.myPlayer);
 		data.put("newPokemonIndex", newPokemonIndex);
 		String json = gson.toJson(data);
 		myPeer.getWriter().println(json);
@@ -119,8 +120,7 @@ public class GameSystem {
 		String json = gson.toJson(data);
 		myPeer.getWriter().println(json);
 		myPeer.getWriter().flush();
-		// edit our own Battle
-		// ... give up logic
+		// already edit our own by showing losing scene
 	}
 
 	private void startReceivingThread() {
@@ -164,11 +164,11 @@ public class GameSystem {
 						battle.executeItem(oppoPlayer, chosenItem);
 					} else if (type.equals("Pokemon")) {
 						Number newPokemonIndexNumber = (Number) receiveData.get("newPokemonIndex");
+						JsonElement playerJsonElement = gson.toJsonTree(receiveData.get("Player"));
+
+						Player oppoPlayer = gson.fromJson(playerJsonElement , Player.class);
 						int newPokemonIndex = newPokemonIndexNumber.intValue(); 
-//						System.out.println(newPokemonIndex); // for testing
-						
-						
-						battle.changeCurrentPokemon(myOpponent, newPokemonIndex);
+						battle.changeCurrentPokemon(oppoPlayer, newPokemonIndex);
 
 					} else if (type.equals("GiveUp")) {
 						// end game?
