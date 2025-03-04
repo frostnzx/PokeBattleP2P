@@ -37,6 +37,9 @@ public class BattleScene {
 	private BorderPane root ; 
 	private BorderPane actionContainer ; 
 	
+	private Rectangle playerPokemon;
+	private Rectangle opponentPokemon;
+	
 	private enum Turn {
 		MYTURN , NOTMYTURN
 	}
@@ -52,8 +55,8 @@ public class BattleScene {
 		Label opponentName = new Label(stropponentName);
 
 		// Pokemon images
-		Rectangle playerPokemon = new Rectangle(300, 300, Color.GRAY);
-		Rectangle opponentPokemon = new Rectangle(300, 300, Color.GRAY);
+		playerPokemon = new Rectangle(300, 300, Color.GRAY);
+		opponentPokemon = new Rectangle(300, 300, Color.GRAY);
 		Rectangle playerAvatar = new Rectangle(130, 210, Color.GRAY);
 		Rectangle opponentAvatar = new Rectangle(130, 210, Color.GRAY);
 		
@@ -66,7 +69,20 @@ public class BattleScene {
         ImagePattern playerImagePattern = new ImagePattern(playerAvatarImg), opponentImagePattern = new ImagePattern(opponentAvatarImg);
         playerAvatar.setFill(playerImagePattern);
         opponentAvatar.setFill(opponentImagePattern);
-
+        
+        // Add background picture to Pokemon
+        String pokemonPlayerFilePath = GameSystem.getInstance().getMyPlayer().getActualCurrentPokemon().getFilePath();
+        String pokemonOpponentFilePath = GameSystem.getInstance().getMyOpponent().getActualCurrentPokemon().getFilePath();
+        Image playerPokemonImg = new Image("file:" + pokemonPlayerFilePath), opponentPokemonImg = new Image("file:" + pokemonOpponentFilePath);
+        ImagePattern playerPokemonImagePattern = new ImagePattern(playerPokemonImg), opponentPokemonImagePattern = new ImagePattern(opponentPokemonImg);
+        playerPokemon.setFill(playerPokemonImagePattern);
+        opponentPokemon.setFill(opponentPokemonImagePattern);
+        playerPokemon.setStroke(Color.BLACK);
+        playerPokemon.setStrokeWidth(1);
+        opponentPokemon.setStroke(Color.BLACK);
+        opponentPokemon.setStrokeWidth(1);
+        
+        
 		// Health bars
 		// (player)
 		String playerPokeName = myPlayer.getPokemons().get(myPlayer.getCurrentPokemon()).getName(),
@@ -357,6 +373,13 @@ public class BattleScene {
 		hpPane.getChildren().addAll(backgroundHpBar, foregroundHpBar);
 		hpText.setText(currentHp + " / " + maxHp);
 	}
+	
+	public void updatePokemonAvatar(Rectangle PokemonRectangle, Pokemon pokemon) {
+        Image PokemonImg = new Image("file:" + pokemon.getFilePath());
+        ImagePattern playerPokemonImagePattern = new ImagePattern(PokemonImg);
+        
+        PokemonRectangle.setFill(playerPokemonImagePattern);
+	}
 
 	// Method to update the player's HP
 	public void updatePlayerHp(int currentHp, int maxHp) {
@@ -400,7 +423,12 @@ public class BattleScene {
 	}
 
 	public void updateCurrentPokemon(Player player, Pokemon pokemon) {
-		// spark will do it because he so pro about setting pics
+		if(player == GameSystem.getInstance().getMyPlayer()) {
+			updatePokemonAvatar(playerPokemon,pokemon);
+		}
+		else {
+			updatePokemonAvatar(opponentPokemon,pokemon);
+		}
 	}
 
 	// Method to display action feedback text
