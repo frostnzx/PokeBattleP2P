@@ -67,30 +67,34 @@ public class LosingScene {
         // Create fade transitions for each background state
         FadeTransition fadeToWhite = new FadeTransition(Duration.seconds(0.2), background);
         fadeToWhite.setFromValue(1); // Start from fully visible
-        fadeToWhite.setToValue(0);   // Fade to transparent (white background will be visible)
+        fadeToWhite.setToValue(0); // Fade to transparent (white background will be visible)
 
         FadeTransition fadeToRed = new FadeTransition(Duration.seconds(0.2), background);
-        fadeToRed.setFromValue(0);  // Start from transparent
-        fadeToRed.setToValue(1);    // Fade back to fully visible (red background)
+        fadeToRed.setFromValue(0); // Start from transparent
+        fadeToRed.setToValue(1); // Fade back to fully visible (red background)
 
         // Set the sequence of the fade-in/out transitions
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(0), e -> background.setFill(Color.web("#8B0000;"))), // Dark red
-            new KeyFrame(Duration.seconds(0.2), e -> fadeToWhite.play()), // Fade to white
-            new KeyFrame(Duration.seconds(0.4), e -> fadeToRed.play())  // Fade back to red
-        );
+        Thread thread = new Thread(() -> {
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.seconds(0), e -> background.setFill(Color.web("#8B0000"))), // Dark red
+                    new KeyFrame(Duration.seconds(0.2), e -> fadeToWhite.play()), // Fade to white
+                    new KeyFrame(Duration.seconds(0.4), e -> fadeToRed.play()) // Fade back to red
+            );
 
-        // Set the timeline to repeat the fade effect 3 times
-        timeline.setCycleCount(blinkCount);
+            // Set the timeline to repeat the fade effect 3 times
+            timeline.setCycleCount(blinkCount);
 
-        // Add a pause to show the "Back to Menu" button after blinking
-        timeline.setOnFinished(e -> {
-            // Delay for 0.5 seconds before starting the fade-in of the button
-            fadeInButtonWithDelay(backToMenuButton, 0.5);
+            // Add a pause to show the "Back to Menu" button after blinking
+            timeline.setOnFinished(e -> {
+                // Delay for 0.5 seconds before starting the fade-in of the button
+                fadeInButtonWithDelay(backToMenuButton, 0.5);
+            });
+
+            // Play the animation
+            timeline.play();
         });
+        thread.start();
 
-        // Play the animation
-        timeline.play();
     }
 
     // Fade-in transition for the button with a delay
