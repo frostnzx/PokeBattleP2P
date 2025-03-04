@@ -230,6 +230,7 @@ public class GameSystem {
 			}
 		}).start();
 	}
+	
 
 	private void startBattlePhase() {
 		this.battle = new Battle(this.myPlayer, this.myOpponent);

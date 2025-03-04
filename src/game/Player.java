@@ -61,5 +61,19 @@ public class Player {
     public String toString() {
         return "Player [name=" + name + ", currentPokemon=" + currentPokemon ;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Pokemon getActualCurrentPokemon() {
+		return this.getPokemons().get(this.getCurrentPokemon());
+	}
+    
+    
     
 }

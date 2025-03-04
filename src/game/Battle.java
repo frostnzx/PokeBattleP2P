@@ -1,8 +1,15 @@
 package game;
 
+import entity.Antidote;
+import entity.Awakening;
+import entity.FullRestorePotion;
 import entity.Item;
+import entity.ParalyzeHeal;
+import entity.Potion;
+import entity.SuperPotion;
 import gui.BattleScene;
 import gui.SceneManager;
+import javafx.application.Platform;
 
 public class Battle {
 	private Player player1 , player2 ; 
@@ -23,14 +30,16 @@ public class Battle {
 		}
 		Player target = (player == player1) ? player2 : player1 ; // target is someone that is not player
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
-		int damage = calculateDamage(pokemon , targetPokemon , move);
+		int damage = calculateDamage(pokemon , targetPokemon , move) - 15; // -15 is only for testing
 		targetPokemon.setHp(Math.max(0, targetPokemon.getHp() - damage));
 		targetPokemon.setStatus(move.getMoveStatus());
 		
 		 // Update UI
-        battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(), player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
-        battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(), player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
-        battleScene.displayActionFeedback(pokemon.getName() + " used " + move.getName() + " and dealt " + damage + " damage!");
+		Platform.runLater(() -> {
+	        battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(), player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
+	        battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(), player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
+	        battleScene.displayActionFeedback(pokemon.getName() + " used " + move.getName() + " and dealt " + damage + " damage!");
+		});
         
 		// log
 		System.out.println(pokemon.getName() + "used " + move.getName() + " and dealt " + damage + " damage!");
@@ -45,6 +54,31 @@ public class Battle {
         
         // Update UI
         // ...
+        Pokemon pokemon = player.getActualCurrentPokemon();
+        if(item.getClass() == Antidote.class) { 
+        	Antidote antidote = (Antidote) item;
+        	antidote.use(pokemon);
+        }
+        else if(item.getClass() == Awakening.class) {
+        	Awakening awakening = (Awakening) item;
+        	awakening.use(pokemon);
+        }
+        else if(item.getClass() == FullRestorePotion.class) {
+        	FullRestorePotion FullResPo = (FullRestorePotion) item;
+        	FullResPo.use(pokemon);
+        }
+        else if(item.getClass() == ParalyzeHeal.class) {
+        	ParalyzeHeal przHeal = (ParalyzeHeal) item;
+        	przHeal.use(pokemon);
+        }
+        else if(item.getClass() == Potion.class) {
+        	Potion potion = (Potion) item;
+        	potion.use(pokemon);
+        }
+        else if(item.getClass() == SuperPotion.class) {
+        	SuperPotion superpotion = (SuperPotion) item;
+        	superpotion.use(pokemon);
+        }
     }
 	
 	public void changeCurrentPokemon(Player player , int newIndex) {

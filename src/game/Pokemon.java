@@ -111,6 +111,10 @@ public class Pokemon {
 			// Deserialize the JSON into a list of Pokemon objects
 			ArrayList<Pokemon> pokemons = gson.fromJson(reader, new TypeToken<ArrayList<Pokemon>>() {
 			}.getType());
+			
+	        for (Pokemon p : pokemons) {
+	            p.setHp(p.getMaxHp());  // Set the current hp to max_hp
+	        }
 
 			// Populate the pokemonList with the deserialized Pokemon objects
 			pokemonList.addAll(pokemons);
