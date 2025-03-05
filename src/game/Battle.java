@@ -78,11 +78,18 @@ public class Battle {
 	}
 
 	public void changeCurrentPokemon(Player player, int newIndex) {
-		player.setCurrentPokemon(newIndex);
-
+		Player updatedPlayer;
+		if(player != GameSystem.getInstance().getMyPlayer()) {
+			GameSystem.getInstance().getMyOpponent().setCurrentPokemon(newIndex);
+			updatedPlayer = GameSystem.getInstance().getMyOpponent();
+		}
+		else {
+			GameSystem.getInstance().getMyPlayer().setCurrentPokemon(newIndex);
+			updatedPlayer = GameSystem.getInstance().getMyPlayer();
+		}
 		// Update UI
 		Platform.runLater(() -> {
-			battleScene.updateCurrentPokemon(player, player.getActualCurrentPokemon());
+			battleScene.updateCurrentPokemon(updatedPlayer, updatedPlayer.getActualCurrentPokemon());
 		});
 	}
 

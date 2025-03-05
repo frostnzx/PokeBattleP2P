@@ -170,6 +170,7 @@ public class GameSystem {
 
 						Player oppoPlayer = gson.fromJson(playerJsonElement , Player.class);
 						int newPokemonIndex = newPokemonIndexNumber.intValue(); 
+						System.out.println("Send successful");
 						battle.changeCurrentPokemon(oppoPlayer, newPokemonIndex);
 
 					} else if (type.equals("GiveUp")) {
