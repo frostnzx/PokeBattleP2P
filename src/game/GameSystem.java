@@ -158,6 +158,13 @@ public class GameSystem {
 						if(isAttackSuccessful) {
 							battle.executeStatus();
 							this.battle.unfreezeTurn();
+							
+							if(!this.myPlayer.isAlive()) {
+								Platform.runLater(() -> {
+									sceneManager.showLosingScene();
+								});
+								sendGiveUp();
+							}
 						}
 					} else if (type.equals("Bag")) {
 						JsonElement playerJsonElement = gson.toJsonTree(receiveData.get("Player"));

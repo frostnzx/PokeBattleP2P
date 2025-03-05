@@ -49,6 +49,8 @@ public class BattleScene {
 	
 	private GridPane pokemonSelectionContainer;
 	
+	private VBox itemBox ; 
+	
 	private enum Turn {
 		MYTURN , NOTMYTURN
 	}
@@ -180,7 +182,6 @@ public class BattleScene {
 		actionContainer.setRight(actionPanel);
 		actionContainer.setPadding(new Insets(10));
 		actionContainer.setStyle("-fx-background-color: lightgray;");
-		this.actionContainer = actionContainer;
 		// ----------------------------------------------------------
 
 		// Move Selection UI -------------------------------------
@@ -207,39 +208,27 @@ public class BattleScene {
 		// ---------------------------------------------
 
 		// Bag selection----------------------------------
-		ArrayList<Item> itemList = GameSystem.getInstance().getMyPlayer().getItems();
-		VBox contentBox = new VBox(10);
-		contentBox.setPadding(new Insets(10));
-
-		for (int i = 0; i < itemList.size(); i++) {
-			Item item = itemList.get(i);
-			Button button = new Button(item.getName());
-			button.setStyle("-fx-border-width: 1; -fx-padding: 10;");
-			button.setMaxWidth(Double.MAX_VALUE);
-			button.setOnAction(event -> {
-				GameSystem.getInstance().sendBag(item);
-			});
-
-			contentBox.getChildren().add(button);
-		}
+		itemBox = new VBox(10);
+		itemBox.setPadding(new Insets(10));
+		updateItemBox(itemBox);
 
 		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setContent(contentBox);
+		scrollPane.setContent(itemBox);
 		scrollPane.setFitToWidth(true);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		scrollPane.setStyle("-fx-background-color: lightgray;");
 		scrollPane.setPrefSize(200, 200);
 
-		Button backButton3 = new Button("Back");
-		backButton3.setMinSize(50, 20);
-		backButton3.setStyle("-fx-background-color: lightgray;");
-		backButton3.setAlignment(Pos.BOTTOM_LEFT);
+		Button backButtonFromBag = new Button("Back");
+		backButtonFromBag.setMinSize(50, 20);
+		backButtonFromBag.setStyle("-fx-background-color: lightgray;");
+		backButtonFromBag.setAlignment(Pos.BOTTOM_LEFT);
 
 		BorderPane bagContainer = new BorderPane();
 		bagContainer.setCenter(scrollPane);
-		bagContainer.setBottom(backButton3);
-		BorderPane.setAlignment(backButton3, Pos.BOTTOM_LEFT);
-		BorderPane.setMargin(backButton3, new Insets(10));
+		bagContainer.setBottom(backButtonFromBag);
+		BorderPane.setAlignment(backButtonFromBag, Pos.BOTTOM_LEFT);
+		BorderPane.setMargin(backButtonFromBag, new Insets(10));
 		// -------------------------------------------
 
 		// Event Handlers
@@ -255,7 +244,7 @@ public class BattleScene {
 			root.setBottom(bagContainer);
 		});
 
-		backButton3.setOnAction(event -> {
+		backButtonFromBag.setOnAction(event -> {
 			root.setBottom(actionContainer);
 		});
 
@@ -452,6 +441,26 @@ public class BattleScene {
             updateHpBarAndText(currentHp, maxHp, oppoPane, opponentHpText, true);
             updateStatus(player, pokemon.getStatus());
             updatePokemonName(pokemon, opponentPokemonName);
+        }
+    }
+    public void updateItem() {
+        updateItemBox(itemBox);
+    }
+    
+    public void updateItemBox(VBox itemBox) {
+        itemBox.getChildren().clear();
+        
+        ArrayList<Item> itemList = GameSystem.getInstance().getMyPlayer().getItems();
+        for (int i = 0; i < itemList.size(); i++) {
+            Item item = itemList.get(i);
+            Button button = new Button(item.getName());
+            button.setStyle("-fx-border-width: 1; -fx-padding: 10;");
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setOnAction(event -> {
+                GameSystem.getInstance().sendBag(item);
+            });
+
+            itemBox.getChildren().add(button);
         }
     }
 
