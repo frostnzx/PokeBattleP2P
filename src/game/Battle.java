@@ -75,7 +75,8 @@ public class Battle {
 			updatedPlayer = GameSystem.getInstance().getMyPlayer();
 			item.use(updatedPlayer.getActualCurrentPokemon());
 		}
-
+		updatedPlayer.removeItem(item);
+		
 		// Update UI
 		Platform.runLater(() -> {
 			battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(),
@@ -86,6 +87,7 @@ public class Battle {
 			
 			String message = player.getName() + " used " + item.getName() + " on " + player.getActualCurrentPokemon().getName() ;
 			battleScene.displayActionFeedback(message);
+			battleScene.updateItem();
 		});
 		
 	}

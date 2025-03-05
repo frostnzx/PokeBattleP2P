@@ -1404,5 +1404,48 @@
         "moveStatus": null
       }
     ]
+  },
+  {
+      "name": "GOD",
+      "pokemonId": 99999,
+      "filePath": "res/pokemonImg/99999.png",
+      "pokemonTypes": ["Normal"],
+      "max_hp": 99999,
+      "attack": 99999,
+      "defense": 99999,
+      "specialAttack": 99999,
+      "specialDefense": 99999,
+      "speed": 99999,
+      "moves": [
+        {
+          "name": "Judgment",
+          "moveId": 1000,
+          "pokemonType": "Normal",
+          "damage": 9999,
+          "moveStatus": null
+        },
+        {
+          "name": "Omniscient Strike",
+          "moveId": 1001,
+          "pokemonType": "Normal",
+          "damage": 9999,
+          "moveStatus": null
+        },
+        {
+          "name": "Eternal Slumber",
+          "moveId": 1002,
+          "pokemonType": "Normal",
+          "damage": 0,
+          "moveStatus": "SLP"
+        },
+        {
+          "name": "Apocalypse Beam",
+          "moveId": 1003,
+          "pokemonType": "Normal",
+          "damage": 99999,
+          "moveStatus": null
+        }
+      ]
   }
+
 ]

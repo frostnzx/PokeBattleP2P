@@ -83,4 +83,13 @@ public class Player {
         this.filePath = filePath;
     }
     
+    public void removeItem(Item removeItem) {
+    	for(Item item : items) {
+    		if(item.equals(removeItem)) {
+    			items.remove(removeItem);
+    			break;
+    		}
+    	}
+    }
+    
 }
