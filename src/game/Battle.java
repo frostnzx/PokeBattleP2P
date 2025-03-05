@@ -90,9 +90,9 @@ public class Battle {
 					player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
 			battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(),
 					player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
-			battleScene.updateStatus(player, player.getActualCurrentPokemon().getStatus());
+			battleScene.updateStatus(updatedPlayer, updatedPlayer.getActualCurrentPokemon().getStatus());
 			
-			String message = player.getName() + " used " + item.getName() + " on " + player.getActualCurrentPokemon().getName() ;
+			String message = updatedPlayer.getName() + " used " + item.getName() + " on " + updatedPlayer.getActualCurrentPokemon().getName() ;
 			battleScene.displayActionFeedback(message);
 			battleScene.updateItem();
 		});
