@@ -66,7 +66,15 @@ public class Battle {
 	}
 
 	public void executeItem(Player player, Item item) {
-		item.use(player.getPokemons().get(player.getCurrentPokemon()));
+		Player updatedPlayer;
+		if(player != GameSystem.getInstance().getMyPlayer()) {
+			updatedPlayer = GameSystem.getInstance().getMyOpponent();
+			item.use(updatedPlayer.getActualCurrentPokemon());
+		}
+		else {
+			updatedPlayer = GameSystem.getInstance().getMyPlayer();
+			item.use(updatedPlayer.getActualCurrentPokemon());
+		}
 
 		// Update UI
 		Platform.runLater(() -> {
