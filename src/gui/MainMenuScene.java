@@ -12,9 +12,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -23,11 +27,13 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainMenuScene {
 	private Scene scene;
 	private SceneManager sceneManager;
+	private MediaPlayer backgroundPlayer;
 
 	public MainMenuScene(SceneManager sceneManager) {
 
@@ -36,7 +42,7 @@ public class MainMenuScene {
 		String backgroundFile = "res/BackgroundSound.mp3";
         
         Media backgroundSound = new Media(new File(backgroundFile).toURI().toString());
-        MediaPlayer backgroundPlayer = new MediaPlayer(backgroundSound);
+        backgroundPlayer = new MediaPlayer(backgroundSound);
         backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundPlayer.setAutoPlay(true);
         backgroundPlayer.setVolume(0.1); // Adjust the volume (0.0 to 1.0)
@@ -151,6 +157,26 @@ public class MainMenuScene {
             backgroundPlayer.stop(); // Stop the background video
             applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
         });
+        
+        Text settingsText = new Text("Settings");
+        settingsText.setFont(pixelFont);
+        settingsText.setFill(Color.WHITE);
+        settingsText.setCursor(Cursor.HAND);
+
+        settingsText.setOnMouseEntered(event -> {
+            mediaPlayer.stop();
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+            settingsText.setScaleX(1.1);
+            settingsText.setScaleY(1.1);
+        });
+
+        settingsText.setOnMouseExited(event -> {
+            settingsText.setScaleX(1.0);
+            settingsText.setScaleY(1.0);
+        });
+        
+        settingsText.setOnMouseClicked(event -> openSettingsWindow());
 
         
         // Position buttons on the screen (e.g., using StackPane)
@@ -158,6 +184,7 @@ public class MainMenuScene {
 		StackPane.setMargin(joinGameText, new javafx.geometry.Insets(-10, 0, 0, 0)); // Adjust top margin
 		StackPane.setMargin(createGameText, new javafx.geometry.Insets(110, 0, 0, 0)); // Adjust top margin
 		StackPane.setMargin(SelectPokemonText, new javafx.geometry.Insets(230 , 0, 0, 0));
+		StackPane.setMargin(settingsText, new javafx.geometry.Insets(350, 0, 0, 0));
 		
 		Button checkCurrentPokemons = new Button("Check current Deck"); // For testing purposes only // don't delete it yet
 		checkCurrentPokemons.setOnAction(event -> {
@@ -167,7 +194,7 @@ public class MainMenuScene {
 		
 		
 		// Add buttons to the root node
-		root.getChildren().addAll(imageView ,joinGameText, createGameText, SelectPokemonText);
+		root.getChildren().addAll(imageView ,joinGameText, createGameText, SelectPokemonText, settingsText);
 		
 
 		
@@ -195,7 +222,94 @@ public class MainMenuScene {
         });
         fadeOut.play();
     }
+	
+	private void openSettingsWindow() {
+		
+	    Stage settingsStage = new Stage();
+	    settingsStage.setTitle("Pokebattle Settings");
 
+	    VBox settingsLayout = new VBox(15);
+	    settingsLayout.setPadding(new Insets(20));
+	   
+	   
+
+	    // Pokémon font
+	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 18);
+
+	    Label nameLabel = new Label("Enter Your Name:");
+	    //nameLabel.setTextFill(Color.RED);
+	    nameLabel.setFont(pixelFont);
+
+	    TextField nameField = new TextField();
+	    nameField.setPromptText(GameSystem.getInstance().getMyPlayer().getName());
+	    nameField.setStyle("-fx-background-color: white; -fx-font-size: 14px; -fx-background-radius: 15;");
+	    nameField.setPadding(new Insets(10, 10, 10, 10));
+	    nameField.setFont(pixelFont);
+	    nameField.setPrefWidth(200);
+	    
+	    nameField.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
+	        if (newFocus) {
+	           
+	            // If focus is gained, change the font or apply other styles
+	            nameField.setFont(pixelFont);
+	        } else {
+	            // When focus is lost, revert back to default font and other styles
+	        	nameField.setFont(pixelFont);
+	        }
+	    });
+	    
+	    
+
+	    Button saveButton = new Button("Save");
+	    saveButton.setFont(pixelFont);
+	    saveButton.setTranslateY(-2);
+	    saveButton.setTranslateX(5);
+	    
+	    
+	    saveButton.setOnAction(event -> {
+	        String playerName = nameField.getText();
+	        GameSystem.getInstance().getMyPlayer().setName(playerName);
+	        System.out.println("Player Name Set: " + playerName);
+	        
+	    });
+
+	    HBox nameRow = new HBox(10);
+	    nameRow.getChildren().addAll(nameField, saveButton);
+
+	    Label adjustVolume = new Label("Adjust Background Volume:");
+	    //adjustVolume.setTextFill(Color.RED);
+	    adjustVolume.setFont(pixelFont);
+
+	    Slider volumeSlider = new Slider(0, 1, backgroundPlayer.getVolume());
+	    volumeSlider.setShowTickLabels(true);
+	    volumeSlider.setShowTickMarks(true);
+	    volumeSlider.setMajorTickUnit(0.5);
+	    volumeSlider.setMinorTickCount(4);
+	    volumeSlider.setBlockIncrement(0.1);
+	    volumeSlider.setStyle(
+	    	    " -fx-background-color: transparent;"
+	    	);
+
+	    volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+	        backgroundPlayer.setVolume(newVal.doubleValue());
+	    });
+
+	    Button exitButton = new Button("Exit");
+	    exitButton.setFont(pixelFont);
+	    
+	    exitButton.setOnAction(event -> settingsStage.close());
+
+	    settingsLayout.getChildren().addAll(nameLabel, nameRow, adjustVolume, volumeSlider, exitButton);
+	    
+	    // Pokémon background
+	    Scene settingsScene = new Scene(settingsLayout, 400, 300);
+	    settingsStage.setScene(settingsScene);
+	    settingsStage.show();
+	    
+	    settingsScene.getStylesheets().add(getClass().getResource("Slider.css").toExternalForm());
+	    
+	    settingsLayout.requestFocus();
+	}
 	public Scene getScene() {
 		return this.scene;
 	}
