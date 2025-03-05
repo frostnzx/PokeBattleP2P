@@ -91,6 +91,7 @@ public class JoinGameScene {
 			mediaPlayer.stop();
         	mediaPlayer.seek(Duration.ZERO);
         	mediaPlayer.play();
+        	mediaPlayer.setVolume(0.2);
 		});
 
 		joinButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -121,6 +122,7 @@ public class JoinGameScene {
 			mediaPlayer.stop();
         	mediaPlayer.seek(Duration.ZERO);
         	mediaPlayer.play();
+        	mediaPlayer.setVolume(0.2);
 		});
 
 

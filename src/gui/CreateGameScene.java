@@ -55,8 +55,7 @@ public class CreateGameScene {
 		vbox.setAlignment(Pos.CENTER); // Center content inside VBox
 
 		Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 30);
-		Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"),
-				25);
+		Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"),25);
 
 		// Create the text
 		Text text = new Text("Waiting for someone to join...");
@@ -92,6 +91,7 @@ public class CreateGameScene {
 			mediaPlayer.stop();
 			mediaPlayer.seek(Duration.ZERO);
 			mediaPlayer.play();
+			mediaPlayer.setVolume(0.2);
 		});
 
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -112,6 +112,7 @@ public class CreateGameScene {
 			mediaPlayer.stop();
 			mediaPlayer.seek(Duration.ZERO);
 			mediaPlayer.play();
+			mediaPlayer.setVolume(0.2);
 		});
 
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -158,6 +159,7 @@ public class CreateGameScene {
 			fadeIn.setFromValue(0.0); // Fully transparent
 			fadeIn.setToValue(1.0); // Fully visible
 			fadeIn.play();
+			
 		});
 		fadeOut.play();
 	}
