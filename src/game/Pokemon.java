@@ -60,7 +60,11 @@ public class Pokemon {
 	}
 
 	public boolean isDead() {
-		return (this.hp == 0);
+		if(this.hp <= 0) {
+			return true ; 
+		} else {
+			return false ; 
+		}
 	}
 
 	public static void listPokemons() {

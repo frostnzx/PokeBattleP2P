@@ -49,7 +49,7 @@ public class BattleScene {
 	
 	private GridPane pokemonSelectionContainer;
 	
-	private VBox itemBox;
+	private VBox itemBox ; 
 	
 	private enum Turn {
 		MYTURN , NOTMYTURN
@@ -462,6 +462,26 @@ public class BattleScene {
             updateHpBarAndText(currentHp, maxHp, oppoPane, opponentHpText, true);
             updateStatus(player, pokemon.getStatus());
             updatePokemonName(pokemon, opponentPokemonName);
+        }
+    }
+    public void updateItem() {
+        updateItemBox(itemBox);
+    }
+    
+    public void updateItemBox(VBox itemBox) {
+        itemBox.getChildren().clear();
+        
+        ArrayList<Item> itemList = GameSystem.getInstance().getMyPlayer().getItems();
+        for (int i = 0; i < itemList.size(); i++) {
+            Item item = itemList.get(i);
+            Button button = new Button(item.getName());
+            button.setStyle("-fx-border-width: 1; -fx-padding: 10;");
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setOnAction(event -> {
+                GameSystem.getInstance().sendBag(item);
+            });
+
+            itemBox.getChildren().add(button);
         }
     }
 

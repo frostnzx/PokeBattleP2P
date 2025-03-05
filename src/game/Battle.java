@@ -27,22 +27,30 @@ public class Battle {
 	public boolean executeMove(Player player, Move move) {
 		Pokemon pokemon = player.getPokemons().get(player.getCurrentPokemon());
 		if (pokemon.getStatus() == Status.PAR) {
-            battleScene.displayActionFeedback("Your current pokemon can't attack while being paralyzed..");
+			if(player == GameSystem.getInstance().getMyPlayer()) {
+				battleScene.displayActionFeedback("Your current pokemon can't attack while being paralyzed..");
+			}
             return false;
         }
         if (pokemon.getStatus() == Status.SLP) {
-            battleScene.displayActionFeedback("Your current pokemon can't attack while sleeping..");
+			if(player == GameSystem.getInstance().getMyPlayer()) {
+				battleScene.displayActionFeedback("Your current pokemon can't attack while sleeping..");
+			}
             return false;
         }
         if (pokemon.getHp() <= 0) {
-            battleScene.displayActionFeedback("Your current pokemon is dead. Change your pokemon now!");
+			if(player == GameSystem.getInstance().getMyPlayer()) {
+				battleScene.displayActionFeedback("Your current pokemon is dead. Change your pokemon now!");
+			}
             return false;
         }
 		Player target = (player == player1) ? player2 : player1; // target is someone that is not player
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
 		int damage = calculateDamage(pokemon, targetPokemon, move);
 		targetPokemon.setHp(Math.max(0, targetPokemon.getHp() - damage));
-		targetPokemon.setStatus(move.getMoveStatus());
+		if(move.getMoveStatus() != null) {
+			targetPokemon.setStatus(move.getMoveStatus());
+		}
 
 		// Update UI
 		Platform.runLater(() -> {
@@ -76,7 +84,6 @@ public class Battle {
 			item.use(updatedPlayer.getActualCurrentPokemon());
 		}
 		updatedPlayer.removeItem(item);
-		
 		// Update UI
 		Platform.runLater(() -> {
 			battleScene.updatePlayerHp(player1.getPokemons().get(player1.getCurrentPokemon()).getHp(),
@@ -136,6 +143,7 @@ public class Battle {
 					player1.getPokemons().get(player1.getCurrentPokemon()).getMaxHp());
 			battleScene.updateOpponentHp(player2.getPokemons().get(player2.getCurrentPokemon()).getHp(),
 					player2.getPokemons().get(player2.getCurrentPokemon()).getMaxHp());
+			// MIGHT BE BUGGY 
 			if (p1.getStatus() != null) {
 				String message = p1.getName() + " affected from status " + statusToStr(p1.getStatus());
 				battleScene.displayActionFeedback(message);

@@ -29,15 +29,17 @@ public class Player {
     }
     
     public boolean isAlive() {
-        int countAlivePokemon = 0 ; 
+        int countDeadPokemon = 0 ;  
         for(Pokemon pokemon : pokemons) {
-            if(!pokemon.isDead()) {
-                countAlivePokemon++;
+            if(pokemon.isDead() || pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
+                countDeadPokemon++;
             }
         }
-        if(countAlivePokemon == 0)  
-            return false ;
-        else return true ; 
+        if(countDeadPokemon == 6) {
+        	return false ; 
+        } else {
+        	return true ; 
+        }
     }
 
     public void setPokemons(ArrayList<Pokemon> pokemons) {
@@ -84,12 +86,12 @@ public class Player {
     }
     
     public void removeItem(Item removeItem) {
-    	for(Item item : items) {
-    		if(item.equals(removeItem)) {
-    			items.remove(removeItem);
-    			break;
-    		}
-    	}
+        for(Item item : items) {
+            if(item.equals(removeItem)) {
+                items.remove(removeItem);
+                break;
+            }
+        }
     }
     
 }
