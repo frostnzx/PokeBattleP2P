@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.File;
+
 import game.GameSystem;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -17,6 +19,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -44,6 +48,9 @@ public class JoinGameScene {
 
 		// Custom Font
 		Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 18);
+		String soundFile = "res/button_sound.mp3";
+	    Media buttonSound = new Media(new File(soundFile).toURI().toString());
+	    MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 
 		// UI Elements in a VBox
 		VBox vbox = new VBox(20);
@@ -78,38 +85,28 @@ public class JoinGameScene {
 		Button joinButton = new Button();
 		joinButton.setGraphic(buttonText);
 		joinButton.getStyleClass().add("join_button");
-//		joinButton.setStyle(
-//				"-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-//
-//		// Button Scaling Animation on Hover
-//		joinButton.setOnMouseEntered(event -> {
-//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinButton);
-//			scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-//			scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-//			scaleTransition.play();
-//		});
-//
-//		joinButton.setOnMouseExited(event -> {
-//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinButton);
-//			scaleTransition.setToX(1); // Reset to original scale
-//			scaleTransition.setToY(1);
-//			scaleTransition.play();
-//		});
+
+		
+		joinButton.setOnMouseEntered(event -> {
+			mediaPlayer.stop();
+        	mediaPlayer.seek(Duration.ZERO);
+        	mediaPlayer.play();
+		});
 
 		joinButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				 // create client
-                String ipAddress = ipTextField.getText().trim();
-                int port = Integer.parseInt(portTextField.getText());
-                client = new PeerClient(ipAddress, port);
-                client.start();
+               String ipAddress = ipTextField.getText().trim();
+               int port = Integer.parseInt(portTextField.getText());
+               client = new PeerClient(ipAddress, port);
+               client.start();
 
-                // game system logic
-                GameSystem.getInstance().setMyPeer(client);
-                GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer7.png");
-                
-                // start battle & show battleScene
-                GameSystem.getInstance().startBattle();
+               // game system logic
+               GameSystem.getInstance().setMyPeer(client);
+               GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer7.png");
+               
+               // start battle & show battleScene
+               GameSystem.getInstance().startBattle();
 			}
 		});
 
@@ -120,26 +117,15 @@ public class JoinGameScene {
 		Button menuButton = new Button();
 		menuButton.setGraphic(menuText);
 		menuButton.getStyleClass().add("menu2_button");
-//		menuButton.setStyle(
-//				"-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-//
-//		// Button Scaling Animation on Hover
-//
-//		menuButton.setOnMouseEntered(event -> {
-//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-//			scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-//			scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-//			scaleTransition.play();
-//		});
-//
-//		menuButton.setOnMouseExited(event -> {
-//			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-//			scaleTransition.setToX(1); // Reset to original scale
-//			scaleTransition.setToY(1);
-//			scaleTransition.play();
-//		});
+		menuButton.setOnMouseEntered(event -> {
+			mediaPlayer.stop();
+        	mediaPlayer.seek(Duration.ZERO);
+        	mediaPlayer.play();
+		});
+
 
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
+
 			public void handle(ActionEvent e) {
 				 applySceneTransition(() -> sceneManager.showMainMenu());
 			}
@@ -163,38 +149,6 @@ public class JoinGameScene {
 
 	}
 
-//		// create gui
-//		GridPane root = new GridPane();
-//		Label ipLabel = new Label("IP : ");
-//		TextField ipTextField = new TextField();
-//		Label portLabel = new Label("PORT : ");
-//		TextField portTextField = new TextField();
-//		
-//		root.addRow(0 , ipLabel , ipTextField);
-//		root.addRow(1 , portLabel , portTextField);
-//		
-//		Button button = new Button("JOIN");
-//		button.setOnAction(new EventHandler<ActionEvent>() {
-//			public void handle(ActionEvent e) {
-//				// create client
-//				String ipAddress = ipTextField.getText().trim();
-//				int port = Integer.parseInt(portTextField.getText());
-//				client = new PeerClient(ipAddress , port);
-//				client.start();
-//				
-//				// game system logic
-//				GameSystem.getInstance().setMyPeer(client);
-//				// ...
-//				// ...
-//				
-//				// open new scene (gui)
-//				// ...
-//				// ...
-//			}
-//		});
-//		root.addRow(2, button);
-//		this.scene = new Scene(root , 800 , 600);
-//	}
 	
 	private void applySceneTransition(Runnable sceneSwitch) {
         // Apply fade out transition on the current scene

@@ -1,7 +1,8 @@
 package gui;
 
 
-import game.GameSystem;
+import java.io.File;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -15,6 +16,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -27,135 +31,138 @@ public class MainMenuScene {
 	public MainMenuScene(SceneManager sceneManager) {
 
 		this.sceneManager = sceneManager;
+		
+		String backgroundFile = "res/BackGroundSound.mp3";
+        
+        Media backgroundSound = new Media(new File(backgroundFile).toURI().toString());
+        MediaPlayer backgroundPlayer = new MediaPlayer(backgroundSound);
+        backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundPlayer.setAutoPlay(true);
+        
+        String soundFile = "res/button_sound.mp3";
+        
+        Media buttonSound = new Media(new File(soundFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 
 		StackPane root = new StackPane();
 
-		// Load the background image
-		Image backgroundImage = new Image("pokemon_menu.jpg"); // Use the correct path to your image file
-		ImageView backgroundImageView = new ImageView(backgroundImage);
+		String videoPath = new File("res/BackGroundVid2.mp4").toURI().toString();
+		Media media = new Media(videoPath);
+		MediaPlayer mediaPlayer1 = new MediaPlayer(media);
+		mediaPlayer1.setCycleCount(MediaPlayer.INDEFINITE);
+		mediaPlayer1.setAutoPlay(true);
+		
+		// Create MediaView and adjust it to fit the scene
+		MediaView mediaView = new MediaView(mediaPlayer1);
+		mediaView.setFitWidth(800); // Match scene width
+		mediaView.setFitHeight(600); // Match scene height
+		mediaView.setPreserveRatio(false); // Stretch to fill
 
-		// Set the ImageView to fill the entire background of the StackPane
-		backgroundImageView.setFitWidth(800); // Set the width to match your scene's width
-		backgroundImageView.setFitHeight(600); // Set the height to match your scene's height
-		backgroundImageView.setPreserveRatio(false); // Optional: Keep the aspect ratio of the image
 
 		// Add the ImageView as the background to the root node
-		root.getChildren().add(backgroundImageView);
+		root.getChildren().add(0, mediaView);
 		
 		//Create pokemon logo
-		Image pokemonlogo = new Image("pokemon.png");
+		Image pokemonlogo = new Image("pokebattle.png");
 		ImageView imageView = new ImageView(pokemonlogo);
 		imageView.setFitWidth(350);
 	    imageView.setFitHeight(350);
 	    imageView.setPreserveRatio(true);
 	    
 	    //Add font
-	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 25);
+	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 35);
 	    
-	 // Create the "Join Game" button text with stroke
         Text joinGameText = new Text("Join Game");
         joinGameText.setFont(pixelFont); // Apply the retro font
         joinGameText.setFill(Color.WHITE); // Set text color
-        //joinGameText.setStroke(Color.BLACK); // Set stroke color (border around text)
-        joinGameText.setStrokeWidth(0); // Set stroke width
+        joinGameText.setCursor(Cursor.HAND); // Set hand cursor for interactivity
+   
+        
+     // Add hover effect (enlarge on hover)
+        joinGameText.setOnMouseEntered(event -> {
+        	mediaPlayer.stop();
+        	mediaPlayer.seek(Duration.ZERO);
+        	mediaPlayer.play();
+            joinGameText.setScaleX(1.1);
+            joinGameText.setScaleY(1.1);
+       
+        });
+        joinGameText.setOnMouseExited(event -> {
+            joinGameText.setScaleX(1.0);
+            joinGameText.setScaleY(1.0);
+        });
+
+        // Handle click event
+        joinGameText.setOnMouseClicked(event -> {
+        	backgroundPlayer.stop(); // Stop the background video
+            applySceneTransition(() -> sceneManager.showJoinGameScene());
+        });
 
         // Create the "Create Game" button text with stroke
         Text createGameText = new Text("Create Game");
         createGameText.setFont(pixelFont); // Apply the retro font
         createGameText.setFill(Color.WHITE); // Set text color
+        createGameText.setCursor(Cursor.HAND);
+        createGameText.setOnMouseEntered(event -> {
+        	mediaPlayer.stop();
+        	mediaPlayer.seek(Duration.ZERO);
+        	mediaPlayer.play();
+            createGameText.setScaleX(1.1);
+            createGameText.setScaleY(1.1);
+            
+       
+        });
+        createGameText.setOnMouseExited(event -> {
+            createGameText.setScaleX(1.0);
+            createGameText.setScaleY(1.0);
+        });
+
+        // Handle click event
+        createGameText.setOnMouseClicked(event -> {
+            backgroundPlayer.stop(); // Stop the background video
+            applySceneTransition(() -> sceneManager.showCreateGameScene());
+        });
         
-        //createGameText.setStroke(Color.BLACK); // Set stroke color (border around text)
-        createGameText.setStrokeWidth(0); // Set stroke width
-        
-        Text SelectPokemonText = new Text("SelectPokemon");
+        Text SelectPokemonText = new Text("Select Pokemon");
         SelectPokemonText.setFont(pixelFont); // Apply the retro font
         SelectPokemonText.setFill(Color.WHITE); // Set text color
+        SelectPokemonText.setCursor(Cursor.HAND);
+        SelectPokemonText.setOnMouseEntered(event -> {
+        	mediaPlayer.stop();
+        	mediaPlayer.seek(Duration.ZERO);
+        	mediaPlayer.play();
+            SelectPokemonText.setScaleX(1.1);
+            SelectPokemonText.setScaleY(1.1);
+            
+       
+        });
+        SelectPokemonText.setOnMouseExited(event -> {
+            SelectPokemonText.setScaleX(1.0);
+            SelectPokemonText.setScaleY(1.0);
+        });
         
-        //createGameText.setStroke(Color.BLACK); // Set stroke color (border around text)
-        SelectPokemonText.setStrokeWidth(0); // Set stroke width
-		
+        
+        SelectPokemonText.setOnMouseClicked(event -> {
+            backgroundPlayer.stop(); // Stop the background video
+            //applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
+        });
 
-		// Create the "Join Game" button
-		Button joinGameButton = new Button();
-		joinGameButton.setGraphic(joinGameText);
-		joinGameButton.getStyleClass().add("button"); // Apply CSS
-		
-		//joinGameButton.setStyle("-fx-background-color: #9370DB; -fx-text-fill: white; -fx-font-size: 20px; -fx-border-radius: 40; -fx-background-radius: 15; -fx-padding: 10 20;"); // Customize button style
-		joinGameButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				// Switch to the Join Game scene when clicked
-				applySceneTransition(() -> sceneManager.showJoinGameScene());
-			}
-		});
-		
-//		joinGameButton.setOnMouseEntered(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinGameButton);
-//		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-//		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-//		    scaleTransition.play();
-//		});
-//
-//		joinGameButton.setOnMouseExited(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), joinGameButton);
-//		    scaleTransition.setToX(1); // Reset to original scale
-//		    scaleTransition.setToY(1);
-//		    scaleTransition.play();
-//		});
-
-		// Create the "Create Game" button
-		Button createGameButton = new Button();
-		createGameButton.getStyleClass().add("button");
-		createGameButton.setGraphic(createGameText);
-		createGameButton.setTranslateY(15);
-		//createGameButton.setStyle("-fx-background-color: #9370DB; -fx-text-fill: white; -fx-font-size: 20px; -fx-border-radius: 40; -fx-background-radius: 15; -fx-padding: 10 20;"); // Customize button style
-		createGameButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				// Switch to the Create Game scene when clicked
-				applySceneTransition(() -> sceneManager.showCreateGameScene());
-			}
-		});
-		
-//		createGameButton.setOnMouseEntered(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), createGameButton);
-//		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-//		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-//		    scaleTransition.play();
-//		});
-//
-//		createGameButton.setOnMouseExited(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), createGameButton);
-//		    scaleTransition.setToX(1); // Reset to original scale
-//		    scaleTransition.setToY(1);
-//		    scaleTransition.play();
-//		});
-
-		Button SelectPokemonButton = new Button();
-		SelectPokemonButton.getStyleClass().add("button");
-		SelectPokemonButton.setGraphic(SelectPokemonText);
-		SelectPokemonButton.setTranslateY(15);
-		SelectPokemonButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				// Switch to the Create Game scene when clicked
-				applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
-			}
-		});
-
-		// Position buttons on the screen (e.g., using StackPane)
+        
+        // Position buttons on the screen (e.g., using StackPane)
 		StackPane.setMargin(imageView, new javafx.geometry.Insets(-200, 0, 0, 0));
-		StackPane.setMargin(joinGameButton, new javafx.geometry.Insets(0, 0, 0, 0)); // Adjust top margin
-		StackPane.setMargin(createGameButton, new javafx.geometry.Insets(130, 0, 0, 0)); // Adjust top margin
-		StackPane.setMargin(SelectPokemonButton, new javafx.geometry.Insets(300, 0, 0, 0));
+		StackPane.setMargin(joinGameText, new javafx.geometry.Insets(-10, 0, 0, 0)); // Adjust top margin
+		StackPane.setMargin(createGameText, new javafx.geometry.Insets(110, 0, 0, 0)); // Adjust top margin
+		StackPane.setMargin(SelectPokemonText, new javafx.geometry.Insets(230 , 0, 0, 0));
 		
 		Button checkCurrentPokemons = new Button("Check current Deck"); // For testing purposes only // don't delete it yet
 		checkCurrentPokemons.setOnAction(event -> {
-            GameSystem.getInstance().getMyPlayer().listCurrentPokemons();
+            //GameSystem.getInstance().getMyPlayer().listCurrentPokemons();
         });
 		
+		
+		
 		// Add buttons to the root node
-		root.getChildren().addAll(imageView ,joinGameButton, createGameButton,SelectPokemonButton);
+		root.getChildren().addAll(imageView ,joinGameText, createGameText, SelectPokemonText);
 		
 
 		
@@ -165,25 +172,6 @@ public class MainMenuScene {
 		// Load CSS file
 		scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-//		// create gui
-//		GridPane root = new GridPane();
-//		Button createBtn = new Button("Create");
-//		createBtn.setOnAction(new EventHandler<ActionEvent>() {
-//			public void handle(ActionEvent event) {
-//				sceneManager.showCreateGameScene();
-//			}
-//		});
-//		Button joinBtn = new Button("Join");
-//		joinBtn.setOnAction(new EventHandler<ActionEvent>() {
-//			public void handle(ActionEvent event) {
-//				sceneManager.showJoinGameScene();
-//			}
-//		});
-//		root.add(createBtn, 0, 1);
-//		root.add(joinBtn, 0, 3);
-//		this.scene = new Scene(root, 300, 250);
-		
-	
 	}
 	
 	private void applySceneTransition(Runnable sceneSwitch) {

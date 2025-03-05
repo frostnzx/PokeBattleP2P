@@ -1,13 +1,14 @@
 package gui;
 
 import net.PeerServer;
+
+import java.io.File;
+
 import game.GameSystem;
-import game.Player;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -17,6 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,7 +34,6 @@ public class CreateGameScene {
 		// create server
 		server = new PeerServer();
 		server.start();
-		// game system
 		GameSystem.getInstance().setMyPeer(server);
 		GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer6.png");
 		// for closing the server
@@ -40,6 +42,9 @@ public class CreateGameScene {
 		});
 
 		this.sceneManager = sceneManager;
+		String soundFile = "res/button_sound.mp3";
+		Media buttonSound = new Media(new File(soundFile).toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 
 		// Create root container
 		StackPane root = new StackPane();
@@ -49,7 +54,8 @@ public class CreateGameScene {
 		vbox.setAlignment(Pos.CENTER); // Center content inside VBox
 
 		Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 30);
-		Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 25);
+		Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"),
+				25);
 
 		// Create the text
 		Text text = new Text("Waiting for someone to join...");
@@ -59,17 +65,17 @@ public class CreateGameScene {
 		Ip.setFont(pixelFont);
 		Port.setFont(pixelFont);
 
-		// for UI updating 
+		// for UI updating
 		server.setOnClientConnectedListener(client -> {
 			Platform.runLater(() -> {
-		        text.setText("Someone has joined, click ready to start the game!");
-		        text.setFill(Color.GREEN);
-		    });
+				text.setText("Someone has joined, click ready to start the game!");
+				text.setFill(Color.GREEN);
+			});
 		});
-		
+
 		HBox hBox = new HBox(20);
 		hBox.setAlignment(Pos.CENTER);
-		
+
 		Text menuText = new Text("MENU");
 		menuText.setFont(pixelFont2);
 		menuText.setFill(Color.WHITE);
@@ -77,64 +83,46 @@ public class CreateGameScene {
 		Text startText = new Text("START");
 		startText.setFont(pixelFont2);
 		startText.setFill(Color.WHITE);
-		
+
 		Button startButton = new Button();
-        startButton.setGraphic(startText);
-        startButton.getStyleClass().add("start_button");
-//        startButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-//        startButton.setOnMouseEntered(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), startButton);
-//		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-//		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-//		    scaleTransition.play();
-//		});
-//
-//		startButton.setOnMouseExited(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), startButton);
-//		    scaleTransition.setToX(1); // Reset to original scale
-//		    scaleTransition.setToY(1);
-//		    scaleTransition.play();
-//		});
-		
+		startButton.setGraphic(startText);
+		startButton.getStyleClass().add("start_button");
+		startButton.setOnMouseEntered(event -> {
+			mediaPlayer.stop();
+			mediaPlayer.seek(Duration.ZERO);
+			mediaPlayer.play();
+		});
+
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-            	//show start Battle then show Battle scene
-            	//If opponent join it can click this button
-            	// maybe disable this button before opponent join ?
-            	GameSystem.getInstance().startBattle();
-            }
-        });
-        
-        
-        Button menuButton = new Button();
-        menuButton.setGraphic(menuText);
-        menuButton.getStyleClass().add("menu_button");
-        
-//        menuButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 15; -fx-padding: 10 20;");
-//        menuButton.setOnMouseEntered(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-//		    scaleTransition.setToX(1.1); // Scale up by 10% in the X direction
-//		    scaleTransition.setToY(1.1); // Scale up by 10% in the Y direction
-//		    scaleTransition.play();
-//		});
-//
-//		menuButton.setOnMouseExited(event -> {
-//		    ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), menuButton);
-//		    scaleTransition.setToX(1); // Reset to original scale
-//		    scaleTransition.setToY(1);
-//		    scaleTransition.play();
-//		});
-		
+			public void handle(ActionEvent e) {
+				// show Battle scene
+				// If opponent join it can click this button
+				// show start Battle then show Battle scene
+				// If opponent join it can click this button
+				// maybe disable this button before opponent join ?
+				GameSystem.getInstance().startBattle();
+			}
+		});
+
+		Button menuButton = new Button();
+		menuButton.setGraphic(menuText);
+		menuButton.getStyleClass().add("menu_button");
+		menuButton.setOnMouseEntered(event -> {
+			mediaPlayer.stop();
+			mediaPlayer.seek(Duration.ZERO);
+			mediaPlayer.play();
+		});
+
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-            	 GameSystem.getInstance().getMyPeer().close();
-            	 applySceneTransition(() -> sceneManager.showMainMenu());            	
-            }
-        });
-        
-        hBox.getChildren().addAll(menuButton, startButton);
-        
-        hBox.setTranslateY(20);
+			public void handle(ActionEvent e) {
+				GameSystem.getInstance().getMyPeer().close();
+				applySceneTransition(() -> sceneManager.showMainMenu());
+			}
+		});
+
+		hBox.getChildren().addAll(menuButton, startButton);
+
+		hBox.setTranslateY(20);
 
 		// Add text to VBox
 		vbox.getChildren().addAll(text, Ip, Port, hBox);
@@ -144,7 +132,7 @@ public class CreateGameScene {
 
 		// Create scene
 		this.scene = new Scene(root, 800, 600);
-		
+
 		scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), text);
@@ -154,33 +142,24 @@ public class CreateGameScene {
 		fadeTransition.setAutoReverse(true); // Reverse the animation (fade in and out)
 		fadeTransition.play(); // Start the animation
 
-		// create gui
-		// GridPane root = new GridPane();
-//		Text text = new Text("Waiting for someone to join...");
-//		root.add(text, 0, 0);
-//		this.scene = new Scene(root, 300, 250);
-
-		// write some logic that if server got some client , it will open new scene
-		// (battle scene)
-		// + some game system logic (game start or some shit)
 	}
-	
+
 	private void applySceneTransition(Runnable sceneSwitch) {
-        // Apply fade out transition on the current scene
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
-        fadeOut.setFromValue(1.0); // Fully visible
-        fadeOut.setToValue(0.0); // Fully transparent
-        fadeOut.setOnFinished(event -> {
-            // Once fade-out is complete, switch scenes
-            sceneSwitch.run();
-            // Apply fade in transition on the new scene
-            FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
-            fadeIn.setFromValue(0.0); // Fully transparent
-            fadeIn.setToValue(1.0); // Fully visible
-            fadeIn.play();
-        });
-        fadeOut.play();
-    }
+		// Apply fade out transition on the current scene
+		FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
+		fadeOut.setFromValue(1.0); // Fully visible
+		fadeOut.setToValue(0.0); // Fully transparent
+		fadeOut.setOnFinished(event -> {
+			// Once fade-out is complete, switch scenes
+			sceneSwitch.run();
+			// Apply fade in transition on the new scene
+			FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
+			fadeIn.setFromValue(0.0); // Fully transparent
+			fadeIn.setToValue(1.0); // Fully visible
+			fadeIn.play();
+		});
+		fadeOut.play();
+	}
 
 	public Scene getScene() {
 		return this.scene;
