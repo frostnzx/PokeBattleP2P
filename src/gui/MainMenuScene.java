@@ -3,6 +3,7 @@ package gui;
 
 import java.io.File;
 
+import game.GameSystem;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ public class MainMenuScene {
 
 		this.sceneManager = sceneManager;
 		
-		String backgroundFile = "res/BackGroundSound.mp3";
+		String backgroundFile = "res/BackgroundSound.mp3";
         
         Media backgroundSound = new Media(new File(backgroundFile).toURI().toString());
         MediaPlayer backgroundPlayer = new MediaPlayer(backgroundSound);
@@ -144,7 +145,7 @@ public class MainMenuScene {
         
         SelectPokemonText.setOnMouseClicked(event -> {
             backgroundPlayer.stop(); // Stop the background video
-            //applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
+            applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
         });
 
         
@@ -156,7 +157,7 @@ public class MainMenuScene {
 		
 		Button checkCurrentPokemons = new Button("Check current Deck"); // For testing purposes only // don't delete it yet
 		checkCurrentPokemons.setOnAction(event -> {
-            //GameSystem.getInstance().getMyPlayer().listCurrentPokemons();
+            GameSystem.getInstance().getMyPlayer().listCurrentPokemons();
         });
 		
 		
