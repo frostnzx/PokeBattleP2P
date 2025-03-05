@@ -160,11 +160,13 @@ public class BattleScene {
 		// Calculate percentage HP left
 		double percentageOppo = (double) maxHpOppo / maxHpOppo;
 		foregroundHpBarOppo.setWidth(150 * percentageOppo); // Adjust green bar width
-
+		foregroundHpBarOppo.setTranslateX(150);
+		backgroundHpBarOppo.setTranslateX(150);
 		// Pane to stack elements
 		oppoPane = new Pane();
 		oppoPane.getChildren().addAll(backgroundHpBarOppo, foregroundHpBarOppo);
-
+		
+		
 		// Battle Options --------------------------------------------
 		Label actionLabel = new Label("What will PokemonName do?");
 		actionLabel.setFont(Font.font(20));
@@ -366,7 +368,7 @@ public class BattleScene {
 		scene = new Scene(root, 1200, 700);
 	}
 
-	public void updateHpBarAndText(int currentHp, int maxHp, Pane hpPane, Label hpText) {
+	public void updateHpBarAndText(int currentHp, int maxHp, Pane hpPane, Label hpText, boolean isOppo) {
 		// Clear the current content of the hpPane
 		hpPane.getChildren().clear();
 
@@ -379,6 +381,11 @@ public class BattleScene {
 		Rectangle foregroundHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
 		foregroundHpBar.setStroke(Color.BLACK);
 		foregroundHpBar.setStrokeWidth(1);
+
+		if(isOppo) {
+			foregroundHpBar.setTranslateX(150);
+			backgroundHpBar.setTranslateX(150);	
+		}
 
 		// Calculate percentage HP left
 		double percentage = (double) currentHp / maxHp;
@@ -476,13 +483,13 @@ public class BattleScene {
 	// Method to update the player's HP
 	public void updatePlayerHp(int currentHp, int maxHp) {
 		System.out.println("change PlayerHp");
-		updateHpBarAndText(currentHp, maxHp, playerPane, playerHpText);
+		updateHpBarAndText(currentHp, maxHp, playerPane, playerHpText, false);
 	}
 
 	// Method to update the opponent's HP
 	public void updateOpponentHp(int currentHp, int maxHp) {
 		System.out.println("change OpponentHp");
-		updateHpBarAndText(currentHp, maxHp, oppoPane, opponentHpText);
+		updateHpBarAndText(currentHp, maxHp, oppoPane, opponentHpText, true);
 	}
 
 	// Method to update status conditions
@@ -522,7 +529,7 @@ public class BattleScene {
 			updatePokemonAvatar(playerPokemon,pokemon);
 			int currentHp = GameSystem.getInstance().getMyPlayer().getActualCurrentPokemon().getHp();
 			int maxHp = GameSystem.getInstance().getMyPlayer().getActualCurrentPokemon().getMaxHp();
-			updateHpBarAndText(currentHp,maxHp,playerPane,playerHpText);
+			updateHpBarAndText(currentHp,maxHp,playerPane,playerHpText, false);
 			updateStatus(player, pokemon.getStatus());
 			updatePokemonName(pokemon, playerPokemonName);
 			updatePokemonMove(pokemon, moveSelectionPanel);
@@ -532,7 +539,7 @@ public class BattleScene {
 			updatePokemonAvatar(opponentPokemon,pokemon);
 			int currentHp = GameSystem.getInstance().getMyOpponent().getActualCurrentPokemon().getHp();
 			int maxHp = GameSystem.getInstance().getMyOpponent().getActualCurrentPokemon().getMaxHp();
-			updateHpBarAndText(currentHp,maxHp,oppoPane,opponentHpText);
+			updateHpBarAndText(currentHp,maxHp,oppoPane,opponentHpText, true);
 			updateStatus(player, pokemon.getStatus());
 			updatePokemonName(pokemon,opponentPokemonName);
 		}
