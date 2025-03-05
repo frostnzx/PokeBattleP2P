@@ -39,7 +39,7 @@ public class MainMenuScene {
         MediaPlayer backgroundPlayer = new MediaPlayer(backgroundSound);
         backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundPlayer.setAutoPlay(true);
-        backgroundPlayer.setVolume(0.2); // Adjust the volume (0.0 to 1.0)
+        backgroundPlayer.setVolume(0.1); // Adjust the volume (0.0 to 1.0)
         
         String soundFile = "res/button_sound.mp3";
         
@@ -86,7 +86,7 @@ public class MainMenuScene {
         	mediaPlayer.stop();
         	mediaPlayer.seek(Duration.ZERO);
         	mediaPlayer.play();
-        	mediaPlayer.setVolume(0.2);
+        	mediaPlayer.setVolume(0.05);
             joinGameText.setScaleX(1.1);
             joinGameText.setScaleY(1.1);
        
@@ -111,7 +111,7 @@ public class MainMenuScene {
         	mediaPlayer.stop();
         	mediaPlayer.seek(Duration.ZERO);
         	mediaPlayer.play();
-        	mediaPlayer.setVolume(0.2);
+        	mediaPlayer.setVolume(0.05);
             createGameText.setScaleX(1.1);
             createGameText.setScaleY(1.1);
             

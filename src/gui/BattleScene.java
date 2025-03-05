@@ -430,7 +430,11 @@ public class BattleScene {
 		moveSelectionPanel.add(backButton, 0, rc / 2 + 1);
 		moveSelectionPanel.setHgap(10);
 		moveSelectionPanel.setVgap(10);
-		moveSelectionPanel.setAlignment(Pos.CENTER);	
+		moveSelectionPanel.setAlignment(Pos.CENTER);
+		
+		backButton.setOnAction(event -> {
+			root.setBottom(actionContainer);
+		});
 	}
 	
 	public void updatePokemonSelectionContainer(Pokemon currentPokemon, GridPane pokemonSelectionContainer) {
