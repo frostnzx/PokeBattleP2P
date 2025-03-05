@@ -296,11 +296,9 @@ public class BattleScene {
 		pokemonName.setText(pokemon.getName());
 	}
 	
-	public void updatePokemonMove(Pokemon pokemon, GridPane moveSelectionPanel) {
+	public void updatePokemonMove(Pokemon currentPokemon, GridPane moveSelectionPanel) {
 		moveSelectionPanel.getChildren().clear();
 	
-		Pokemon currentPokemon = GameSystem.getInstance().getMyPlayer().getPokemons()
-				.get(GameSystem.getInstance().getMyPlayer().getCurrentPokemon());
 		ArrayList<Move> moves = currentPokemon.getMoves();
 		Label moveLabel = new Label("Choose a move:");
 		moveLabel.setFont(Font.font(20));
@@ -493,28 +491,22 @@ public class BattleScene {
 		StackPane stackPanetext = new StackPane(textbox, text);
 		stackPanetext.setAlignment(Pos.CENTER);
 		stackPanetext.setPadding(new Insets(10));
-		
-		if(root.getBottom() == this.actionContainer) {
-			Platform.runLater(() -> {
-				root.setBottom(stackPanetext);
-			});
-		} else {
-			root.getBottom().setOnMouseClicked(event -> {
+		stackPanetext.setOnMouseClicked(event -> {
+			if(this.turn == Turn.MYTURN) {
 				Platform.runLater(() -> {
-					root.setBottom(stackPanetext);
+					root.setBottom(actionContainer);
 				});
-			});
-		}
+			}
+		});
+		
+		Platform.runLater(() -> {
+			root.setBottom(stackPanetext);
+		});
 		
 		this.turn = Turn.NOTMYTURN ; 
 	}
 
 	public void unfreeze() {
-		root.getBottom().setOnMouseClicked(event -> {
-			Platform.runLater(() -> {
-				root.setBottom(actionContainer);
-			});
-		});
 		this.turn = Turn.MYTURN ; 
 	}
 
