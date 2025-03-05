@@ -39,6 +39,7 @@ public class MainMenuScene {
         MediaPlayer backgroundPlayer = new MediaPlayer(backgroundSound);
         backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundPlayer.setAutoPlay(true);
+        backgroundPlayer.setVolume(0.1);
         
         String soundFile = "res/button_sound.mp3";
         

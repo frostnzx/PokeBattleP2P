@@ -134,6 +134,7 @@ public class BattleScene {
 		// (opponent)
 		opponentPokemonName = new Label(oppoPokeName);
 		opponentPokemonName.setFont(Font.font(14));
+
 //		Rectangle opponentHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
 
 		Label opponentStatus = new Label("No Condition");
