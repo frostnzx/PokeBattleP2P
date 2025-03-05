@@ -153,10 +153,12 @@ public class GameSystem {
 						Move oppoMove = gson.fromJson(moveJsonElement, Move.class);
 						Player oppoPlayer = gson.fromJson(playerJsonElement, Player.class);
 
-						battle.executeMove(oppoPlayer, oppoMove);
-						battle.executeStatus();
+						boolean isAttackSuccessful = battle.executeMove(oppoPlayer, oppoMove);
 						// receive fight means the opponent turn just ended, so unfreeze ourself
-						this.battle.unfreezeTurn();
+						if(isAttackSuccessful) {
+							battle.executeStatus();
+							this.battle.unfreezeTurn();
+						}
 					} else if (type.equals("Bag")) {
 						JsonElement playerJsonElement = gson.toJsonTree(receiveData.get("Player"));
                         JsonElement itemJsonElement = gson.toJsonTree(receiveData.get("Item"));

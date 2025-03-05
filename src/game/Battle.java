@@ -26,13 +26,18 @@ public class Battle {
 
 	public boolean executeMove(Player player, Move move) {
 		Pokemon pokemon = player.getPokemons().get(player.getCurrentPokemon());
-		if (pokemon.getStatus() == Status.PAR || pokemon.getStatus() == Status.SLP) {
-			return false;
-		}
-		if (pokemon.getHp() <= 0) {
-			battleScene.displayActionFeedback("Your current pokemon is dead. Change your pokemon now!");
-			return false;
-		}
+		if (pokemon.getStatus() == Status.PAR) {
+            battleScene.displayActionFeedback("Your current pokemon can't attack while being paralyzed..");
+            return false;
+        }
+        if (pokemon.getStatus() == Status.SLP) {
+            battleScene.displayActionFeedback("Your current pokemon can't attack while sleeping..");
+            return false;
+        }
+        if (pokemon.getHp() <= 0) {
+            battleScene.displayActionFeedback("Your current pokemon is dead. Change your pokemon now!");
+            return false;
+        }
 		Player target = (player == player1) ? player2 : player1; // target is someone that is not player
 		Pokemon targetPokemon = target.getPokemons().get(target.getCurrentPokemon());
 		int damage = calculateDamage(pokemon, targetPokemon, move);
