@@ -1,7 +1,10 @@
 package gui;
 
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,10 +12,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.net.URL;
 import java.util.Random;
 
 public class WinningScene {
@@ -22,6 +29,16 @@ public class WinningScene {
 
     public WinningScene(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
+        
+        URL soundURL = getClass().getResource("/winningsoundeffect.mp3"); // Ensure the file exists in your 'resources/sounds' folder
+        if (soundURL != null) {
+            Media winningSound = new Media(soundURL.toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(winningSound);
+            mediaPlayer.setVolume(0.8); // Set volume (0.0 to 1.0)
+            mediaPlayer.play(); // Play the sound
+        } else {
+            System.out.println("Error: Winning sound file not found!");
+        }
 
         // Load pixel font
         Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 70);
@@ -29,12 +46,22 @@ public class WinningScene {
 
         // Root layout
         StackPane root = new StackPane();
+        
+        Image backgroundImage = new Image(getClass().getResourceAsStream("/winningbackground.jpg"));
+        ImageView backgroundView = new ImageView(backgroundImage);
+        backgroundView.setFitWidth(800);  // Set width of background to fit the scene
+        backgroundView.setFitHeight(600); // Set height of background to fit the scene
+
+        // Add background image first to the root
+        root.getChildren().add(backgroundView);
 
         // Winning Text
         Text congratText = new Text("Congratulations");
         congratText.setFont(pixelFont);
+        congratText.setFill(Color.WHITE);
         Text winningText = new Text("You Win!!!");
         winningText.setFont(pixelFont);
+        winningText.setFill(Color.WHITE);
 
         // Menu Button (hidden initially)
         Text backText = new Text("Back to Menu");
@@ -46,10 +73,17 @@ public class WinningScene {
         menuButton.getStyleClass().add("menu2_button");
         menuButton.setVisible(false);
         menuButton.setOnAction(e -> sceneManager.showMainMenu());
-
-        // Layout: Text & Button
-        VBox vBox = new VBox(20, congratText, winningText, menuButton);
+        
+     // Load Trophy Image
+        Image trophyImage = new Image(getClass().getResourceAsStream("/trophy.png"));
+        ImageView trophyView = new ImageView(trophyImage);
+        trophyView.setFitWidth(100); // Adjust size
+        trophyView.setFitHeight(100);
+        
+        VBox vBox = new VBox(20, congratText, winningText, trophyView, menuButton);
         vBox.setAlignment(Pos.CENTER);
+
+        
 
         // Add elements to root
         root.getChildren().add(vBox);
@@ -57,52 +91,38 @@ public class WinningScene {
         // Create scene
         this.scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        
+        FadeTransition fadeInCongratText = new FadeTransition(Duration.seconds(2), congratText);
+        fadeInCongratText.setFromValue(0); // Start from invisible
+        fadeInCongratText.setToValue(1);   // Fade to fully visible
+        fadeInCongratText.setCycleCount(1); // Play it once
+        fadeInCongratText.setDelay(Duration.seconds(1)); // Delay before fade-in
+        fadeInCongratText.play();
 
-        // Star Image
-        Image starImage = new Image(getClass().getResourceAsStream("/star.png"));
+        FadeTransition fadeInWinningText = new FadeTransition(Duration.seconds(2), winningText);
+        fadeInWinningText.setFromValue(0); // Start from invisible
+        fadeInWinningText.setToValue(1);   // Fade to fully visible
+        fadeInWinningText.setCycleCount(1); // Play it once
+        fadeInWinningText.setDelay(Duration.seconds(1.5)); // Delay before fade-in
+        fadeInWinningText.play();
 
-        // Create blinking stars
-        Random random = new Random();
-        for (int i = 0; i < STAR_COUNT; i++) {
-            // Create a PauseTransition to introduce a delay before each star is created
-            PauseTransition pause = new PauseTransition(Duration.seconds(i * 0.5)); // Delay 0.5 seconds between each star
+     // Shake Animation for the Trophy
+        Timeline shakeAnimation = new Timeline(
+            new KeyFrame(Duration.millis(50), new KeyValue(trophyView.translateXProperty(), -10)),
+            new KeyFrame(Duration.millis(100), new KeyValue(trophyView.translateXProperty(), 10)),
+            new KeyFrame(Duration.millis(150), new KeyValue(trophyView.translateXProperty(), -8)),
+            new KeyFrame(Duration.millis(200), new KeyValue(trophyView.translateXProperty(), 8)),
+            new KeyFrame(Duration.millis(250), new KeyValue(trophyView.translateXProperty(), -5)),
+            new KeyFrame(Duration.millis(300), new KeyValue(trophyView.translateXProperty(), 5)),
+            new KeyFrame(Duration.millis(350), new KeyValue(trophyView.translateXProperty(), 0)) // Back to center
+        );
+        shakeAnimation.setCycleCount(3); // Shake 3 times
+        shakeAnimation.setAutoReverse(true);
 
-            pause.setOnFinished(e -> {
-                ImageView star = new ImageView(starImage);
-                star.setFitWidth(50);
-                star.setFitHeight(50);
-
-                // Initial random position
-                star.setTranslateX(random.nextInt(800) - 400); // Random X position within screen width
-                star.setTranslateY(random.nextInt(600) - 300); // Random Y position within screen height
-
-                root.getChildren().add(star);
-
-                // Random delay before starting the blink (between 0 and 2 seconds)
-                double randomDelay = random.nextDouble() * 2;
-
-                // Animate the stars' fade in/out
-                FadeTransition blinkTransition = new FadeTransition(Duration.seconds(3), star); // Slower fade in/out
-                blinkTransition.setFromValue(0);  // Start from invisible
-                blinkTransition.setToValue(1);    // Fade to fully visible
-                blinkTransition.setCycleCount(FadeTransition.INDEFINITE);  // Blink indefinitely
-                blinkTransition.setAutoReverse(true);  // Make the star blink (fade in and out)
-                blinkTransition.setDelay(Duration.seconds(randomDelay)); // Add random delay
-
-                // Update position on each fade cycle (after fade-in and fade-out)
-                blinkTransition.setOnFinished(e2 -> {
-                    // Move to a new random position on every fade cycle
-                    star.setTranslateX(random.nextInt(800) - 400); // Random X position
-                    star.setTranslateY(random.nextInt(600) - 300); // Random Y position
-                });
-
-                // Play the fade-in and fade-out animation
-                blinkTransition.play();
-            });
-
-            // Start the pause transition for each star
-            pause.play();
-        }
+        // Delay Shake Animation (Show after 1.5s)
+        PauseTransition delayTrophy = new PauseTransition(Duration.seconds(1.5));
+        delayTrophy.setOnFinished(e -> shakeAnimation.play());
+        delayTrophy.play();
 
         // Show menu button after 5 seconds using PauseTransition
         PauseTransition pauseMenu = new PauseTransition(Duration.seconds(3));
