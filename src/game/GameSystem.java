@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 
 import entity.Item;
 import entity.Potion;
+import gui.BattleScene;
 import gui.SceneManager;
 import javafx.application.Platform;
 import net.Mode;
@@ -184,7 +185,8 @@ public class GameSystem {
 
 					} else if (type.equals("GiveUp")) {
 						// end game?
-						System.out.println("You win");
+						battle.StopPlaying();
+; 						System.out.println("You win");
 						Platform.runLater(() -> {
 							sceneManager.showWinningScene();
 						});	

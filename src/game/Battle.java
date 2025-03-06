@@ -180,6 +180,10 @@ public class Battle {
 			this.battleScene.unfreeze();
 		});
 	}
+	
+	public void StopPlaying() {
+		battleScene.stopPlaying();
+	}
 
 	public boolean isEnded() {
 		if (!player1.isAlive()) {
