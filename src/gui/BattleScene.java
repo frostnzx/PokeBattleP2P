@@ -57,211 +57,319 @@ public class BattleScene {
 	private Turn turn ;
 
 	public BattleScene(SceneManager sceneManager) {
-		if (GameSystem.getInstance().getMyPeer().getMode() == Mode.CLIENT) {
-			turn = Turn.MYTURN;
-		} else {
-			turn = Turn.NOTMYTURN;
-		}
-		this.sceneManager = sceneManager;
-		this.root = new BorderPane();
-		
-		// Player and opponent name --------------------------------------------
-		Player myPlayer = GameSystem.getInstance().getMyPlayer(), myOpponent = GameSystem.getInstance().getMyOpponent();
-		String strplayerName = myPlayer.getName(), stropponentName = myOpponent.getName();
-		Label playerName = new Label(strplayerName);
-		Label opponentName = new Label(stropponentName);
-		// ----------------------------------------------------------
+	    if (GameSystem.getInstance().getMyPeer().getMode() == Mode.CLIENT) {
+	        turn = Turn.MYTURN;
+	    } else {
+	        turn = Turn.NOTMYTURN;
+	    }
+	    this.sceneManager = sceneManager;
+	    this.root = new BorderPane();
 
-		// Pokemon images --------------------------------------------
-		playerPokemon = new Rectangle(300, 300, Color.GRAY);
-		opponentPokemon = new Rectangle(300, 300, Color.GRAY);
-		// ----------------------------------------------------------
+	    // Player and opponent name --------------------------------------------
+	    Player myPlayer = GameSystem.getInstance().getMyPlayer(), myOpponent = GameSystem.getInstance().getMyOpponent();
+	    String strplayerName = myPlayer.getName(), stropponentName = myOpponent.getName();
+	    Label playerName = new Label(strplayerName);
+	    Label opponentName = new Label(stropponentName);
+	    // ----------------------------------------------------------
 
-		// Add background picture to Pokemon --------------------------------------------
-		playerPokemon.setStroke(Color.BLACK);
-		playerPokemon.setStrokeWidth(1);
-		opponentPokemon.setStroke(Color.BLACK);
-		opponentPokemon.setStrokeWidth(1);
-		Pokemon playerActualPokemon = myPlayer.getActualCurrentPokemon();
-		Pokemon opponentActualPokemon = myOpponent.getActualCurrentPokemon();
-		updatePokemonAvatar(playerActualPokemon, playerPokemon);
-		updatePokemonAvatar(opponentActualPokemon, opponentPokemon);
-		// ----------------------------------------------------------
-		
-		// Add Pokemon Name --------------------------------------------
-		playerPokemonName = new Label();
-		playerPokemonName.setFont(Font.font(14));
-		updatePokemonName(playerActualPokemon, playerPokemonName);
-		
-		opponentPokemonName = new Label();
-		opponentPokemonName.setFont(Font.font(14));
-		updatePokemonName(opponentActualPokemon, opponentPokemonName);
-		// ----------------------------------------------------------
+	    // Pokemon images --------------------------------------------
+	    playerPokemon = new Rectangle(170, 170, Color.GRAY);
+	    opponentPokemon = new Rectangle(170, 170, Color.GRAY);
+	    // ----------------------------------------------------------
 
-		// Add background picture to Avatar --------------------------------------------
-		Rectangle playerAvatar = new Rectangle(130, 210, Color.GRAY);
-		Rectangle opponentAvatar = new Rectangle(130, 210, Color.GRAY);
-		String playerFilePath = GameSystem.getInstance().getMyPlayer().getFilePath();
-		String opponentFilePath = (playerFilePath.equals("res/Trainers/trainer6.png") ? "res/Trainers/trainer7.png"
-				: "res/Trainers/trainer6.png");
-		GameSystem.getInstance().getMyOpponent().setFilePath(opponentFilePath);
-		Image playerAvatarImg = new Image("file:" + playerFilePath),
-				opponentAvatarImg = new Image("file:" + opponentFilePath);
-		ImagePattern playerImagePattern = new ImagePattern(playerAvatarImg),
-				opponentImagePattern = new ImagePattern(opponentAvatarImg);
-		playerAvatar.setFill(playerImagePattern);
-		opponentAvatar.setFill(opponentImagePattern);
-		// ----------------------------------------------------------
-		
-		// Status --------------------------------------------
-		Label playerStatus = new Label();
-		playerStatus.setFont(Font.font(10));
-		playerStatus.setTextFill(Color.GRAY);
-		playerStatusText = playerStatus;
-		updateStatus(myPlayer, myPlayer.getActualCurrentPokemon().getStatus());
-		
-		Label opponentStatus = new Label();
-		opponentStatus.setTextFill(Color.GRAY);
-		opponentStatus.setFont(Font.font(10));
-		opponentStatusText = opponentStatus;
-		updateStatus(myOpponent, myOpponent.getActualCurrentPokemon().getStatus());
-		// ----------------------------------------------------------
-		
-		// PokemonHp --------------------------------------------
-		int maxPlayerPokemonHp = myPlayer.getActualCurrentPokemon().getMaxHp();
-		playerHpText = new Label(maxPlayerPokemonHp + " / " + maxPlayerPokemonHp);
-		playerPane = new Pane();
-		updateHpBarAndText(maxPlayerPokemonHp,maxPlayerPokemonHp,playerPane,playerHpText,false);
-		
-		int maxOpponentPokemonHp = myOpponent.getActualCurrentPokemon().getMaxHp();
-		opponentHpText = new Label(maxOpponentPokemonHp + " / " + maxOpponentPokemonHp);
-		oppoPane = new Pane();
-		updateHpBarAndText(maxPlayerPokemonHp,maxPlayerPokemonHp,oppoPane,opponentHpText,true);
-		// ----------------------------------------------------------
+	    // Add background picture to Pokemon --------------------------------------------
+	    Pokemon playerActualPokemon = myPlayer.getActualCurrentPokemon();
+	    Pokemon opponentActualPokemon = myOpponent.getActualCurrentPokemon();
+	    updatePokemonAvatar(playerActualPokemon, playerPokemon);
+	    updatePokemonAvatar(opponentActualPokemon, opponentPokemon);
+	    // ----------------------------------------------------------
 
+	    // Add Pokemon Name --------------------------------------------
+	    playerPokemonName = new Label();
+	    playerPokemonName.setFont(Font.font(14));
+	    updatePokemonName(playerActualPokemon, playerPokemonName);
 
-		// Battle Options --------------------------------------------
-		Label actionLabel = new Label("What will PokemonName do?");
-		actionLabel.setFont(Font.font(20));
-		Button fightButton = new Button("Fight");
-		Button bagButton = new Button("Bag");
-		Button pokemonButton = new Button("Pokemon");
-		Button giveUpButton = new Button("Give Up");
+	    opponentPokemonName = new Label();
+	    opponentPokemonName.setFont(Font.font(14));
+	    updatePokemonName(opponentActualPokemon, opponentPokemonName);
+	    // ----------------------------------------------------------
 
-		fightButton.setMinSize(300, 50);
-		bagButton.setMinSize(300, 50);
-		pokemonButton.setMinSize(300, 50);
-		giveUpButton.setMinSize(300, 50);
-		// ----------------------------------------------------------
-		
-		// Layout setup ----------------------------------------------
-		VBox opponentPokemonInfo = new VBox(opponentPokemonName, oppoPane, opponentHpText, opponentStatus);
-		opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT);
+	    // Add background picture to Avatar --------------------------------------------
+	    Rectangle playerAvatar = new Rectangle(130,200, Color.GRAY);
+	    Rectangle opponentAvatar = new Rectangle(130, 200, Color.GRAY);
+	    String playerFilePath = GameSystem.getInstance().getMyPlayer().getFilePath();
+	    String opponentFilePath = (playerFilePath.equals("res/Trainers/trainer6.png") ? "res/Trainers/trainer7.png"
+	            : "res/Trainers/trainer6.png");
+	    GameSystem.getInstance().getMyOpponent().setFilePath(opponentFilePath);
+	    Image playerAvatarImg = new Image("file:" + playerFilePath),
+	            opponentAvatarImg = new Image("file:" + opponentFilePath);
+	    ImagePattern playerImagePattern = new ImagePattern(playerAvatarImg, 0, 0, 1, 1, true);
+	    ImagePattern opponentImagePattern = new ImagePattern(opponentAvatarImg, 0, 0, 1, 1, true);
+	    playerAvatar.setFill(playerImagePattern);
+	    opponentAvatar.setFill(opponentImagePattern);
+	    playerAvatar.setStroke(Color.BLACK);
+	    playerAvatar.setStrokeWidth(1);
+	    opponentAvatar.setStroke(Color.BLACK);
+	    opponentAvatar.setStrokeWidth(1);
+	    // ----------------------------------------------------------
 
-		HBox opponentInfo = new HBox(10, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
-		HBox playerInfo = new HBox(10, playerAvatar,
-				new VBox(10, playerPokemon, new VBox(playerPokemonName, playerPane, playerHpText, playerStatus)));
-		VBox leftPanel = new VBox(10, playerName, playerInfo);
-		VBox rightPanel = new VBox(10, opponentName, opponentInfo);
-		opponentName.setAlignment(Pos.TOP_RIGHT);
-		HBox battleField = new HBox(50, leftPanel, rightPanel);
-		battleField.setAlignment(Pos.CENTER);
-		battleField.setPadding(new Insets(5));
+	    // Status --------------------------------------------
+	    Label playerStatus = new Label();
+	    playerStatusText = playerStatus;
+	    updateStatus(myPlayer, myPlayer.getActualCurrentPokemon().getStatus());
 
-		GridPane actionPanel = new GridPane();
-		actionPanel.add(fightButton, 0, 0);
-		actionPanel.add(bagButton, 1, 0);
-		actionPanel.add(pokemonButton, 0, 1);
-		actionPanel.add(giveUpButton, 1, 1);
-		actionPanel.setHgap(10);
-		actionPanel.setVgap(10);
-		actionPanel.setAlignment(Pos.CENTER);
+	    Label opponentStatus = new Label();
+	    opponentStatusText = opponentStatus;
+	    updateStatus(myOpponent, myOpponent.getActualCurrentPokemon().getStatus());
+	    // ----------------------------------------------------------
 
-		actionContainer = new BorderPane();
-		actionContainer.setLeft(actionLabel);
-		actionContainer.setRight(actionPanel);
-		actionContainer.setPadding(new Insets(10));
-		actionContainer.setStyle("-fx-background-color: lightgray;");
-		// ----------------------------------------------------------
+	    // PokemonHp --------------------------------------------
+	    int maxPlayerPokemonHp = myPlayer.getActualCurrentPokemon().getMaxHp();
+	    playerHpText = new Label(maxPlayerPokemonHp + " / " + maxPlayerPokemonHp);
+	    playerPane = new Pane();
+	    updateHpBarAndText(maxPlayerPokemonHp, maxPlayerPokemonHp, playerPane, playerHpText, false);
 
-		// Move Selection UI -------------------------------------
-		moveSelectionPanel = new GridPane();
-		Pokemon currentPokemon = myPlayer.getActualCurrentPokemon();
-		updatePokemonMove(currentPokemon, moveSelectionPanel);
-		Label moveLabel = new Label("Choose a move:");
-		moveLabel.setFont(Font.font(20));
-		BorderPane moveSelectionContainer = new BorderPane();
-		moveSelectionContainer.setLeft(moveLabel);
-		moveSelectionContainer.setRight(moveSelectionPanel);
-		moveSelectionContainer.setPadding(new Insets(10));
-		moveSelectionContainer.setStyle("-fx-background-color: lightgray;");
-		// ----------------------------------------------------------
+	    int maxOpponentPokemonHp = myOpponent.getActualCurrentPokemon().getMaxHp();
+	    opponentHpText = new Label(maxOpponentPokemonHp + " / " + maxOpponentPokemonHp);
+	    oppoPane = new Pane();
+	    updateHpBarAndText(maxPlayerPokemonHp, maxPlayerPokemonHp, oppoPane, opponentHpText, true);
+	    // ----------------------------------------------------------
 
-		// Pokemon Selection UI -------------------------------------
-		pokemonSelectionContainer = new GridPane();
-		pokemonSelectionContainer.setHgap(10);
-		pokemonSelectionContainer.setVgap(10);
-		pokemonSelectionContainer.setAlignment(Pos.CENTER);
-		pokemonSelectionContainer.setPadding(new Insets(10));
-		pokemonSelectionContainer.setStyle("-fx-background-color: lightgray;");
-		updatePokemonSelectionContainer(currentPokemon, pokemonSelectionContainer);
-		// ---------------------------------------------
+	    // Battle Options --------------------------------------------
+	    Label actionLabel = new Label("What will PokemonName do?");
+	    actionLabel.setFont(Font.font(50));
+	    Button fightButton = new Button("Fight");
+	    Button bagButton = new Button("Bag");
+	    Button pokemonButton = new Button("Pokemon");
+	    Button giveUpButton = new Button("Give Up");
 
-		// Bag selection----------------------------------
-		itemBox = new VBox(10);
-		itemBox.setPadding(new Insets(10));
-		updateItemBox(itemBox);
+	    fightButton.setMinSize(300, 50);
+	    bagButton.setMinSize(300, 50);
+	    pokemonButton.setMinSize(300, 50);
+	    giveUpButton.setMinSize(300, 50);
 
-		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setContent(itemBox);
-		scrollPane.setFitToWidth(true);
-		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		scrollPane.setStyle("-fx-background-color: lightgray;");
-		scrollPane.setPrefSize(200, 200);
+	    // เพิ่มสไตล์ CSS ให้กับปุ่มหลัก
+	    String mainButtonStyle = "-fx-background-color: linear-gradient(#ff7f50, #ff4500);"
+	            + "-fx-text-fill: white;"
+	            + "-fx-font-size: 16px;"
+	            + "-fx-font-weight: bold;"
+	            + "-fx-padding: 10px 20px;"
+	            + "-fx-border-radius: 15px;"
+	            + "-fx-background-radius: 15px;"
+	            + "-fx-border-color: #ff4500;"
+	            + "-fx-border-width: 2px;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
+	            + "-fx-cursor: hand;";
 
-		Button backButtonFromBag = new Button("Back");
-		backButtonFromBag.setMinSize(50, 20);
-		backButtonFromBag.setStyle("-fx-background-color: lightgray;");
-		backButtonFromBag.setAlignment(Pos.BOTTOM_LEFT);
+	    String mainButtonHoverStyle = "-fx-background-color: linear-gradient(#ff4500, #ff7f50);"
+	            + "-fx-text-fill: #ffffff;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0);";
 
-		BorderPane bagContainer = new BorderPane();
-		bagContainer.setCenter(scrollPane);
-		bagContainer.setBottom(backButtonFromBag);
-		BorderPane.setAlignment(backButtonFromBag, Pos.BOTTOM_LEFT);
-		BorderPane.setMargin(backButtonFromBag, new Insets(10));
-		// -------------------------------------------
+	    fightButton.setStyle(mainButtonStyle);
+	    bagButton.setStyle(mainButtonStyle);
+	    pokemonButton.setStyle(mainButtonStyle);
+	    giveUpButton.setStyle(mainButtonStyle);
 
-		// Event Handlers
-		fightButton.setOnAction(event -> {
-			root.setBottom(moveSelectionContainer);
-		});
+	    fightButton.setOnMouseEntered(e -> fightButton.setStyle(mainButtonHoverStyle));
+	    fightButton.setOnMouseExited(e -> fightButton.setStyle(mainButtonStyle));
 
-		pokemonButton.setOnAction(event -> {
-			root.setBottom(pokemonSelectionContainer);
-		});
+	    bagButton.setOnMouseEntered(e -> bagButton.setStyle(mainButtonHoverStyle));
+	    bagButton.setOnMouseExited(e -> bagButton.setStyle(mainButtonStyle));
 
-		bagButton.setOnAction(event -> {
-			root.setBottom(bagContainer);
-		});
+	    pokemonButton.setOnMouseEntered(e -> pokemonButton.setStyle(mainButtonHoverStyle));
+	    pokemonButton.setOnMouseExited(e -> pokemonButton.setStyle(mainButtonStyle));
 
-		backButtonFromBag.setOnAction(event -> {
-			root.setBottom(actionContainer);
-		});
+	    giveUpButton.setOnMouseEntered(e -> giveUpButton.setStyle(mainButtonHoverStyle));
+	    giveUpButton.setOnMouseExited(e -> giveUpButton.setStyle(mainButtonStyle));
+	    // ----------------------------------------------------------
 
-		giveUpButton.setOnAction(event -> {
-			GameSystem.getInstance().sendGiveUp();
-			System.out.println("You lose");
-			sceneManager.showLosingScene();
-			// do something?
-		});
+	    // Layout setup ----------------------------------------------
+	 // สร้าง VBox สำหรับข้อมูล Pokemon ของฝ่ายตรงข้าม
+	    VBox opponentPokemonInfo = new VBox(opponentPokemonName,oppoPane, opponentHpText, opponentStatus);
+	    opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT); // จัดวางข้อมูล Pokemon ฝ่ายตรงข้ามให้อยู่ด้านล่างขวา
 
-		// Main layout
-		root.setPadding(new Insets(20));
-		root.setTop(battleField);
-		root.setBottom(actionContainer);
+	    // สร้าง HBox สำหรับฝ่ายตรงข้าม (รวมภาพ Pokemon และข้อมูล Pokemon)
+	    HBox opponentInfo = new HBox(10, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
+	    opponentInfo.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
 
-		// set Scene
-		scene = new Scene(root, 1200, 700);
+	    // สร้าง VBox สำหรับข้อมูล Pokemon ของผู้เล่น
+	    VBox playerPokemonInfo = new VBox(playerPokemonName, playerPane, playerHpText, playerStatus);
+
+	    // สร้าง HBox สำหรับผู้เล่น (รวมภาพ Avatar และข้อมูล Pokemon)
+	    HBox playerInfo = new HBox(10, playerAvatar, new VBox(10, playerPokemon, playerPokemonInfo));
+	    playerInfo.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
+
+	    // สร้าง VBox สำหรับฝ่ายผู้เล่น (รวมชื่อผู้เล่นและข้อมูล Pokemon)
+	    VBox leftPanel = new VBox( playerName, playerInfo);
+	    leftPanel.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
+
+	    // สร้าง VBox สำหรับฝ่ายตรงข้าม (รวมชื่อฝ่ายตรงข้ามและข้อมูล Pokemon)
+	    VBox rightPanel = new VBox(10, opponentName, opponentInfo);
+	    rightPanel.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
+	    opponentName.setAlignment(Pos.TOP_RIGHT); // จัดวางชื่อฝ่ายตรงข้ามให้อยู่ด้านบนขวา
+
+	    // สร้าง HBox สำหรับ battlefield (รวมฝ่ายผู้เล่นและฝ่ายตรงข้าม)
+	    HBox battleField = new HBox(100, leftPanel, rightPanel);
+	    battleField.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
+	    battleField.setPadding(new Insets(5)); // ตั้งค่า padding
+	    battleField.setPadding(new Insets(5));
+
+	    GridPane actionPanel = new GridPane();
+	    actionPanel.add(fightButton, 0, 0);
+	    actionPanel.add(bagButton, 1, 0);
+	    actionPanel.add(pokemonButton, 0, 1);
+	    actionPanel.add(giveUpButton, 1, 1);
+	    actionPanel.setHgap(10);
+	    actionPanel.setVgap(10);
+	    actionPanel.setAlignment(Pos.CENTER);
+
+	    actionContainer = new BorderPane();
+	    actionContainer.setLeft(actionLabel);
+	    actionContainer.setRight(actionPanel);
+	    actionContainer.setPadding(new Insets(10));
+	    actionContainer.setStyle("-fx-background-color: lightgray;");
+	    // ----------------------------------------------------------
+
+	    // Move Selection UI -------------------------------------
+	    moveSelectionPanel = new GridPane();
+	    Pokemon currentPokemon = myPlayer.getActualCurrentPokemon();
+	    updatePokemonMove(currentPokemon, moveSelectionPanel);
+	    Label moveLabel = new Label("Choose a move:");
+	    moveLabel.setFont(Font.font(20));
+	    BorderPane moveSelectionContainer = new BorderPane();
+	    moveSelectionContainer.setLeft(moveLabel);
+	    moveSelectionContainer.setRight(moveSelectionPanel);
+	    moveSelectionContainer.setPadding(new Insets(10));
+	    moveSelectionContainer.setStyle("-fx-background-color: lightgray;");
+
+	    // เพิ่มสไตล์ CSS ให้กับปุ่ม Move
+	    String moveButtonStyle = "-fx-background-color: linear-gradient(#4CAF50, #45a049);"
+	            + "-fx-text-fill: white;"
+	            + "-fx-font-size: 14px;"
+	            + "-fx-font-weight: bold;"
+	            + "-fx-padding: 8px 16px;"
+	            + "-fx-border-radius: 10px;"
+	            + "-fx-background-radius: 10px;"
+	            + "-fx-border-color: #45a049;"
+	            + "-fx-border-width: 2px;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);"
+	            + "-fx-cursor: hand;";
+
+	    String moveButtonHoverStyle = "-fx-background-color: linear-gradient(#45a049, #4CAF50);"
+	            + "-fx-text-fill: #ffffff;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);";
+
+	    for (javafx.scene.Node node : moveSelectionPanel.getChildren()) {
+	        if (node instanceof Button) {
+	            Button button = (Button) node;
+	            button.setStyle(moveButtonStyle);
+	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
+	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
+	        }
+	    }
+	    // ----------------------------------------------------------
+
+	    // Pokemon Selection UI -------------------------------------
+	    pokemonSelectionContainer = new GridPane();
+	    pokemonSelectionContainer.setHgap(10);
+	    pokemonSelectionContainer.setVgap(10);
+	    pokemonSelectionContainer.setAlignment(Pos.CENTER);
+	    pokemonSelectionContainer.setPadding(new Insets(10));
+	    pokemonSelectionContainer.setStyle("-fx-background-color: lightgray;");
+	    updatePokemonSelectionContainer(currentPokemon, pokemonSelectionContainer);
+
+	    // เพิ่มสไตล์ CSS ให้กับปุ่ม Pokemon
+	    for (javafx.scene.Node node : pokemonSelectionContainer.getChildren()) {
+	        if (node instanceof Button) {
+	            Button button = (Button) node;
+	            button.setStyle(moveButtonStyle);
+	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
+	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
+	        }
+	    }
+	    // ---------------------------------------------
+
+	    // Bag selection----------------------------------
+	    itemBox = new VBox(10);
+	    itemBox.setPadding(new Insets(10));
+	    updateItemBox(itemBox);
+
+	    ScrollPane scrollPane = new ScrollPane();
+	    scrollPane.setContent(itemBox);
+	    scrollPane.setFitToWidth(true);
+	    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+	    scrollPane.setStyle("-fx-background-color: lightgray;");
+	    scrollPane.setPrefSize(200, 200);
+
+	    Button backButtonFromBag = new Button("Back");
+	    backButtonFromBag.setMinSize(50, 20);
+	    backButtonFromBag.setStyle("-fx-background-color: lightgray;");
+	    backButtonFromBag.setAlignment(Pos.BOTTOM_LEFT);
+
+	    BorderPane bagContainer = new BorderPane();
+	    bagContainer.setCenter(scrollPane);
+	    bagContainer.setBottom(backButtonFromBag);
+	    BorderPane.setAlignment(backButtonFromBag, Pos.BOTTOM_LEFT);
+	    BorderPane.setMargin(backButtonFromBag, new Insets(10));
+
+	    // เพิ่มสไตล์ CSS ให้กับปุ่ม Item
+	    String itemButtonStyle = "-fx-background-color: linear-gradient(#2196F3, #1976D2);"
+	            + "-fx-text-fill: white;"
+	            + "-fx-font-size: 14px;"
+	            + "-fx-font-weight: bold;"
+	            + "-fx-padding: 8px 16px;"
+	            + "-fx-border-radius: 10px;"
+	            + "-fx-background-radius: 10px;"
+	            + "-fx-border-color: #1976D2;"
+	            + "-fx-border-width: 2px;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);"
+	            + "-fx-cursor: hand;";
+
+	    String itemButtonHoverStyle = "-fx-background-color: linear-gradient(#1976D2, #2196F3);"
+	            + "-fx-text-fill: #ffffff;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);";
+
+	    for (javafx.scene.Node node : itemBox.getChildren()) {
+	        if (node instanceof Button) {
+	            Button button = (Button) node;
+	            button.setStyle(itemButtonStyle);
+	            button.setOnMouseEntered(e -> button.setStyle(itemButtonHoverStyle));
+	            button.setOnMouseExited(e -> button.setStyle(itemButtonStyle));
+	        }
+	    }
+	    // -------------------------------------------
+
+	    // Event Handlers
+	    fightButton.setOnAction(event -> {
+	        root.setBottom(moveSelectionContainer);
+	    });
+
+	    pokemonButton.setOnAction(event -> {
+	        root.setBottom(pokemonSelectionContainer);
+	    });
+
+	    bagButton.setOnAction(event -> {
+	        root.setBottom(bagContainer);
+	    });
+
+	    backButtonFromBag.setOnAction(event -> {
+	        root.setBottom(actionContainer);
+	    });
+
+	    giveUpButton.setOnAction(event -> {
+	        GameSystem.getInstance().sendGiveUp();
+	        System.out.println("You lose");
+	        sceneManager.showLosingScene();
+	    });
+
+	    // Main layout
+	    root.setPadding(new Insets(20));
+	    root.setTop(battleField);
+	    root.setBottom(actionContainer);
+
+	    // set Scene
+	    scene = new Scene(root, 1200, 700);
+	    scene.getStylesheets().add(getClass().getResource("battlescene.css").toExternalForm());
 	}
 
 	public void updateHpBarAndText(int currentHp, int maxHp, Pane hpPane, Label hpText, boolean isOppo) {

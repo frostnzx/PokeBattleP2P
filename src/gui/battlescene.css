@@ -1,0 +1,56 @@
+/* สไตล์ทั่วไปสำหรับปุ่ม */
+.button {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);
+    -fx-cursor: hand;
+}
+
+/* สไตล์สำหรับปุ่มหลัก (Fight, Bag, Pokemon, Give Up) */
+.main-button {
+    -fx-background-color: linear-gradient(#ff7f50, #ff4500);
+    -fx-border-color: #ff4500;
+}
+
+.main-button:hover {
+    -fx-background-color: linear-gradient(#ff4500, #ff7f50);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0);
+}
+
+/* สไตล์สำหรับปุ่ม Move */
+.move-button {
+    -fx-background-color: linear-gradient(#4CAF50, #45a049);
+    -fx-border-color: #45a049;
+}
+
+.move-button:hover {
+    -fx-background-color: linear-gradient(#45a049, #4CAF50);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+/* สไตล์สำหรับปุ่ม Pokemon */
+.pokemon-button {
+    -fx-background-color: linear-gradient(#4CAF50, #45a049);
+    -fx-border-color: #45a049;
+}
+
+.pokemon-button:hover {
+    -fx-background-color: linear-gradient(#45a049, #4CAF50);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+/* สไตล์สำหรับปุ่ม Item */
+.item-button {
+    -fx-background-color: linear-gradient(#2196F3, #1976D2);
+    -fx-border-color: #1976D2;
+}
+
+.item-button:hover {
+    -fx-background-color: linear-gradient(#1976D2, #2196F3);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
