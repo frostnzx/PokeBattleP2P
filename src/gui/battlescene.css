@@ -48,6 +48,16 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
+.move-button.Back-button {
+    -fx-background-color: linear-gradient(#ff4444, #cc0000);
+    -fx-border-color: #cc0000;
+}
+
+.move-button.Back-button:hover {
+    -fx-background-color: linear-gradient(#cc0000, #ff4444);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
 /* Pokemon button */
 .pokemon-button {
     -fx-background-color: linear-gradient(#4CAF50, #45a049);

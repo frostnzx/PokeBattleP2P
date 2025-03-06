@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import entity.Item;
@@ -21,12 +22,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import net.Mode;
 
 public class BattleScene {
@@ -54,6 +58,8 @@ public class BattleScene {
 	
 	private VBox itemBox ; 
 	
+	private MediaPlayer backgroundPlayer;
+	
 	private enum Turn {
 		MYTURN , NOTMYTURN
 	}
@@ -67,6 +73,19 @@ public class BattleScene {
 	    }
 	    this.sceneManager = sceneManager;
 	    this.root = new BorderPane();
+	    String backgroundFile = "res/pokebattle.mp3";
+	    
+        
+        Media backgroundSound = new Media(new File(backgroundFile).toURI().toString());
+        backgroundPlayer = new MediaPlayer(backgroundSound);
+        backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundPlayer.setAutoPlay(true);
+        backgroundPlayer.setVolume(0.1);
+        
+        String soundFile = "res/button_sound.mp3";
+        
+        Media buttonSound = new Media(new File(soundFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 	    
 	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 25);
 	    Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 14);
@@ -180,7 +199,53 @@ public class BattleScene {
 	    Button bagButton = new Button("Bag");
 	    Button pokemonButton = new Button("Pokemon");
 	    Button giveUpButton = new Button("Give Up");
-
+	    giveUpButton.setOnMouseEntered(event -> {
+            mediaPlayer.stop();
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+            giveUpButton.setScaleX(1.1);
+            giveUpButton.setScaleY(1.1);
+        });
+	    giveUpButton.setOnMouseExited(event -> {
+	    	giveUpButton.setScaleX(1.0);
+	    	giveUpButton.setScaleY(1.0);
+        });
+	    
+	    pokemonButton.setOnMouseEntered(event -> {
+            mediaPlayer.stop();
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+            pokemonButton.setScaleX(1.1);
+            pokemonButton.setScaleY(1.1);
+        });
+	    pokemonButton.setOnMouseExited(event -> {
+	    	pokemonButton.setScaleX(1.0);
+	    	pokemonButton.setScaleY(1.0);
+        });
+	    
+	    bagButton.setOnMouseEntered(event -> {
+            mediaPlayer.stop();
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+            bagButton.setScaleX(1.1);
+            bagButton.setScaleY(1.1);
+        });
+	    bagButton.setOnMouseExited(event -> {
+	    	bagButton.setScaleX(1.0);
+	    	bagButton.setScaleY(1.0);
+        });
+	    
+	    fightButton.setOnMouseEntered(event -> {
+            mediaPlayer.stop();
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+            fightButton.setScaleX(1.1);
+            fightButton.setScaleY(1.1);
+        });
+	    fightButton.setOnMouseExited(event -> {
+	    	fightButton.setScaleX(1.0);
+	    	fightButton.setScaleY(1.0);
+        });
 	    fightButton.setMinSize(300, 50);
 	    bagButton.setMinSize(300, 50);
 	    pokemonButton.setMinSize(300, 50);
@@ -223,13 +288,13 @@ public class BattleScene {
 
 	    // Layout setup ----------------------------------------------
 	    BackgroundFill backgroundFill1 = new BackgroundFill(
-	    	    Color.rgb(255, 204, 51, 0.7), // Pokémon Yellow with 70% transparency
+	    	    Color.rgb(255, 204, 51, 0.0), // Pokémon Yellow with 70% transparency
 	    	    new CornerRadii(20), // Rounded corners with radius 20
 	    	    new Insets(-20) // Add 20px padding to make the background larger
 	    	);
 	    
 	    BackgroundFill backgroundFill2 = new BackgroundFill(
-	    	    Color.rgb(24, 68, 140, 0.7), // Pokémon Dark Blue with 70% transparency
+	    	    Color.rgb(24, 68, 140, 0.0), // Pokémon Dark Blue with 70% transparency
 	    	    new CornerRadii(20), // Rounded corners with radius 20
 	    	    new Insets(-20) // Add 20px padding to make the background larger
 	    	);
@@ -241,12 +306,10 @@ public class BattleScene {
 	    	);
 	    
 	    Background backgroundinfo = new Background(backgroundFillinfo);
-	 // สร้าง VBox สำหรับข้อมูล Pokemon ของฝ่ายตรงข้าม
 	    VBox opponentPokemonInfo = new VBox(opponentPokemonName,oppoPane, opponentHpText, opponentStatus);
-	    opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT); // จัดวางข้อมูล Pokemon ฝ่ายตรงข้ามให้อยู่ด้านล่างขวา
+	    opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT);
 	    opponentPokemonInfo.setBackground(backgroundinfo);
 
-	    // สร้าง HBox สำหรับฝ่ายตรงข้าม (รวมภาพ Pokemon และข้อมูล Pokemon)
 	    HBox opponentInfo = new HBox(20, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
 	    opponentInfo.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
 	    Background background1 = new Background(backgroundFill1);
@@ -345,6 +408,18 @@ public class BattleScene {
 	            button.setStyle(moveButtonStyle);
 	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
 	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
+	            button.setOnMouseEntered(event -> {
+	                mediaPlayer.stop();
+	                mediaPlayer.seek(Duration.ZERO);
+	                mediaPlayer.play();
+	                button.setScaleX(1.1);
+	                button.setScaleY(1.1);
+	            });
+
+	            button.setOnMouseExited(event -> {
+	            	button.setScaleX(1.0);
+	            	button.setScaleY(1.0);
+	            });
 	        }
 	    }
 	    // ----------------------------------------------------------
@@ -358,13 +433,24 @@ public class BattleScene {
 	    pokemonSelectionContainer.setStyle("-fx-background-color: lightgray; -fx-background-radius: 10;");
 	    updatePokemonSelectionContainer(currentPokemon, pokemonSelectionContainer);
 
-	    // เพิ่มสไตล์ CSS ให้กับปุ่ม Pokemon
 	    for (javafx.scene.Node node : pokemonSelectionContainer.getChildren()) {
 	        if (node instanceof Button) {
 	            Button button = (Button) node;
 	            button.setStyle(moveButtonStyle);
 	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
 	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
+	            button.setOnMouseEntered(event -> {
+	                mediaPlayer.stop();
+	                mediaPlayer.seek(Duration.ZERO);
+	                mediaPlayer.play();
+	                button.setScaleX(1.1);
+	                button.setScaleY(1.1);
+	            });
+
+	            button.setOnMouseExited(event -> {
+	    	    	button.setScaleX(1.0);
+	    	    	button.setScaleY(1.0);
+	            });
 	        }
 	    }
 	    // ---------------------------------------------
@@ -416,6 +502,18 @@ public class BattleScene {
 	            button.setStyle(itemButtonStyle);
 	            button.setOnMouseEntered(e -> button.setStyle(itemButtonHoverStyle));
 	            button.setOnMouseExited(e -> button.setStyle(itemButtonStyle));
+	            button.setOnMouseEntered(event -> {
+	                mediaPlayer.stop();
+	                mediaPlayer.seek(Duration.ZERO);
+	                mediaPlayer.play();
+	                button.setScaleX(1.1);
+	                button.setScaleY(1.1);
+	            });
+
+	            button.setOnMouseExited(event -> {
+	    	    	button.setScaleX(1.0);
+	    	    	button.setScaleY(1.0);
+	            });
 	        }
 	    }
 	    // -------------------------------------------
@@ -552,7 +650,6 @@ public class BattleScene {
 		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
 		Button backButton = new Button("Back");
 		backButton.setMinSize(300, 50);
-
 		int idxPokemon = 0;
 		for (int i = 0; i < currentPokemonList.size();) {
 			Pokemon pokemon = currentPokemonList.get(idxPokemon);
