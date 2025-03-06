@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.IOException;
+
 import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -51,7 +53,14 @@ public class LosingScene {
         // Make sure the button is invisible by setting both visible and opacity to 0
         backToMenuButton.setOpacity(0);  // Make the button fully transparent
         backToMenuButton.setVisible(false); // Ensure it starts off as invisible
-        backToMenuButton.setOnAction(e -> applySceneTransition(() -> sceneManager.showMainMenu()));
+        backToMenuButton.setOnAction(e -> applySceneTransition(() -> {
+			try {
+				sceneManager.showMainMenu();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}));
 
         // Layout: VBox to stack texts and button
         VBox vBox = new VBox(20, gameOverText, loseText, backToMenuButton);

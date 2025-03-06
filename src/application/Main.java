@@ -30,7 +30,7 @@ public class Main extends Application{
 
         SceneManager sceneManager = new SceneManager(primaryStage);
 
-        String filePath = "res/json/pokemonData.json";
+        String filePath = ClassLoader.getSystemResources("json/pokemonData.json").toString();
         Pokemon.loadPokemonsFromJson(filePath);
         ArrayList<Pokemon> defaultPokemonsList = initDefaultPokemons();
         String defaultName = "John";

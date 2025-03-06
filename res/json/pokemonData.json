@@ -2,7 +2,7 @@
   {
     "name": "Bulbasaur",
     "pokemonId": 1,
-    "filePath": "res/pokemonImg/001.png",
+    "filePath": "pokemonImg/001.png",
     "pokemonTypes": ["Grass", "Poison"],
     "max_hp": 45,
     "attack": 49,
@@ -44,7 +44,7 @@
   {
     "name": "Charmander",
     "pokemonId": 4,
-    "filePath": "res/pokemonImg/004.png",
+    "filePath": "pokemonImg/004.png",
     "pokemonTypes": ["Fire"],
     "max_hp": 39,
     "attack": 52,
@@ -86,7 +86,7 @@
   {
     "name": "Squirtle",
     "pokemonId": 7,
-    "filePath": "res/pokemonImg/007.png",
+    "filePath": "pokemonImg/007.png",
     "pokemonTypes": ["Water"],
     "max_hp": 44,
     "attack": 48,
@@ -128,7 +128,7 @@
   {
     "name": "Pikachu",
     "pokemonId": 25,
-    "filePath": "res/pokemonImg/025.png",
+    "filePath": "pokemonImg/025.png",
     "pokemonTypes": ["Electric"],
     "max_hp": 35,
     "attack": 55,
@@ -170,7 +170,7 @@
   {
     "name": "Jigglypuff",
     "pokemonId": 39,
-    "filePath": "res/pokemonImg/039.png",
+    "filePath": "pokemonImg/039.png",
     "pokemonTypes": ["Normal"],
     "max_hp": 115,
     "attack": 45,
@@ -212,7 +212,7 @@
   {
     "name": "Psyduck",
     "pokemonId": 54,
-    "filePath": "res/pokemonImg/054.png",
+    "filePath": "pokemonImg/054.png",
     "pokemonTypes": ["Water"],
     "max_hp": 50,
     "attack": 52,
@@ -254,7 +254,7 @@
   {
     "name": "Machop",
     "pokemonId": 66,
-    "filePath": "res/pokemonImg/066.png",
+    "filePath": "pokemonImg/066.png",
     "pokemonTypes": ["Fighting"],
     "max_hp": 70,
     "attack": 80,
@@ -296,7 +296,7 @@
   {
     "name": "Magnemite",
     "pokemonId": 81,
-    "filePath": "res/pokemonImg/081.png",
+    "filePath": "pokemonImg/081.png",
     "pokemonTypes": ["Electric"],
     "max_hp": 25,
     "attack": 35,
@@ -338,7 +338,7 @@
   {
     "name": "Poliwag",
     "pokemonId": 60,
-    "filePath": "res/pokemonImg/060.png",
+    "filePath": "pokemonImg/060.png",
     "pokemonTypes": ["Water"],
     "max_hp": 40,
     "attack": 50,
@@ -380,7 +380,7 @@
   {
     "name": "Ponyta",
     "pokemonId": 77,
-    "filePath": "res/pokemonImg/077.png",
+    "filePath": "pokemonImg/077.png",
     "pokemonTypes": ["Fire", "Psychic"],
     "max_hp": 50,
     "attack": 85,
@@ -422,7 +422,7 @@
   {
     "name": "Meowth",
     "pokemonId": 52,
-    "filePath": "res/pokemonImg/052.png",
+    "filePath": "pokemonImg/052.png",
     "pokemonTypes": ["Normal"],
     "max_hp": 40,
     "attack": 45,
@@ -464,7 +464,7 @@
   {
     "name": "Pidgey",
     "pokemonId": 16,
-    "filePath": "res/pokemonImg/016.png",
+    "filePath": "pokemonImg/016.png",
     "pokemonTypes": ["Normal", "Flying"],
     "max_hp": 40,
     "attack": 45,
@@ -506,7 +506,7 @@
   {
     "name": "Rattata",
     "pokemonId": 19,
-    "filePath": "res/pokemonImg/019.png",
+    "filePath": "pokemonImg/019.png",
     "pokemonTypes": ["Normal"],
     "hp": 30,
     "max_hp": 30,
@@ -549,7 +549,7 @@
   {
     "name": "Zubat",
     "pokemonId": 41,
-    "filePath": "res/pokemonImg/041.png",
+    "filePath": "pokemonImg/041.png",
     "pokemonTypes": ["Poison", "Flying"],
     "max_hp": 40,
     "attack": 45,
@@ -591,7 +591,7 @@
   {
     "name": "Sandshrew",
     "pokemonId": 27,
-    "filePath": "res/pokemonImg/027.png",
+    "filePath": "pokemonImg/027.png",
     "pokemonTypes": ["Ground"],
     "hp": 50,
     "max_hp": 50,
@@ -634,7 +634,7 @@
   {
     "name": "Geodude",
     "pokemonId": 74,
-    "filePath": "res/pokemonImg/074.png",
+    "filePath": "pokemonImg/074.png",
     "pokemonTypes": ["Rock", "Ground"],
     "hp": 40,
     "max_hp": 40,
@@ -677,7 +677,7 @@
   {
     "name": "Onix",
     "pokemonId": 95,
-    "filePath": "res/pokemonImg/095.png",
+    "filePath": "pokemonImg/095.png",
     "pokemonTypes": ["Rock", "Ground"],
     "hp": 35,
     "max_hp": 35,
@@ -720,7 +720,7 @@
   {
     "name": "Clefairy",
     "pokemonId": 35,
-    "filePath": "res/pokemonImg/035.png",
+    "filePath": "pokemonImg/035.png",
     "pokemonTypes": ["Normal", "Flying"],
     "hp": 70,
     "max_hp": 70,
@@ -763,7 +763,7 @@
   {
     "name": "Nidoran♀",
     "pokemonId": 29,
-    "filePath": "res/pokemonImg/029.png",
+    "filePath": "pokemonImg/029.png",
     "pokemonTypes": ["Poison"],
     "hp": 55,
     "max_hp": 55,
@@ -806,7 +806,7 @@
   {
     "name": "Venusaur",
     "pokemonId": 3,
-    "filePath": "res/pokemonImg/003.png",
+    "filePath": "pokemonImg/003.png",
     "pokemonTypes": ["Grass", "Poison"],
     "hp": 80,
     "max_hp": 80,
@@ -849,7 +849,7 @@
   {
     "name": "Magikarp",
     "pokemonId": 129,
-    "filePath": "res/pokemonImg/129.png",
+    "filePath": "pokemonImg/129.png",
     "pokemonTypes": ["Water"],
     "hp": 20,
     "max_hp": 20,
@@ -892,7 +892,7 @@
   {
     "name": "Eevee",
     "pokemonId": 133,
-    "filePath": "res/pokemonImg/133.png",
+    "filePath": "pokemonImg/133.png",
     "pokemonTypes": ["Normal"],
     "hp": 55,
     "max_hp": 55,
@@ -935,7 +935,7 @@
   {
     "name": "Snorlax",
     "pokemonId": 143,
-    "filePath": "res/pokemonImg/143.png",
+    "filePath": "pokemonImg/143.png",
     "pokemonTypes": ["Normal"],
     "hp": 160,
     "max_hp": 160,
@@ -978,7 +978,7 @@
   {
     "name": "Fearow",
     "pokemonId": 22,
-    "filePath": "res/pokemonImg/022.png",
+    "filePath": "pokemonImg/022.png",
     "pokemonTypes": ["Normal", "Flying"],
     "hp": 65,
     "max_hp": 65,
@@ -1021,7 +1021,7 @@
   {
     "name": "Poliwhirl",
     "pokemonId": 61,
-    "filePath": "res/pokemonImg/061.png",
+    "filePath": "pokemonImg/061.png",
     "pokemonTypes": ["Water"],
     "hp": 65,
     "max_hp": 65,
@@ -1064,7 +1064,7 @@
   {
     "name": "Lickitung",
     "pokemonId": 108,
-    "filePath": "res/pokemonImg/108.png",
+    "filePath": "pokemonImg/108.png",
     "pokemonTypes": ["Normal"],
     "hp": 90,
     "max_hp": 90,
@@ -1107,7 +1107,7 @@
   {
     "name": "Drowzee",
     "pokemonId": 96,
-    "filePath": "res/pokemonImg/096.png",
+    "filePath": "pokemonImg/096.png",
     "pokemonTypes": ["Psychic"],
     "hp": 60,
     "max_hp": 60,
@@ -1150,7 +1150,7 @@
   {
     "name": "Exeggcute",
     "pokemonId": 102,
-    "filePath": "res/pokemonImg/102.png",
+    "filePath": "pokemonImg/102.png",
     "pokemonTypes": ["Grass", "Psychic"],
     "hp": 60,
     "max_hp": 60,
@@ -1193,7 +1193,7 @@
   {
     "name": "Jolteon",
     "pokemonId": 135,
-    "filePath": "res/pokemonImg/135.png",
+    "filePath": "pokemonImg/135.png",
     "pokemonTypes": ["Electric"],
     "hp": 65,
     "max_hp": 65,
@@ -1236,7 +1236,7 @@
   {
     "name": "Flareon",
     "pokemonId": 136,
-    "filePath": "res/pokemonImg/136.png",
+    "filePath": "pokemonImg/136.png",
     "pokemonTypes": ["Fire"],
     "hp": 65,
     "max_hp": 65,
@@ -1279,7 +1279,7 @@
   {
     "name": "Diglett",
     "pokemonId": 50,
-    "filePath": "res/pokemonImg/050.png",
+    "filePath": "pokemonImg/050.png",
     "pokemonTypes": ["Ground"],
     "hp": 10,
     "max_hp": 10,
@@ -1322,7 +1322,7 @@
   {
     "name": "Kangaskhan",
     "pokemonId": 115,
-    "filePath": "res/pokemonImg/115.png",
+    "filePath": "pokemonImg/115.png",
     "pokemonTypes": ["Normal"],
     "hp": 105,
     "max_hp": 105,
@@ -1365,7 +1365,7 @@
   {
     "name": "Paras",
     "pokemonId": 46,
-    "filePath": "res/pokemonImg/046.png",
+    "filePath": "pokemonImg/046.png",
     "pokemonTypes": ["Bug", "Grass"],
     "hp": 35,
     "max_hp": 35,
@@ -1408,7 +1408,7 @@
   {
       "name": "GOD",
       "pokemonId": 99999,
-      "filePath": "res/pokemonImg/99999.png",
+      "filePath": "pokemonImg/99999.png",
       "pokemonTypes": ["Normal"],
       "max_hp": 99999,
       "attack": 99999,

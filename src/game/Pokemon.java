@@ -2,6 +2,8 @@ package game;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -105,27 +107,33 @@ public class Pokemon {
 	}
 
 	public static void loadPokemonsFromJson(String filePath) {
-		// TODO :
-		// Load pokemon from json file
-		// Create a new Gson instance
-		Gson gson = new Gson();
+	    // Create a new Gson instance
+	    Gson gson = new Gson();
 
-		// Define the type of data to parse (ArrayList of Pokemon objects)
-		try (FileReader reader = new FileReader(filePath)) {
-			// Deserialize the JSON into a list of Pokemon objects
-			ArrayList<Pokemon> pokemons = gson.fromJson(reader, new TypeToken<ArrayList<Pokemon>>() {
-			}.getType());
-			
-	        for (Pokemon p : pokemons) {
-	            p.setHp(p.getMaxHp());  // Set the current hp to max_hp
+	    // Use InputStream to read the file from resources
+	    try (InputStream inputStream = Pokemon.class.getClassLoader().getResourceAsStream("json/pokemonData.json")) {
+	        if (inputStream != null) {
+	            try (InputStreamReader reader = new InputStreamReader(inputStream)) {
+	                // Deserialize the JSON into a list of Pokemon objects
+	                ArrayList<Pokemon> pokemons = gson.fromJson(reader, new TypeToken<ArrayList<Pokemon>>() {}.getType());
+	                
+	                for (Pokemon p : pokemons) {
+	                    p.setHp(p.getMaxHp());  // Set the current hp to max_hp
+	                }
+
+	                // Populate the pokemonList with the deserialized Pokemon objects
+	                pokemonList.addAll(pokemons);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        } else {
+	            System.err.println("File not found in resources");
 	        }
-
-			// Populate the pokemonList with the deserialized Pokemon objects
-			pokemonList.addAll(pokemons);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    } catch (Exception e) {
+	        e.printStackTrace();  // Handle any exception that occurs while getting the resource
+	    }
 	}
+
 
 	// getters & setters
 	public String getName() {

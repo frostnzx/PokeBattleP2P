@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import entity.Item;
@@ -65,7 +67,7 @@ public class BattleScene {
 	}
 	private Turn turn ;
 
-	public BattleScene(SceneManager sceneManager) {
+	public BattleScene(SceneManager sceneManager) throws IOException {
 	    if (GameSystem.getInstance().getMyPeer().getMode() == Mode.CLIENT) {
 	        turn = Turn.MYTURN;
 	    } else {
@@ -73,18 +75,17 @@ public class BattleScene {
 	    }
 	    this.sceneManager = sceneManager;
 	    this.root = new BorderPane();
-	    String backgroundFile = "res/pokebattle.mp3";
-	    
+	    URL backgroundFileUrl = getClass().getClassLoader().getResource("pokebattle.mp3"); 
         
-        Media backgroundSound = new Media(new File(backgroundFile).toURI().toString());
+	    Media backgroundSound = new Media(backgroundFileUrl.toString());
         backgroundPlayer = new MediaPlayer(backgroundSound);
         backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundPlayer.setAutoPlay(true);
         backgroundPlayer.setVolume(0.1);
         
-        String soundFile = "res/button_sound.mp3";
+        URL soundFileUrl = getClass().getClassLoader().getResource("button_sound.mp3");
         
-        Media buttonSound = new Media(new File(soundFile).toURI().toString());
+        Media buttonSound = new Media(soundFileUrl.toString());
         mediaPlayer = new MediaPlayer(buttonSound);
 	    
 	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 25);
@@ -133,13 +134,16 @@ public class BattleScene {
 
 	    // Get Player & Opponent Image Paths
 	    String playerFilePath = GameSystem.getInstance().getMyPlayer().getFilePath();
-	    String opponentFilePath = playerFilePath.equals("res/Trainers/trainer6.png") ? 
-	                              "res/Trainers/trainer7.png" : "res/Trainers/trainer6.png";
+	    String opponentFilePath = playerFilePath.equals("Trainers/trainer6.png") ? 
+	                              "Trainers/trainer7.png" : "Trainers/trainer6.png";
 	    GameSystem.getInstance().getMyOpponent().setFilePath(opponentFilePath);
-
+	    
+	    URL playerImageUrl = getClass().getClassLoader().getResource(playerFilePath);
+	    URL opponentImageUrl = getClass().getClassLoader().getResource(opponentFilePath);
+	    
 	    // Create Image & ImageView (Preserve Aspect Ratio)
-	    Image playerImage = new Image("file:" + playerFilePath);
-	    Image opponentImage = new Image("file:" + opponentFilePath);
+	    Image playerImage = new Image(playerImageUrl.toString());
+	    Image opponentImage = new Image(opponentImageUrl.toString());
 
 	    ImageView playerImageView = new ImageView(playerImage);
 	    playerImageView.setPreserveRatio(true);
@@ -789,17 +793,13 @@ public class BattleScene {
 	}
 	
 	public void updatePokemonAvatar(Pokemon pokemon, Rectangle PokemonRectangle) {
-        Image PokemonImg = new Image("file:" + pokemon.getFilePath());
-        ImageView pokemonImageView = new ImageView(PokemonImg);
-        pokemonImageView.setPreserveRatio(true);
-        pokemonImageView.setFitWidth(250);  // Adjust to match the new rectangle sizee
-
-
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-
-        WritableImage pokemonSnapshot = pokemonImageView.snapshot(params, null);
-        PokemonRectangle.setFill(new ImagePattern(pokemonSnapshot));
+		String filePath = pokemon.getFilePath();
+		URL imageUrl = getClass().getClassLoader().getResource(filePath);
+		Image pokemonImg = new Image(imageUrl.toString());
+		ImagePattern imagePattern = new ImagePattern(pokemonImg);
+		PokemonRectangle.setFill(imagePattern);
+		PokemonRectangle.setWidth(250);  // Adjust width of the rectangle
+		PokemonRectangle.setHeight(250); 
     }
 
 	// Method to update the player's HP

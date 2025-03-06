@@ -236,7 +236,12 @@ public class GameSystem {
 
 				// Now that opponent data is received, start battle on the main thread
 				Platform.runLater(() -> {
-					startBattlePhase();
+					try {
+						startBattlePhase();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				});
 
 			} catch (Exception e) {
@@ -246,7 +251,7 @@ public class GameSystem {
 	}
 	
 
-	private void startBattlePhase() {
+	private void startBattlePhase() throws IOException {
 		this.battle = new Battle(this.myPlayer, this.myOpponent);
 
 		sceneManager.showBattleScene();

@@ -2,6 +2,7 @@ package gui;
 
 
 import java.io.File;
+import java.io.IOException;
 
 import game.GameSystem;
 import javafx.animation.FadeTransition;
@@ -35,26 +36,23 @@ public class MainMenuScene {
 	private SceneManager sceneManager;
 	private MediaPlayer backgroundPlayer;
 
-	public MainMenuScene(SceneManager sceneManager) {
+	public MainMenuScene(SceneManager sceneManager) throws IOException {
 
 		this.sceneManager = sceneManager;
-		
-		String backgroundFile = "res/BackgroundSound.mp3";
-        
-        Media backgroundSound = new Media(new File(backgroundFile).toURI().toString());
+		String backgroundFile = getClass().getClassLoader().getResource("BackgroundSound.mp3").toString();
+        Media backgroundSound = new Media(backgroundFile);
         backgroundPlayer = new MediaPlayer(backgroundSound);
         backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundPlayer.setAutoPlay(true);
         backgroundPlayer.setVolume(0.1); // Adjust the volume (0.0 to 1.0)
         
-        String soundFile = "res/button_sound.mp3";
-        
-        Media buttonSound = new Media(new File(soundFile).toURI().toString());
+        String soundFile = getClass().getClassLoader().getResource("button_sound.mp3").toString();
+        Media buttonSound = new Media(soundFile);
         MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 
 		StackPane root = new StackPane();
-
-		String videoPath = new File("res/BackGroundVid2.mp4").toURI().toString();
+		
+		String videoPath = getClass().getClassLoader().getResource("BackGroundVid2.mp4").toString();
 		Media media = new Media(videoPath);
 		MediaPlayer mediaPlayer1 = new MediaPlayer(media);
 		mediaPlayer1.setCycleCount(MediaPlayer.INDEFINITE);
@@ -105,7 +103,14 @@ public class MainMenuScene {
         // Handle click event
         joinGameText.setOnMouseClicked(event -> {
         	backgroundPlayer.stop(); // Stop the background video
-            applySceneTransition(() -> sceneManager.showJoinGameScene());
+            applySceneTransition(() -> {
+				try {
+					sceneManager.showJoinGameScene();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
         });
 
         // Create the "Create Game" button text with stroke
@@ -131,7 +136,14 @@ public class MainMenuScene {
         // Handle click event
         createGameText.setOnMouseClicked(event -> {
             backgroundPlayer.stop(); // Stop the background video
-            applySceneTransition(() -> sceneManager.showCreateGameScene());
+            applySceneTransition(() -> {
+				try {
+					sceneManager.showCreateGameScene();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
         });
         
         Text SelectPokemonText = new Text("Select Pokemon");
@@ -155,7 +167,14 @@ public class MainMenuScene {
         
         SelectPokemonText.setOnMouseClicked(event -> {
             backgroundPlayer.stop(); // Stop the background video
-            applySceneTransition(() -> sceneManager.showPokemonSelectorScene());
+            applySceneTransition(() -> {
+				try {
+					sceneManager.showPokemonSelectorScene();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
         });
         
         Text settingsText = new Text("Settings");

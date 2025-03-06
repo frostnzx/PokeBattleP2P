@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.IOException;
+
 import game.GameSystem;
 import javafx.stage.Stage;
 
@@ -10,22 +12,22 @@ public class SceneManager {
 		this.stage = stage ; 
 	}
 	
-	public void showMainMenu() {
+	public void showMainMenu() throws IOException {
 		MainMenuScene mainMenuScene = new MainMenuScene(this);
 		stage.setScene(mainMenuScene.getScene());
 		stage.show();
 	}
-	public void showCreateGameScene() {
+	public void showCreateGameScene() throws IOException {
 		CreateGameScene createGameScene = new CreateGameScene(this);
 		stage.setScene(createGameScene.getScene());
 		stage.show();
 	}
-	public void showJoinGameScene() {
+	public void showJoinGameScene() throws IOException {
 		JoinGameScene joinGameScene = new JoinGameScene(this);
 		stage.setScene(joinGameScene.getScene());
 		stage.show();
 	}
-	public void showBattleScene() {
+	public void showBattleScene() throws IOException {
 		BattleScene battleScene = new BattleScene(this);
 		GameSystem.getInstance().getBattle().setBattleScene(battleScene);
 		stage.setScene(battleScene.getScene());
@@ -43,7 +45,7 @@ public class SceneManager {
 		stage.setScene(losingScene.getScene());
 		stage.show();
 	}
-	public void showPokemonSelectorScene() {
+	public void showPokemonSelectorScene() throws IOException {
 		PokemonSelectorScene pokemonSelectorScene = new PokemonSelectorScene(this);
 		stage.setScene(pokemonSelectorScene.getScene());
 		stage.show();

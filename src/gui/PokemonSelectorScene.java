@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -33,15 +35,15 @@ public class PokemonSelectorScene {
     private int selectedCount = 0;
     private Button submitButton;
 
-    public PokemonSelectorScene(SceneManager sceneManager) {
+    public PokemonSelectorScene(SceneManager sceneManager) throws IOException {
         this.sceneManager = sceneManager;
 
         HBox root = new HBox();
         root.setPadding(new Insets(10));
         root.setSpacing(10);
-
-        String backgroundPath = "file:res/selector.png";
-        Image backgroundImage = new Image(backgroundPath);
+        
+        URL backgroundUrl = getClass().getClassLoader().getResource("selector.png");
+        Image backgroundImage = new Image(backgroundUrl.toString());
 
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, false, true);
         BackgroundImage background = new BackgroundImage(backgroundImage,
@@ -69,9 +71,10 @@ public class PokemonSelectorScene {
         rightGrid.setVgap(5);
         rightGrid.setPadding(new Insets(10));
         
-        String soundFile = "res/button_sound.mp3";
+        URL soundFileUrl = getClass().getClassLoader().getResource("button_sound.mp3");
+
         
-        Media buttonSound = new Media(new File(soundFile).toURI().toString());
+        Media buttonSound = new Media(soundFileUrl.toString());
         MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
         
         int columns = 4;
@@ -84,7 +87,7 @@ public class PokemonSelectorScene {
         
         for (int i = 0; i < pokemonList.size(); i++) {
             Pokemon pokemon = pokemonList.get(i);
-            String imgPath = "file:" + pokemon.getFilePath();
+            String imgPath = getClass().getClassLoader().getResource(pokemon.getFilePath()).toString();
             Button button = new Button();
             button.setPrefSize(130, 85);
             
@@ -194,7 +197,14 @@ public class PokemonSelectorScene {
 
         menuButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                 applySceneTransition(() -> sceneManager.showMainMenu());
+                 applySceneTransition(() -> {
+					try {
+						sceneManager.showMainMenu();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
             }
         });
 
@@ -208,7 +218,12 @@ public class PokemonSelectorScene {
                  newpokemonList.add(pokemon);
              }
              GameSystem.getInstance().getMyPlayer().setPokemons(newpokemonList);
-             sceneManager.showMainMenu();
+             try {
+				sceneManager.showMainMenu();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
 
         HBox bottomPanel = new HBox(10);

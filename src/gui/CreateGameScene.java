@@ -3,6 +3,8 @@ package gui;
 import net.PeerServer;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 import game.GameSystem;
 import javafx.animation.FadeTransition;
@@ -31,20 +33,22 @@ public class CreateGameScene {
 	private SceneManager sceneManager;
 	private PeerServer server;
 
-	public CreateGameScene(SceneManager sceneManager) {
+	public CreateGameScene(SceneManager sceneManager) throws IOException {
 		// create server
 		server = new PeerServer();
 		server.start();
 		GameSystem.getInstance().setMyPeer(server);
-		GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer6.png");
+		GameSystem.getInstance().getMyPlayer().setFilePath("Trainers/trainer6.png");
 		// for closing the server
 		sceneManager.getStage().setOnCloseRequest(event -> {
 			GameSystem.getInstance().getMyPeer().close();
 		});
 
 		this.sceneManager = sceneManager;
-		String soundFile = "res/button_sound.mp3";
-		Media buttonSound = new Media(new File(soundFile).toURI().toString());
+		
+		URL soundFileUrl = getClass().getClassLoader().getResource("button_sound.mp3");
+		
+		Media buttonSound = new Media(soundFileUrl.toString());
 		MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 
 		// Create root container
@@ -118,7 +122,14 @@ public class CreateGameScene {
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				GameSystem.getInstance().getMyPeer().close();
-				applySceneTransition(() -> sceneManager.showMainMenu());
+				applySceneTransition(() -> {
+					try {
+						sceneManager.showMainMenu();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
 			}
 		});
 

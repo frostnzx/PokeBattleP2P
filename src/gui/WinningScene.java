@@ -19,26 +19,25 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
 public class WinningScene {
     private Scene scene;
     private SceneManager sceneManager;
-    private static final int STAR_COUNT = 11; // Number of blinking stars
+    private static final int STAR_COUNT = 11; 
+    private MediaPlayer mediaPlayer;
 
     public WinningScene(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
+        String backgroundFile = getClass().getClassLoader().getResource("winningsoundeffect.mp3").toString();
+        Media winningSound = new Media(backgroundFile);
+        mediaPlayer = new MediaPlayer(winningSound);
+        mediaPlayer.setVolume(0.2);
+        mediaPlayer.play(); 
+        System.out.println("Error: Winning sound file not found!");
         
-        URL soundURL = getClass().getResource("/winningsoundeffect.mp3"); // Ensure the file exists in your 'resources/sounds' folder
-        if (soundURL != null) {
-            Media winningSound = new Media(soundURL.toExternalForm());
-            MediaPlayer mediaPlayer = new MediaPlayer(winningSound);
-            mediaPlayer.setVolume(0.8); // Set volume (0.0 to 1.0)
-            mediaPlayer.play(); // Play the sound
-        } else {
-            System.out.println("Error: Winning sound file not found!");
-        }
 
         // Load pixel font
         Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 70);
@@ -72,7 +71,14 @@ public class WinningScene {
         menuButton.setGraphic(backText);
         menuButton.getStyleClass().add("menu2_button");
         menuButton.setVisible(false);
-        menuButton.setOnAction(e -> applySceneTransition(() -> sceneManager.showMainMenu()));
+        menuButton.setOnAction(e -> applySceneTransition(() -> {
+			try {
+				sceneManager.showMainMenu();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}));
         
      // Load Trophy Image
         Image trophyImage = new Image(getClass().getResourceAsStream("/trophy.png"));

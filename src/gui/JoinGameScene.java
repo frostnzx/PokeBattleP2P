@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 import game.GameSystem;
 import javafx.animation.FadeTransition;
@@ -33,7 +35,7 @@ public class JoinGameScene {
 	private SceneManager sceneManager;
 	private PeerClient client;
 
-	public JoinGameScene(SceneManager sceneManager) {
+	public JoinGameScene(SceneManager sceneManager) throws IOException {
 
 		this.sceneManager = sceneManager;
 
@@ -48,8 +50,9 @@ public class JoinGameScene {
 
 		// Custom Font
 		Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 18);
-		String soundFile = "res/button_sound.mp3";
-	    Media buttonSound = new Media(new File(soundFile).toURI().toString());
+		URL soundFileUrl = getClass().getClassLoader().getResource("button_sound.mp3");
+
+	    Media buttonSound = new Media(soundFileUrl.toString());
 	    MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
 
 		// UI Elements in a VBox
@@ -104,7 +107,7 @@ public class JoinGameScene {
 
                // game system logic
                GameSystem.getInstance().setMyPeer(client);
-               GameSystem.getInstance().getMyPlayer().setFilePath("res/Trainers/trainer7.png");
+               GameSystem.getInstance().getMyPlayer().setFilePath("Trainers/trainer7.png");
                
                // start battle & show battleScene
                GameSystem.getInstance().startBattle();
@@ -129,7 +132,14 @@ public class JoinGameScene {
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent e) {
-				 applySceneTransition(() -> sceneManager.showMainMenu());
+				 applySceneTransition(() -> {
+					try {
+						sceneManager.showMainMenu();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
 			}
 		});
 
