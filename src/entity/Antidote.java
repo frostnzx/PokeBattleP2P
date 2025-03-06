@@ -2,6 +2,7 @@ package entity;
 
 import game.Pokemon;
 import game.Status;
+import tools.Usable;
 
 public class Antidote extends Item {
 	public Antidote() {

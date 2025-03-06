@@ -1,8 +1,9 @@
 package entity;
 
 import game.Pokemon;
+import tools.Usable;
 
-public abstract class Item {
+public abstract class Item implements Usable {
     protected String name;
     protected String description;
 
