@@ -58,7 +58,7 @@ public class BattleScene {
 	
 	private VBox itemBox ; 
 	
-	private MediaPlayer backgroundPlayer;
+	private MediaPlayer backgroundPlayer , mediaPlayer;
 	
 	private enum Turn {
 		MYTURN , NOTMYTURN
@@ -85,7 +85,7 @@ public class BattleScene {
         String soundFile = "res/button_sound.mp3";
         
         Media buttonSound = new Media(new File(soundFile).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(buttonSound);
+        mediaPlayer = new MediaPlayer(buttonSound);
 	    
 	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 25);
 	    Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 14);
@@ -402,26 +402,26 @@ public class BattleScene {
 	            + "-fx-text-fill: #ffffff;"
 	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);";
 
-	    for (javafx.scene.Node node : moveSelectionPanel.getChildren()) {
-	        if (node instanceof Button) {
-	            Button button = (Button) node;
-	            button.setStyle(moveButtonStyle);
-	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
-	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
-	            button.setOnMouseEntered(event -> {
-	                mediaPlayer.stop();
-	                mediaPlayer.seek(Duration.ZERO);
-	                mediaPlayer.play();
-	                button.setScaleX(1.1);
-	                button.setScaleY(1.1);
-	            });
-
-	            button.setOnMouseExited(event -> {
-	            	button.setScaleX(1.0);
-	            	button.setScaleY(1.0);
-	            });
-	        }
-	    }
+//	    for (javafx.scene.Node node : moveSelectionPanel.getChildren()) {
+//	        if (node instanceof Button) {
+//	            Button button = (Button) node;
+//	            button.setStyle(moveButtonStyle);
+//	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
+//	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
+//	            button.setOnMouseEntered(event -> {
+//	                mediaPlayer.stop();
+//	                mediaPlayer.seek(Duration.ZERO);
+//	                mediaPlayer.play();
+//	                button.setScaleX(1.1);
+//	                button.setScaleY(1.1);
+//	            });
+//
+//	            button.setOnMouseExited(event -> {
+//	            	button.setScaleX(1.0);
+//	            	button.setScaleY(1.0);
+//	            });
+//	        }
+//	    }
 	    // ----------------------------------------------------------
 
 	    // Pokemon Selection UI -------------------------------------
@@ -433,26 +433,28 @@ public class BattleScene {
 	    pokemonSelectionContainer.setStyle("-fx-background-color: lightgray; -fx-background-radius: 10;");
 	    updatePokemonSelectionContainer(currentPokemon, pokemonSelectionContainer);
 
-	    for (javafx.scene.Node node : pokemonSelectionContainer.getChildren()) {
-	        if (node instanceof Button) {
-	            Button button = (Button) node;
-	            button.setStyle(moveButtonStyle);
-	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
-	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
-	            button.setOnMouseEntered(event -> {
-	                mediaPlayer.stop();
-	                mediaPlayer.seek(Duration.ZERO);
-	                mediaPlayer.play();
-	                button.setScaleX(1.1);
-	                button.setScaleY(1.1);
-	            });
-
-	            button.setOnMouseExited(event -> {
-	    	    	button.setScaleX(1.0);
-	    	    	button.setScaleY(1.0);
-	            });
-	        }
-	    }
+	    
+//	    for (javafx.scene.Node node : pokemonSelectionContainer.getChildren()) {
+//	        if (node instanceof Button) {
+//	            Button button = (Button) node;
+//	            button.setStyle(moveButtonStyle);
+//	            button.setOnMouseEntered(e -> button.setStyle(moveButtonHoverStyle));
+//	            button.setOnMouseExited(e -> button.setStyle(moveButtonStyle));
+//	            button.setOnMouseEntered(event -> {
+//	                mediaPlayer.stop();
+//	                mediaPlayer.seek(Duration.ZERO);
+//	                mediaPlayer.play();
+//	                button.setScaleX(1.1);
+//	                button.setScaleY(1.1);
+//	            });
+//
+//	            button.setOnMouseExited(event -> {
+//	    	    	button.setScaleX(1.0);
+//	    	    	button.setScaleY(1.0);
+//	            });
+//	        }
+//	    }
+	    
 	    // ---------------------------------------------
 
 	    // Bag selection----------------------------------
@@ -534,6 +536,7 @@ public class BattleScene {
 	    backButtonFromBag.setOnAction(event -> {
 	        root.setBottom(actionContainer);
 	    });
+	    backButtonFromBag.setStyle("-fx-background-color: linear-gradient(#ff4444, #cc0000);");
 
 	    giveUpButton.setOnAction(event -> {
 	        GameSystem.getInstance().sendGiveUp();
@@ -606,12 +609,47 @@ public class BattleScene {
 				GameSystem.getInstance().sendFight(move); // update oppo UI
 			});
 			moveButton.setMinSize(300, 50);
+			
+		    String moveButtonStyle = "-fx-background-color: linear-gradient(#4CAF50, #45a049);"
+		            + "-fx-text-fill: white;"
+		            + "-fx-font-size: 14px;"
+		            + "-fx-font-weight: bold;"
+		            + "-fx-padding: 8px 16px;"
+		            + "-fx-border-radius: 10px;"
+		            + "-fx-background-radius: 10px;"
+		            + "-fx-border-color: #45a049;"
+		            + "-fx-border-width: 2px;"
+		            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);"
+		            + "-fx-cursor: hand;";
+
+		    String moveButtonHoverStyle = "-fx-background-color: linear-gradient(#45a049, #4CAF50);"
+		            + "-fx-text-fill: #ffffff;"
+		            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);";
+		    moveButton.setOnMouseEntered(e -> moveButton.setStyle(moveButtonHoverStyle));
+            moveButton.setOnMouseExited(e -> moveButton.setStyle(moveButtonStyle));
+            moveButton.setStyle(moveButtonStyle);
+            
+            moveButton.setOnMouseEntered(event -> {
+                mediaPlayer.stop();
+                mediaPlayer.seek(Duration.ZERO);
+                mediaPlayer.play();
+                moveButton.setScaleX(1.1);
+                moveButton.setScaleY(1.1);
+            });
+
+            moveButton.setOnMouseExited(event -> {
+    	    	moveButton.setScaleX(1.0);
+    	    	moveButton.setScaleY(1.0);
+            });
+            
+            
 			moveSelectionPanel.add(moveButton, col, row);
 			rc++;
 		}
 
 		Button backButton = new Button("Back");
 		backButton.setMinSize(60, 25);
+		backButton.setStyle("-fx-background-color: linear-gradient(#ff4444, #cc0000);");
 
 		moveSelectionPanel.add(backButton, 0, rc / 2 + 1);
 		moveSelectionPanel.setHgap(10);
@@ -630,6 +668,22 @@ public class BattleScene {
 	public void updateItemBox(VBox itemBox) {
 		itemBox.getChildren().clear();
 		
+		String itemButtonStyle = "-fx-background-color: linear-gradient(#2196F3, #1976D2);"
+	            + "-fx-text-fill: white;"
+	            + "-fx-font-size: 14px;"
+	            + "-fx-font-weight: bold;"
+	            + "-fx-padding: 8px 16px;"
+	            + "-fx-border-radius: 10px;"
+	            + "-fx-background-radius: 10px;"
+	            + "-fx-border-color: #1976D2;"
+	            + "-fx-border-width: 2px;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);"
+	            + "-fx-cursor: hand;";
+
+	    String itemButtonHoverStyle = "-fx-background-color: linear-gradient(#1976D2, #2196F3);"
+	            + "-fx-text-fill: #ffffff;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);";
+		
 		ArrayList<Item> itemList = GameSystem.getInstance().getMyPlayer().getItems();
 		for (int i = 0; i < itemList.size(); i++) {
 			Item item = itemList.get(i);
@@ -639,6 +693,23 @@ public class BattleScene {
 			button.setOnAction(event -> {
 				GameSystem.getInstance().sendBag(item);
 			});
+			
+			button.setStyle(itemButtonStyle);
+			button.setOnMouseEntered(e -> button.setStyle(itemButtonHoverStyle));
+            button.setOnMouseExited(e -> button.setStyle(itemButtonStyle));
+            
+            button.setOnMouseEntered(event -> {
+                mediaPlayer.stop();
+                mediaPlayer.seek(Duration.ZERO);
+                mediaPlayer.play();
+                button.setScaleX(1.1);
+                button.setScaleY(1.1);
+            });
+
+            button.setOnMouseExited(event -> {
+    	    	button.setScaleX(1.0);
+    	    	button.setScaleY(1.0);
+            });
 
 			itemBox.getChildren().add(button);
 		}
@@ -647,9 +718,26 @@ public class BattleScene {
 	public void updatePokemonSelectionContainer(Pokemon currentPokemon, GridPane pokemonSelectionContainer) {
 		pokemonSelectionContainer.getChildren().clear();
 		
+		String pokeButtonStyle = "-fx-background-color: linear-gradient(#4CAF50, #45a049);"
+	            + "-fx-text-fill: white;"
+	            + "-fx-font-size: 14px;"
+	            + "-fx-font-weight: bold;"
+	            + "-fx-padding: 8px 16px;"
+	            + "-fx-border-radius: 10px;"
+	            + "-fx-background-radius: 10px;"
+	            + "-fx-border-color: #45a049;"
+	            + "-fx-border-width: 2px;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);"
+	            + "-fx-cursor: hand;";
+
+	    String pokeButtonHoverStyle = "-fx-background-color: linear-gradient(#45a049, #4CAF50);"
+	            + "-fx-text-fill: #ffffff;"
+	            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);";
+		
 		ArrayList<Pokemon> currentPokemonList = GameSystem.getInstance().getMyPlayer().getPokemons();
 		Button backButton = new Button("Back");
 		backButton.setMinSize(300, 50);
+		backButton.setStyle("-fx-background-color: linear-gradient(#ff4444, #cc0000);");
 		int idxPokemon = 0;
 		for (int i = 0; i < currentPokemonList.size();) {
 			Pokemon pokemon = currentPokemonList.get(idxPokemon);
@@ -673,6 +761,21 @@ public class BattleScene {
 				GameSystem.getInstance().sendPokemon(index);
 			});
 			pokeButton.setMinSize(300, 50);
+			pokeButton.setStyle(pokeButtonStyle);
+            pokeButton.setOnMouseEntered(e -> pokeButton.setStyle(pokeButtonHoverStyle));
+            pokeButton.setOnMouseExited(e -> pokeButton.setStyle(pokeButtonStyle));
+            pokeButton.setOnMouseEntered(event -> {
+                mediaPlayer.stop();
+                mediaPlayer.seek(Duration.ZERO);
+                mediaPlayer.play();
+                pokeButton.setScaleX(1.1);
+                pokeButton.setScaleY(1.1);
+            });
+
+            pokeButton.setOnMouseExited(event -> {
+    	    	pokeButton.setScaleX(1.0);
+    	    	pokeButton.setScaleY(1.0);
+            });
 			pokemonSelectionContainer.add(pokeButton, col, row);
 
 			idxPokemon++;
