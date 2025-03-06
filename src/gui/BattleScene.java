@@ -539,6 +539,7 @@ public class BattleScene {
 	    backButtonFromBag.setStyle("-fx-background-color: linear-gradient(#ff4444, #cc0000);");
 
 	    giveUpButton.setOnAction(event -> {
+	    	backgroundPlayer.stop();
 	        GameSystem.getInstance().sendGiveUp();
 	        System.out.println("You lose");
 	        sceneManager.showLosingScene();
@@ -918,6 +919,10 @@ public class BattleScene {
 		});
 		
 		this.turn = Turn.NOTMYTURN ; 
+	}
+	
+	public void stopPlaying() {
+		backgroundPlayer.stop();
 	}
 
 	public void unfreeze() {
