@@ -1,5 +1,20 @@
-/* สไตล์ทั่วไปสำหรับปุ่ม */
+/* Import the custom font */
+@font-face {
+    font-family: "Pixelify Sans";
+    src: url("/fonts/PixelifySans-VariableFont_wght.ttf");
+}
+
+/* Apply the custom font globally */
+.root {
+    -fx-background-image: url("/battlesceneback.gif");
+	-fx-background-size: cover; /* Ensures the image covers the entire area */
+	-fx-background-repeat: no-repeat; /* Prevents image repetition */
+	-fx-background-position: center; /* Centers the image */
+}
+
+/* Button styles */
 .button {
+    -fx-font-family: "Pixelify Sans";
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -11,7 +26,7 @@
     -fx-cursor: hand;
 }
 
-/* สไตล์สำหรับปุ่มหลัก (Fight, Bag, Pokemon, Give Up) */
+/* Main action buttons (Fight, Bag, Pokemon, Give Up) */
 .main-button {
     -fx-background-color: linear-gradient(#ff7f50, #ff4500);
     -fx-border-color: #ff4500;
@@ -22,7 +37,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0);
 }
 
-/* สไตล์สำหรับปุ่ม Move */
+/* Move button */
 .move-button {
     -fx-background-color: linear-gradient(#4CAF50, #45a049);
     -fx-border-color: #45a049;
@@ -33,7 +48,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
-/* สไตล์สำหรับปุ่ม Pokemon */
+/* Pokemon button */
 .pokemon-button {
     -fx-background-color: linear-gradient(#4CAF50, #45a049);
     -fx-border-color: #45a049;
@@ -44,7 +59,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
-/* สไตล์สำหรับปุ่ม Item */
+/* Item button */
 .item-button {
     -fx-background-color: linear-gradient(#2196F3, #1976D2);
     -fx-border-color: #1976D2;

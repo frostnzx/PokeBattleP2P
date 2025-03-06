@@ -13,10 +13,13 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -64,17 +67,25 @@ public class BattleScene {
 	    }
 	    this.sceneManager = sceneManager;
 	    this.root = new BorderPane();
+	    
+	    Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 25);
+	    Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 14);
+	    Font pixelFont3 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 35);
+	    
 
 	    // Player and opponent name --------------------------------------------
 	    Player myPlayer = GameSystem.getInstance().getMyPlayer(), myOpponent = GameSystem.getInstance().getMyOpponent();
 	    String strplayerName = myPlayer.getName(), stropponentName = myOpponent.getName();
 	    Label playerName = new Label(strplayerName);
 	    Label opponentName = new Label(stropponentName);
+	    playerName.setFont(pixelFont);
+	    playerName.setTextFill(Color.WHITE);
+	    opponentName.setFont(pixelFont);
 	    // ----------------------------------------------------------
 
 	    // Pokemon images --------------------------------------------
-	    playerPokemon = new Rectangle(170, 170, Color.GRAY);
-	    opponentPokemon = new Rectangle(170, 170, Color.GRAY);
+	    playerPokemon = new Rectangle(250, 250, Color.GRAY);
+	    opponentPokemon = new Rectangle(250, 250, Color.GRAY);
 	    // ----------------------------------------------------------
 
 	    // Add background picture to Pokemon --------------------------------------------
@@ -86,31 +97,56 @@ public class BattleScene {
 
 	    // Add Pokemon Name --------------------------------------------
 	    playerPokemonName = new Label();
-	    playerPokemonName.setFont(Font.font(14));
+	    playerPokemonName.setFont(pixelFont2);
 	    updatePokemonName(playerActualPokemon, playerPokemonName);
 
 	    opponentPokemonName = new Label();
-	    opponentPokemonName.setFont(Font.font(14));
+	    opponentPokemonName.setFont(pixelFont2);
 	    updatePokemonName(opponentActualPokemon, opponentPokemonName);
 	    // ----------------------------------------------------------
 
 	    // Add background picture to Avatar --------------------------------------------
-	    Rectangle playerAvatar = new Rectangle(130,200, Color.GRAY);
-	    Rectangle opponentAvatar = new Rectangle(130, 200, Color.GRAY);
+	    // Create Rectangle for Avatars
+	    Rectangle playerAvatar = new Rectangle(200, 300);
+	    Rectangle opponentAvatar = new Rectangle(200, 300);
+	    playerAvatar.setStroke(null); // Remove border
+	    opponentAvatar.setStroke(null); // Remove border
+
+	    // Get Player & Opponent Image Paths
 	    String playerFilePath = GameSystem.getInstance().getMyPlayer().getFilePath();
-	    String opponentFilePath = (playerFilePath.equals("res/Trainers/trainer6.png") ? "res/Trainers/trainer7.png"
-	            : "res/Trainers/trainer6.png");
+	    String opponentFilePath = playerFilePath.equals("res/Trainers/trainer6.png") ? 
+	                              "res/Trainers/trainer7.png" : "res/Trainers/trainer6.png";
 	    GameSystem.getInstance().getMyOpponent().setFilePath(opponentFilePath);
-	    Image playerAvatarImg = new Image("file:" + playerFilePath),
-	            opponentAvatarImg = new Image("file:" + opponentFilePath);
-	    ImagePattern playerImagePattern = new ImagePattern(playerAvatarImg, 0, 0, 1, 1, true);
-	    ImagePattern opponentImagePattern = new ImagePattern(opponentAvatarImg, 0, 0, 1, 1, true);
-	    playerAvatar.setFill(playerImagePattern);
-	    opponentAvatar.setFill(opponentImagePattern);
-	    playerAvatar.setStroke(Color.BLACK);
-	    playerAvatar.setStrokeWidth(1);
-	    opponentAvatar.setStroke(Color.BLACK);
-	    opponentAvatar.setStrokeWidth(1);
+
+	    // Create Image & ImageView (Preserve Aspect Ratio)
+	    Image playerImage = new Image("file:" + playerFilePath);
+	    Image opponentImage = new Image("file:" + opponentFilePath);
+
+	    ImageView playerImageView = new ImageView(playerImage);
+	    playerImageView.setPreserveRatio(true);
+	    playerImageView.setFitWidth(300); // Adjust width
+	    playerImageView.setFitHeight(400); // Increase the height (adjust size)
+
+	    ImageView opponentImageView = new ImageView(opponentImage);
+	    opponentImageView.setPreserveRatio(true);
+	    opponentImageView.setFitWidth(300); 
+	    opponentImageView.setFitHeight(400); 
+
+	    // Convert ImageView to ImagePattern (For Rectangle)
+	    SnapshotParameters params = new SnapshotParameters();
+	    params.setFill(Color.TRANSPARENT);
+
+	    WritableImage playerSnapshot = playerImageView.snapshot(params, null);
+	    WritableImage opponentSnapshot = opponentImageView.snapshot(params, null);
+
+	    playerAvatar.setFill(new ImagePattern(playerSnapshot));
+	    opponentAvatar.setFill(new ImagePattern(opponentSnapshot));
+
+	    //playerAvatar.setStroke(Color.BLACK);
+	    //playerAvatar.setStrokeWidth(1);
+	    //opponentAvatar.setStroke(Color.BLACK);
+	    //opponentAvatar.setStrokeWidth(1);
+	   
 	    // ----------------------------------------------------------
 
 	    // Status --------------------------------------------
@@ -126,18 +162,20 @@ public class BattleScene {
 	    // PokemonHp --------------------------------------------
 	    int maxPlayerPokemonHp = myPlayer.getActualCurrentPokemon().getMaxHp();
 	    playerHpText = new Label(maxPlayerPokemonHp + " / " + maxPlayerPokemonHp);
+	    playerHpText.setFont(pixelFont2);
 	    playerPane = new Pane();
 	    updateHpBarAndText(maxPlayerPokemonHp, maxPlayerPokemonHp, playerPane, playerHpText, false);
 
 	    int maxOpponentPokemonHp = myOpponent.getActualCurrentPokemon().getMaxHp();
 	    opponentHpText = new Label(maxOpponentPokemonHp + " / " + maxOpponentPokemonHp);
+	    opponentHpText.setFont(pixelFont2);
 	    oppoPane = new Pane();
 	    updateHpBarAndText(maxPlayerPokemonHp, maxPlayerPokemonHp, oppoPane, opponentHpText, true);
 	    // ----------------------------------------------------------
 
 	    // Battle Options --------------------------------------------
 	    Label actionLabel = new Label("What will PokemonName do?");
-	    actionLabel.setFont(Font.font(50));
+	    actionLabel.setFont(pixelFont3);
 	    Button fightButton = new Button("Fight");
 	    Button bagButton = new Button("Bag");
 	    Button pokemonButton = new Button("Pokemon");
@@ -184,35 +222,77 @@ public class BattleScene {
 	    // ----------------------------------------------------------
 
 	    // Layout setup ----------------------------------------------
+	    BackgroundFill backgroundFill1 = new BackgroundFill(
+	    	    Color.rgb(255, 204, 51, 0.7), // Pokémon Yellow with 70% transparency
+	    	    new CornerRadii(20), // Rounded corners with radius 20
+	    	    new Insets(-20) // Add 20px padding to make the background larger
+	    	);
+	    
+	    BackgroundFill backgroundFill2 = new BackgroundFill(
+	    	    Color.rgb(24, 68, 140, 0.7), // Pokémon Dark Blue with 70% transparency
+	    	    new CornerRadii(20), // Rounded corners with radius 20
+	    	    new Insets(-20) // Add 20px padding to make the background larger
+	    	);
+	    
+	    BackgroundFill backgroundFillinfo = new BackgroundFill(
+	    		 Color.LIGHTGRAY, // Grey background color
+	    		    new CornerRadii(10), // Rounded corners with radius 10
+	    		    new Insets(-10) // Add 10px padding
+	    	);
+	    
+	    Background backgroundinfo = new Background(backgroundFillinfo);
 	 // สร้าง VBox สำหรับข้อมูล Pokemon ของฝ่ายตรงข้าม
 	    VBox opponentPokemonInfo = new VBox(opponentPokemonName,oppoPane, opponentHpText, opponentStatus);
 	    opponentPokemonInfo.setAlignment(Pos.BOTTOM_RIGHT); // จัดวางข้อมูล Pokemon ฝ่ายตรงข้ามให้อยู่ด้านล่างขวา
+	    opponentPokemonInfo.setBackground(backgroundinfo);
 
 	    // สร้าง HBox สำหรับฝ่ายตรงข้าม (รวมภาพ Pokemon และข้อมูล Pokemon)
-	    HBox opponentInfo = new HBox(10, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
+	    HBox opponentInfo = new HBox(20, new VBox(10, opponentPokemon, opponentPokemonInfo), opponentAvatar);
 	    opponentInfo.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
+	    Background background1 = new Background(backgroundFill1);
+	    opponentInfo.setBackground(background1);
+	    //opponentInfo.setTranslateY(-5);
+	    
 
 	    // สร้าง VBox สำหรับข้อมูล Pokemon ของผู้เล่น
 	    VBox playerPokemonInfo = new VBox(playerPokemonName, playerPane, playerHpText, playerStatus);
-
+	    playerPokemonInfo.setBackground(backgroundinfo); 
 	    // สร้าง HBox สำหรับผู้เล่น (รวมภาพ Avatar และข้อมูล Pokemon)
-	    HBox playerInfo = new HBox(10, playerAvatar, new VBox(10, playerPokemon, playerPokemonInfo));
+	    HBox playerInfo = new HBox(20, playerAvatar, new VBox(10, playerPokemon, playerPokemonInfo));
 	    playerInfo.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
+	    Background background2 = new Background(backgroundFill2);
+	    playerInfo.setBackground(background2);
+	    
+	    
+	    playerName.setTranslateX(-140);
+	    playerName.setTranslateY(110);
+	
+	    
+	    StackPane playerStackPane = new StackPane();
+	    playerStackPane.getChildren().addAll(playerInfo, playerName); 
 
 	    // สร้าง VBox สำหรับฝ่ายผู้เล่น (รวมชื่อผู้เล่นและข้อมูล Pokemon)
-	    VBox leftPanel = new VBox( playerName, playerInfo);
+	    VBox leftPanel = new VBox(20, playerStackPane);
 	    leftPanel.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
-
+	    
+	    StackPane oppoStackPane = new StackPane();
+	    oppoStackPane.getChildren().addAll(opponentInfo, opponentName);
 	    // สร้าง VBox สำหรับฝ่ายตรงข้าม (รวมชื่อฝ่ายตรงข้ามและข้อมูล Pokemon)
-	    VBox rightPanel = new VBox(10, opponentName, opponentInfo);
+	    VBox rightPanel = new VBox(20, oppoStackPane);
 	    rightPanel.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
 	    opponentName.setAlignment(Pos.TOP_RIGHT); // จัดวางชื่อฝ่ายตรงข้ามให้อยู่ด้านบนขวา
+	    opponentName.setTranslateX(140);
+	    opponentName.setTranslateY(110);
+	    opponentName.setFont(pixelFont);
+	    
+	   
 
 	    // สร้าง HBox สำหรับ battlefield (รวมฝ่ายผู้เล่นและฝ่ายตรงข้าม)
 	    HBox battleField = new HBox(100, leftPanel, rightPanel);
 	    battleField.setAlignment(Pos.CENTER); // จัดวางให้อยู่ตรงกลาง
 	    battleField.setPadding(new Insets(5)); // ตั้งค่า padding
 	    battleField.setPadding(new Insets(5));
+	    battleField.setTranslateY(100);
 
 	    GridPane actionPanel = new GridPane();
 	    actionPanel.add(fightButton, 0, 0);
@@ -227,7 +307,7 @@ public class BattleScene {
 	    actionContainer.setLeft(actionLabel);
 	    actionContainer.setRight(actionPanel);
 	    actionContainer.setPadding(new Insets(10));
-	    actionContainer.setStyle("-fx-background-color: lightgray;");
+	    actionContainer.setStyle("-fx-background-color: lightgray; -fx-background-radius: 10;");
 	    // ----------------------------------------------------------
 
 	    // Move Selection UI -------------------------------------
@@ -235,12 +315,12 @@ public class BattleScene {
 	    Pokemon currentPokemon = myPlayer.getActualCurrentPokemon();
 	    updatePokemonMove(currentPokemon, moveSelectionPanel);
 	    Label moveLabel = new Label("Choose a move:");
-	    moveLabel.setFont(Font.font(20));
+	    moveLabel.setFont(pixelFont3);
 	    BorderPane moveSelectionContainer = new BorderPane();
 	    moveSelectionContainer.setLeft(moveLabel);
 	    moveSelectionContainer.setRight(moveSelectionPanel);
 	    moveSelectionContainer.setPadding(new Insets(10));
-	    moveSelectionContainer.setStyle("-fx-background-color: lightgray;");
+	    moveSelectionContainer.setStyle("-fx-background-color: lightgray; -fx-background-radius: 10;");
 
 	    // เพิ่มสไตล์ CSS ให้กับปุ่ม Move
 	    String moveButtonStyle = "-fx-background-color: linear-gradient(#4CAF50, #45a049);"
@@ -275,7 +355,7 @@ public class BattleScene {
 	    pokemonSelectionContainer.setVgap(10);
 	    pokemonSelectionContainer.setAlignment(Pos.CENTER);
 	    pokemonSelectionContainer.setPadding(new Insets(10));
-	    pokemonSelectionContainer.setStyle("-fx-background-color: lightgray;");
+	    pokemonSelectionContainer.setStyle("-fx-background-color: lightgray; -fx-background-radius: 10;");
 	    updatePokemonSelectionContainer(currentPokemon, pokemonSelectionContainer);
 
 	    // เพิ่มสไตล์ CSS ให้กับปุ่ม Pokemon
@@ -299,7 +379,7 @@ public class BattleScene {
 	    scrollPane.setFitToWidth(true);
 	    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 	    scrollPane.setStyle("-fx-background-color: lightgray;");
-	    scrollPane.setPrefSize(200, 200);
+	    scrollPane.setPrefSize(220, 200);
 
 	    Button backButtonFromBag = new Button("Back");
 	    backButtonFromBag.setMinSize(50, 20);
@@ -309,6 +389,7 @@ public class BattleScene {
 	    BorderPane bagContainer = new BorderPane();
 	    bagContainer.setCenter(scrollPane);
 	    bagContainer.setBottom(backButtonFromBag);
+	    bagContainer.setStyle("-fx-background-radius: 10;");
 	    BorderPane.setAlignment(backButtonFromBag, Pos.BOTTOM_LEFT);
 	    BorderPane.setMargin(backButtonFromBag, new Insets(10));
 
@@ -380,15 +461,20 @@ public class BattleScene {
 		Rectangle backgroundHpBar = new Rectangle(150, 15, Color.WHITE);
 		backgroundHpBar.setStroke(Color.BLACK); // Set black border
 		backgroundHpBar.setStrokeWidth(1);
+		backgroundHpBar.setArcWidth(10);
+		backgroundHpBar.setArcHeight(10);
+
 
 		// Foreground HP Bar (Green, shrinks as HP goes down)
 		Rectangle foregroundHpBar = new Rectangle(150, 15, Color.LIMEGREEN);
 		foregroundHpBar.setStroke(Color.BLACK);
 		foregroundHpBar.setStrokeWidth(1);
+		foregroundHpBar.setArcWidth(10);
+		foregroundHpBar.setArcHeight(10);
 
 		if(isOppo) {
-			foregroundHpBar.setTranslateX(150);
-			backgroundHpBar.setTranslateX(150);	
+			foregroundHpBar.setTranslateX(100);
+			backgroundHpBar.setTranslateX(100);	
 		}
 
 		// Calculate percentage HP left
@@ -405,11 +491,12 @@ public class BattleScene {
 	}
 	
 	public void updatePokemonMove(Pokemon currentPokemon, GridPane moveSelectionPanel) {
+		 Font pixelFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 20);
 		moveSelectionPanel.getChildren().clear();
 	
 		ArrayList<Move> moves = currentPokemon.getMoves();
 		Label moveLabel = new Label("Choose a move:");
-		moveLabel.setFont(Font.font(20));
+		moveLabel.setFont(pixelFont);
 		moveSelectionPanel.add(moveLabel, 0, 0);
 
 		int rc = 0;
@@ -502,9 +589,16 @@ public class BattleScene {
 	
 	public void updatePokemonAvatar(Pokemon pokemon, Rectangle PokemonRectangle) {
         Image PokemonImg = new Image("file:" + pokemon.getFilePath());
-        ImagePattern playerPokemonImagePattern = new ImagePattern(PokemonImg);
+        ImageView pokemonImageView = new ImageView(PokemonImg);
+        pokemonImageView.setPreserveRatio(true);
+        pokemonImageView.setFitWidth(250);  // Adjust to match the new rectangle sizee
 
-        PokemonRectangle.setFill(playerPokemonImagePattern);
+
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+
+        WritableImage pokemonSnapshot = pokemonImageView.snapshot(params, null);
+        PokemonRectangle.setFill(new ImagePattern(pokemonSnapshot));
     }
 
 	// Method to update the player's HP
@@ -521,8 +615,10 @@ public class BattleScene {
 
 	// Method to update status conditions
 	public void updateStatus(Player player, Status status) {
+		Font pixelFont2 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 14);
 		// validate if updating player is our player ?
 		Label statusToUpdate;
+		
 		if (player.equals(GameSystem.getInstance().getMyPlayer())) {
 			// update our player's status
 			statusToUpdate = playerStatusText;
@@ -533,21 +629,27 @@ public class BattleScene {
 		if (status == Status.BRN) {
 			statusToUpdate.setText("BURN");
 			statusToUpdate.setTextFill(Color.RED);
+			statusToUpdate.setFont(pixelFont2);
 		} else if (status == Status.FRZ) {
 			statusToUpdate.setText("FREEZE");
 			statusToUpdate.setTextFill(Color.LIGHTBLUE);
+			statusToUpdate.setFont(pixelFont2);
 		} else if (status == Status.PAR) {
 			statusToUpdate.setText("PARALYZED");
 			statusToUpdate.setTextFill(Color.YELLOW);
+			statusToUpdate.setFont(pixelFont2);
 		} else if (status == Status.PSN) {
 			statusToUpdate.setText("POISONED");
 			statusToUpdate.setTextFill(Color.PURPLE);
+			statusToUpdate.setFont(pixelFont2);
 		} else if (status == Status.SLP) {
 			statusToUpdate.setText("SLEEP");
 			statusToUpdate.setTextFill(Color.BLUE);
+			statusToUpdate.setFont(pixelFont2);
 		}else {
 			statusToUpdate.setText("No Condition");
 			statusToUpdate.setTextFill(Color.GRAY);
+			statusToUpdate.setFont(pixelFont2);
 		}
 	}
 
@@ -575,8 +677,9 @@ public class BattleScene {
 	// Method to display action feedback text
 	public void displayActionFeedback(String feedback) {
 		Rectangle textbox = new Rectangle(900, 130, Color.LIGHTGRAY);
+		Font pixelFont3 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 35);
 		Text text = new Text(feedback);
-		text.setFont(Font.font(20));
+		text.setFont(pixelFont3);
 		StackPane stackPanetext = new StackPane(textbox, text);
 		stackPanetext.setAlignment(Pos.CENTER);
 		stackPanetext.setPadding(new Insets(10));
@@ -594,8 +697,11 @@ public class BattleScene {
 
 	public void freeze() {
 		Rectangle textbox = new Rectangle(900, 130, Color.LIGHTGRAY);
+		textbox.setArcWidth(30);  
+		textbox.setArcHeight(30); 
+		Font pixelFont3 = Font.loadFont(getClass().getResourceAsStream("/fonts/PixelifySans-VariableFont_wght.ttf"), 35);
 		Text text = new Text("It's your opponent turn, wait for his move!");
-		text.setFont(Font.font(20));
+		text.setFont(pixelFont3);
 		StackPane stackPanetext = new StackPane(textbox, text);
 		stackPanetext.setAlignment(Pos.CENTER);
 		stackPanetext.setPadding(new Insets(10));
