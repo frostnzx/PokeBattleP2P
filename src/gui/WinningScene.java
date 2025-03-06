@@ -72,7 +72,7 @@ public class WinningScene {
         menuButton.setGraphic(backText);
         menuButton.getStyleClass().add("menu2_button");
         menuButton.setVisible(false);
-        menuButton.setOnAction(e -> sceneManager.showMainMenu());
+        menuButton.setOnAction(e -> applySceneTransition(() -> sceneManager.showMainMenu()));
         
      // Load Trophy Image
         Image trophyImage = new Image(getClass().getResourceAsStream("/trophy.png"));
@@ -134,6 +134,23 @@ public class WinningScene {
             fadeIn.play();
         });
         pauseMenu.play();
+    }
+    
+    private void applySceneTransition(Runnable sceneSwitch) {
+        // Apply fade out transition on the current scene
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
+        fadeOut.setFromValue(1.0); // Fully visible
+        fadeOut.setToValue(0.0); // Fully transparent
+        fadeOut.setOnFinished(event -> {
+            // Once fade-out is complete, switch scenes
+            sceneSwitch.run();
+            // Apply fade in transition on the new scene
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
+            fadeIn.setFromValue(0.0); // Fully transparent
+            fadeIn.setToValue(1.0); // Fully visible
+            fadeIn.play();
+        });
+        fadeOut.play();
     }
 
     public Scene getScene() {

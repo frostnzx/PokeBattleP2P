@@ -51,7 +51,7 @@ public class LosingScene {
         // Make sure the button is invisible by setting both visible and opacity to 0
         backToMenuButton.setOpacity(0);  // Make the button fully transparent
         backToMenuButton.setVisible(false); // Ensure it starts off as invisible
-        backToMenuButton.setOnAction(e -> sceneManager.showMainMenu());
+        backToMenuButton.setOnAction(e -> applySceneTransition(() -> sceneManager.showMainMenu()));
 
         // Layout: VBox to stack texts and button
         VBox vBox = new VBox(20, gameOverText, loseText, backToMenuButton);
@@ -89,6 +89,23 @@ public class LosingScene {
         fadeInTimeline.setDelay(Duration.seconds(delaySeconds)); // Add delay before fading in
         fadeInTimeline.play();
         backToMenuButton.setVisible(true);  // Ensure button is visible before fading in
+    }
+    
+    private void applySceneTransition(Runnable sceneSwitch) {
+        // Apply fade out transition on the current scene
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
+        fadeOut.setFromValue(1.0); // Fully visible
+        fadeOut.setToValue(0.0); // Fully transparent
+        fadeOut.setOnFinished(event -> {
+            // Once fade-out is complete, switch scenes
+            sceneSwitch.run();
+            // Apply fade in transition on the new scene
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.2), scene.getRoot());
+            fadeIn.setFromValue(0.0); // Fully transparent
+            fadeIn.setToValue(1.0); // Fully visible
+            fadeIn.play();
+        });
+        fadeOut.play();
     }
 
     public Scene getScene() {
